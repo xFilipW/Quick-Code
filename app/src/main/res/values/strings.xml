@@ -1,0 +1,73 @@
+<resources>
+    <string name="app_name">Quick Code</string>
+
+    <string name="splash_screen_programming_with_passion">Programming with passion</string>
+
+    <string name="on_boarding_label_quick_code">Quick Code</string>
+    <string name="on_boarding_label_skip">Skip</string>
+    <string name="on_boarding_1_title_1">Learn with us</string>
+    <string name="on_boarding_1_title_2">Quickly and easily!</string>
+    <string name="on_boarding_1_main_info">Here you will find tutorials that will \nhelp you learn programming. \nWe have a database of \nover 100 tutorials!</string>
+    <string name="on_boarding_2_title_1">Our tutorials</string>
+    <string name="on_boarding_2_title_2">Are for everyone!</string>
+    <string name="on_boarding_2_main_info">We teach the basics and more advanced \nthings. No matter how old you are, \nyou will definitely find something \nfor yourself here!</string>
+    <string name="on_boarding_3_title_1">We pay for</string>
+    <string name="on_boarding_3_title_2">Your education!</string>
+    <string name="on_boarding_3_main_info">You can study as much as you want, \nour tutorials are completely free. \nCheck how to effectively get a \nnew profession and start now!</string>
+    <string name="on_boarding_3_button_text">READY</string>
+
+    <string name="dialog_title_no_internet">SOONER OR LATER IT HAPPENS</string>
+    <string name="dialog_title_request_error">SOMETHING WENT WRONG</string>
+    <string name="dialog_message_no_internet">You know how it is, suddenly it all stops, no signal, no communication - the system says no. Maybe check your internet connection.</string>
+    <string name="dialog_message_request_error">Communication to server failed. Try again later.</string>
+
+    <string name="log_in_page_tab_layout_label_tab1_title">Log in</string>
+    <string name="log_in_page_tab_layout_label_tab2_title">Sign up</string>
+    <string name="log_in_page_label_welcome_to_quick_code">Welcome to Quick Code</string>
+    <string name="log_in_page_hint_e_mail_or_phone_number">E-mail or phone number</string>
+    <string name="log_in_page_hint_password">Password</string>
+    <string name="log_in_page_label_forgot_password">Forgot password?</string>
+    <string name="log_in_page_button_text">log in</string>
+    <string name="log_in_page_label_or_log_in_with">Or log in with</string>
+
+    <string name="sign_up_page_hint_first_name">First name</string>
+    <string name="sign_up_page_hint_e_mail">E-mail</string>
+    <string name="sign_up_page_hint_phone_number">Phone number</string>
+    <string name="sign_up_page_hint_password">Password</string>
+    <string name="sign_up_page_hint_confirm_password">Confirm password</string>
+    <string name="sign_up_page_check_minimum_6_chars">Minimum 6 chars</string>
+    <string name="sign_up_page_check_upper_case">Upper case</string>
+    <string name="sign_up_page_check_special_character">Special character</string>
+    <string name="sign_up_page_check_digit">Digit</string>
+    <string name="sign_up_page_check_lower_case">Lower case</string>
+    <string name="sign_up_page_button_text">Sign up</string>
+    <string name="sign_up_page_label_error_field_required">Required field</string>
+    <string name="sign_up_page_label_error_first_letter_must_be_capitalized">First letter must be capitalized</string>
+    <string name="sign_up_page_label_error_digits_are_not_allowed">Digits are not allowed</string>
+    <string name="sign_up_page_label_error_special_chars_are_not_allowed">Special chars are not allowed</string>
+    <string name="sign_up_page_label_error_incorrect_email">Incorrect e-mail</string>
+    <string name="sign_up_page_label_error_account_with_this_email_already_exists">Account with this e-mail already exists</string>
+    <string name="sign_up_page_label_error_account_with_this_phone_number_already_exists">Account with this phone number already exists</string>
+    <string name="sign_up_page_label_error_password_must_contains_lower_case">Password must contains lower case</string>
+    <string name="sign_up_page_label_error_password_must_contains_upper_case">Password must contains upper case</string>
+    <string name="sign_up_page_label_error_password_must_contains_digit">Password must contains digit</string>
+    <string name="sign_up_page_label_error_password_must_contains_special_char">Password must contains special char</string>
+    <string name="sign_up_page_label_error_passwords_are_not_the_same">Passwords are not the same</string>
+
+    <string name="verify_email_toolbar_title">E-mail Verification</string>
+    <string name="verify_email_timer">05:00</string>
+    <string name="verify_email_heading_text">Hey User! \nVerify your e-mail address.</string>
+    <string name="verify_email_subheading_text">Enter the 4 digit code below, which you will \nreceive at the e-mail address you provided.</string>
+    <string name="verify_email_button_verify">Verify e-mail</string>
+
+    <string name="forgot_password_toolbar_title">Forgot Password</string>
+    <string name="forgot_password_heading_text">Forgot password? \nThat\'s okay, it happens!</string>
+    <string name="forgot_password_subheading_text">Enter the e-mail address \nassociated with your account below.</string>
+    <string name="forgot_password_button_confirm">Recover password</string>
+
+    <string name="reset_password_toolbar_title">Reset Password</string>
+    <string name="reset_password_heading_text">Enter new password!</string>
+    <string name="reset_password_subheading_text">Your new password must be different \nfrom previously used password.</string>
+    <string name="reset_password_button_confirm">Reset password</string>
+
+</resources>
