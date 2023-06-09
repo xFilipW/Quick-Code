@@ -56,7 +56,7 @@ public class VerifyActivity extends AppCompatActivity {
                     handler.removeCallbacksAndMessages(null);
                 }
 
-                binding.timer.setText(String.format("%s:%s", seconds / 60, seconds % 60));
+                binding.timer.setText(String.format("%02d:%02d", seconds / 60, seconds % 60));
 
                 handler.postDelayed(this, 100);
             }
