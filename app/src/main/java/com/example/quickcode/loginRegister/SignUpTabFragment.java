@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -26,9 +25,6 @@ import com.example.quickcode.common.validator.NoSpecialCharValidator;
 import com.example.quickcode.common.validator.SameTextsValidator;
 import com.example.quickcode.common.validator.ValidatorResult;
 import com.example.quickcode.databinding.SignupTabFragmentBinding;
-import com.example.quickcode.forgotPassword.ForgotBottomSheetDialogFragment;
-import com.example.quickcode.verifyEmail.VerifyBottomSheetDialogFragment;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.LinkedHashMap;

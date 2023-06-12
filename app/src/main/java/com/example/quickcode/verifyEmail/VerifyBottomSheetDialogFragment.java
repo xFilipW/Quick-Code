@@ -78,6 +78,7 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         super.onResume();
 
         Runnable runnable = new Runnable() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void run() {
                 if (futureTime == Integer.MIN_VALUE)
