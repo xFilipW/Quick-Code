@@ -16,6 +16,7 @@ import com.example.quickcode.databinding.ActivityVerifyEmailBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
@@ -78,7 +79,6 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         super.onResume();
 
         Runnable runnable = new Runnable() {
-            @SuppressLint("DefaultLocale")
             @Override
             public void run() {
                 if (futureTime == Integer.MIN_VALUE)
@@ -92,7 +92,7 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
                     handler.removeCallbacksAndMessages(null);
                 }
 
-                binding.timer.setText(String.format("%02d:%02d", seconds / 60, seconds % 60));
+                binding.timer.setText(String.format(Locale.getDefault(), "%02d:%02d", seconds / 60, seconds % 60));
 
                 handler.postDelayed(this, 100);
             }
