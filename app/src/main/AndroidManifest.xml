@@ -39,15 +39,6 @@
         </activity>
 
         <activity
-            android:name="com.example.quickcode.verify.VerifyActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.QuickCode"
-            android:windowSoftInputMode="adjustResize">
-
-        </activity>
-
-        <activity
             android:name="com.example.quickcode.resetPassword.ResetPasswordActivity"
             android:exported="true"
             android:screenOrientation="portrait"
