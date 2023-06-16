@@ -19,7 +19,6 @@ import com.example.quickcode.common.utils.NetworkUtils;
 import com.example.quickcode.common.validator.CorrectEmailValidator;
 import com.example.quickcode.common.validator.FirstLetterCapitalizedValidator;
 import com.example.quickcode.common.validator.IsEmptyValidator;
-import com.example.quickcode.common.validator.MobileNumberLengthValidator;
 import com.example.quickcode.common.validator.NoDigitValidator;
 import com.example.quickcode.common.validator.NoSpecialCharValidator;
 import com.example.quickcode.common.validator.SameTextsValidator;
@@ -88,7 +87,6 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
 
         String getFirstNameText = Objects.requireNonNull(binding.firstName.getText()).toString();
         String getEmailText = Objects.requireNonNull(binding.email.getText()).toString();
-        String getPhoneNumberText = Objects.requireNonNull(binding.phoneNumber.getText()).toString();
         String getPasswordText = Objects.requireNonNull(binding.password.getText()).toString();
         String getConfirmPasswordText = Objects.requireNonNull(binding.confirmPassword.getText()).toString();
 
@@ -109,14 +107,6 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
                 signUpViewModel.validateAndGetResult(binding.textInputLayoutEmail,
                         List.of(new IsEmptyValidator(getEmailText),
                                 new CorrectEmailValidator(getEmailText))
-                )
-        );
-
-        validatorResultLinkedHashMap.put(
-                binding.textInputLayoutPhoneNumber,
-                signUpViewModel.validateAndGetResult(binding.textInputLayoutPhoneNumber,
-                        List.of(new IsEmptyValidator(getPhoneNumberText),
-                                new MobileNumberLengthValidator(getPhoneNumberText, 9))
                 )
         );
 
@@ -143,24 +133,19 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
             }
         }
 
-        User user = new User(getFirstNameText, getEmailText, getPhoneNumberText);
+        User user = new User(getFirstNameText, getEmailText);
 
         signUpViewModel.liveEmailValidated.removeObservers(getViewLifecycleOwner());
         signUpViewModel.liveEmailValidated.setValue(null);
 
-        signUpViewModel.livePhoneNumberValidated.removeObservers(getViewLifecycleOwner());
-        signUpViewModel.livePhoneNumberValidated.setValue(null);
-
         Observer<Boolean> validateObserver = result -> {
-            if (Boolean.TRUE.equals(signUpViewModel.liveEmailValidated.getValue()) && Boolean.TRUE.equals(signUpViewModel.livePhoneNumberValidated.getValue())) {
+            if (Boolean.TRUE.equals(signUpViewModel.liveEmailValidated.getValue())) {
                 signUpViewModel.createUserAccount(user, getPasswordText, this);
             }
         };
 
         signUpViewModel.liveEmailValidated.observe(getViewLifecycleOwner(), validateObserver);
-        signUpViewModel.livePhoneNumberValidated.observe(getViewLifecycleOwner(), validateObserver);
 
         signUpViewModel.requireEmailNotUsed(user, binding);
-        signUpViewModel.requirePhoneNumberNotUsed(user, binding);
     }
 }

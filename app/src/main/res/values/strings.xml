@@ -32,7 +32,6 @@
 
     <string name="sign_up_page_hint_first_name">First name</string>
     <string name="sign_up_page_hint_e_mail">E-mail</string>
-    <string name="sign_up_page_hint_phone_number">Phone number</string>
     <string name="sign_up_page_hint_password">Password</string>
     <string name="sign_up_page_hint_confirm_password">Confirm password</string>
     <string name="sign_up_page_check_minimum_6_chars">Minimum 6 chars</string>
@@ -47,7 +46,6 @@
     <string name="sign_up_page_label_error_special_chars_are_not_allowed">Special chars are not allowed</string>
     <string name="sign_up_page_label_error_incorrect_email">Incorrect e-mail</string>
     <string name="sign_up_page_label_error_account_with_this_email_already_exists">Account with this e-mail already exists</string>
-    <string name="sign_up_page_label_error_account_with_this_phone_number_already_exists">Account with this phone number already exists</string>
     <string name="sign_up_page_label_error_password_must_contains_lower_case">Password must contains lower case</string>
     <string name="sign_up_page_label_error_password_must_contains_upper_case">Password must contains upper case</string>
     <string name="sign_up_page_label_error_password_must_contains_digit">Password must contains digit</string>
