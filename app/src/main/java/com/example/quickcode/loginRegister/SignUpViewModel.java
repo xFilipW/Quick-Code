@@ -182,6 +182,8 @@ public class SignUpViewModel extends ViewModel {
 
         binding.textInputLayoutConfirmPassword.setError(null);
         binding.confirmPassword.setText(null);
+
+        binding.scrollView.scrollTo(0, 0);
     }
 
     void addTextWatchers(SignupTabFragmentBinding binding) {
