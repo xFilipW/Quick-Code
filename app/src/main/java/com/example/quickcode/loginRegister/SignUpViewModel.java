@@ -20,7 +20,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.quickcode.R;
 import com.example.quickcode.common.cleaningEditTexts.PasswordTransformationChecker;
-import com.example.quickcode.common.filters.DigitOrSpaceFilter;
 import com.example.quickcode.common.filters.NoEmptySpaceFilter;
 import com.example.quickcode.common.helpers.DialogHelper;
 import com.example.quickcode.common.helpers.InputFilterHelper;
@@ -32,7 +31,6 @@ import com.example.quickcode.common.validator.ContainsLowerCase;
 import com.example.quickcode.common.validator.ContainsSpecialChar;
 import com.example.quickcode.common.validator.ContainsUpperCase;
 import com.example.quickcode.common.validator.FirebaseEmailValidator;
-import com.example.quickcode.common.validator.FirebasePhoneNumberValidator;
 import com.example.quickcode.common.validator.PasswordLengthValidator;
 import com.example.quickcode.common.validator.Validator;
 import com.example.quickcode.common.validator.ValidatorHelper;
@@ -57,11 +55,9 @@ public class SignUpViewModel extends ViewModel {
     private static final String TAG = "SignUpViewModel";
 
     final MutableLiveData<Boolean> liveEmailValidated = new MutableLiveData<>(null);
-    final MutableLiveData<Boolean> livePhoneNumberValidated = new MutableLiveData<>(null);
 
     private SimpleTextWatcher firstNameTextWatcher;
     private SimpleTextWatcher emailTextWatcher;
-    private SimpleTextWatcher phoneNumberTextWatcher;
     private SimpleTextWatcher passwordTextWatcher;
     private SimpleTextWatcher confirmPasswordTextWatcher;
     private PasswordTransformationChecker passwordTransformationChecker;
@@ -70,7 +66,6 @@ public class SignUpViewModel extends ViewModel {
     void addTextFilters(SignupTabFragmentBinding binding) {
         InputFilterHelper.addFilter(binding.firstName, new NoEmptySpaceFilter());
         InputFilterHelper.addFilter(binding.email, new NoEmptySpaceFilter());
-        InputFilterHelper.addFilter(binding.phoneNumber, new DigitOrSpaceFilter());
         InputFilterHelper.addFilter(binding.password, new NoEmptySpaceFilter());
         InputFilterHelper.addFilter(binding.confirmPassword, new NoEmptySpaceFilter());
     }
@@ -165,9 +160,6 @@ public class SignUpViewModel extends ViewModel {
         binding.textInputLayoutEmail.setError(null);
         binding.email.setText(null);
 
-        binding.textInputLayoutPhoneNumber.setError(null);
-        binding.phoneNumber.setText(null);
-
         binding.textInputLayoutPassword.setError(null);
         binding.password.setText(null);
 
@@ -191,7 +183,6 @@ public class SignUpViewModel extends ViewModel {
 
         firstNameTextWatcher = new FirstNameTextWatcher(bindingProvider);
         emailTextWatcher = new EmailTextWatcher(bindingProvider);
-        phoneNumberTextWatcher = new PhoneNumberTextWatcher(bindingProvider);
         passwordTextWatcher = new PasswordTextWatcher(bindingProvider, passwordTransformationChecker, text -> {
             int colorAttribute = ResourceUtils.getColorAttribute(binding.getRoot().getContext(), android.R.attr.textColorTertiary);
             validatePasswordAndSetError(text, R.color.darkerGreen, colorAttribute, binding);
@@ -201,7 +192,6 @@ public class SignUpViewModel extends ViewModel {
 
         binding.firstName.addTextChangedListener(firstNameTextWatcher);
         binding.email.addTextChangedListener(emailTextWatcher);
-        binding.phoneNumber.addTextChangedListener(phoneNumberTextWatcher);
         binding.password.addTextChangedListener(passwordTextWatcher);
         binding.confirmPassword.addTextChangedListener(confirmPasswordTextWatcher);
     }
@@ -214,7 +204,6 @@ public class SignUpViewModel extends ViewModel {
     void removeTextWatchers(SignupTabFragmentBinding binding) {
         binding.firstName.removeTextChangedListener(firstNameTextWatcher);
         binding.email.removeTextChangedListener(emailTextWatcher);
-        binding.phoneNumber.removeTextChangedListener(phoneNumberTextWatcher);
         binding.password.removeTextChangedListener(passwordTextWatcher);
         binding.confirmPassword.removeTextChangedListener(confirmPasswordTextWatcher);
     }
@@ -288,28 +277,6 @@ public class SignUpViewModel extends ViewModel {
             public void onCancelled(@NonNull DatabaseError error) {
                 DialogHelper.showAlertDialogErrorGeneral(binding.getRoot().getContext(), R.string.dialog_title_request_error, R.string.dialog_message_request_error);
                 liveEmailValidated.setValue(false);
-            }
-        });
-    }
-
-    void requirePhoneNumberNotUsed(User user, final SignupTabFragmentBinding binding) {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseDatabase.getReference("user").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ValidatorResult validate = new FirebasePhoneNumberValidator(user.getPhoneNumber(), snapshot.getChildren()).validate();
-                if (validate instanceof ValidatorResult.Success) {
-                    livePhoneNumberValidated.setValue(true);
-                } else {
-                    binding.textInputLayoutPhoneNumber.setError(((ValidatorResult.Error) validate).getReason(binding.getRoot().getContext()));
-                    livePhoneNumberValidated.setValue(false);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                DialogHelper.showAlertDialogErrorGeneral(binding.getRoot().getContext(), R.string.dialog_title_request_error, R.string.dialog_message_request_error);
-                livePhoneNumberValidated.setValue(false);
             }
         });
     }

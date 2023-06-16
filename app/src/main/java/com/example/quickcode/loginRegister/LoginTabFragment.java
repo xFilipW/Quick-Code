@@ -71,8 +71,8 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
 
         float v = 0;
 
-        binding.textInputLayoutEmailOrPhoneNumber.setTranslationY(300);
-        binding.textInputLayoutPassword.setTranslationY(300);
+        binding.textInputLayoutLoginEmail.setTranslationY(300);
+        binding.textInputLayoutLoginPassword.setTranslationY(300);
         binding.forgotPassword.setTranslationY(300);
         binding.logInButton.setTranslationY(300);
         binding.layoutOrLogin.setTranslationY(300);
@@ -80,8 +80,8 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
         binding.fabGoogle.setTranslationY(300);
         binding.fabTwitter.setTranslationY(300);
 
-        binding.textInputLayoutEmailOrPhoneNumber.setAlpha(v);
-        binding.textInputLayoutPassword.setAlpha(v);
+        binding.textInputLayoutLoginEmail.setAlpha(v);
+        binding.textInputLayoutLoginPassword.setAlpha(v);
         binding.forgotPassword.setAlpha(v);
         binding.logInButton.setAlpha(v);
         binding.layoutOrLogin.setAlpha(v);
@@ -89,8 +89,8 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
         binding.fabGoogle.setAlpha(v);
         binding.fabTwitter.setAlpha(v);
 
-        binding.textInputLayoutEmailOrPhoneNumber.animate().translationY(1).alpha(1).setDuration(1000).setStartDelay(400).start();
-        binding.textInputLayoutPassword.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(600).start();
+        binding.textInputLayoutLoginEmail.animate().translationY(1).alpha(1).setDuration(1000).setStartDelay(400).start();
+        binding.textInputLayoutLoginPassword.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(600).start();
         binding.forgotPassword.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(600).start();
         binding.logInButton.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1000).start();
         binding.layoutOrLogin.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1200).start();
@@ -112,17 +112,17 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
 
     private void validateAndLogInUser() {
 
-        String getEmailOrPhoneNumber = binding.emailOrPhoneNumber.getText().toString();
-        String getPassword = binding.passwordLogin.getText().toString();
+        String getEmailOrPhoneNumber = binding.loginEmail.getText().toString();
+        String getPassword = binding.loginPassword.getText().toString();
 
         boolean success = true;
 
-        ValidatorResult validateEmailAndPhoneNumber = validateText(binding.textInputLayoutEmailOrPhoneNumber, List.of(new IsEmptyValidator(getEmailOrPhoneNumber)));
+        ValidatorResult validateEmailAndPhoneNumber = validateText(binding.textInputLayoutLoginEmail, List.of(new IsEmptyValidator(getEmailOrPhoneNumber)));
         if (validateEmailAndPhoneNumber instanceof ValidatorResult.Error) {
             success = false;
         }
 
-        ValidatorResult validatePassword = validateText(binding.textInputLayoutPassword, List.of(new IsEmptyValidator(getPassword)));
+        ValidatorResult validatePassword = validateText(binding.textInputLayoutLoginPassword, List.of(new IsEmptyValidator(getPassword)));
         if (validatePassword instanceof ValidatorResult.Error) {
             success = false;
         }
@@ -139,11 +139,11 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
 
     @Override
     public void restoreViews() {
-        binding.textInputLayoutEmailOrPhoneNumber.setError(null);
-        binding.emailOrPhoneNumber.setText(null);
+        binding.textInputLayoutLoginEmail.setError(null);
+        binding.loginEmail.setText(null);
 
-        binding.textInputLayoutPassword.setError(null);
-        binding.passwordLogin.setText(null);
+        binding.textInputLayoutLoginPassword.setError(null);
+        binding.loginPassword.setText(null);
     }
 
     @Override
@@ -151,36 +151,36 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
         emailOrPhoneNumberTextWatcher = new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.textInputLayoutEmailOrPhoneNumber.setError(null);
+                binding.textInputLayoutLoginEmail.setError(null);
             }
         };
 
         passwordTextWatcher = new PasswordTextWatcher();
 
-        binding.emailOrPhoneNumber.addTextChangedListener(emailOrPhoneNumberTextWatcher);
-        binding.passwordLogin.addTextChangedListener(passwordTextWatcher);
+        binding.loginEmail.addTextChangedListener(emailOrPhoneNumberTextWatcher);
+        binding.loginPassword.addTextChangedListener(passwordTextWatcher);
     }
 
     @Override
     public void removeTextWatchers() {
-        binding.emailOrPhoneNumber.removeTextChangedListener(emailOrPhoneNumberTextWatcher);
-        binding.passwordLogin.removeTextChangedListener(passwordTextWatcher);
+        binding.loginEmail.removeTextChangedListener(emailOrPhoneNumberTextWatcher);
+        binding.loginPassword.removeTextChangedListener(passwordTextWatcher);
     }
 
     @Override
     public void restorePasswordTransformationMethods() {
-        binding.passwordLogin.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        binding.passwordLogin.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        binding.loginPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        binding.loginPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
     }
 
     private void setUpTransformationMethodCheckers() {
-        passwordTransformationChecker = new PasswordTransformationChecker(binding.passwordLogin.getTransformationMethod());
+        passwordTransformationChecker = new PasswordTransformationChecker(binding.loginPassword.getTransformationMethod());
     }
 
     private class PasswordTextWatcher extends SimpleTextWatcher {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            TransformationMethod transformationMethod = binding.passwordLogin.getTransformationMethod();
+            TransformationMethod transformationMethod = binding.loginPassword.getTransformationMethod();
 
             if (passwordTransformationChecker.hasTransformationMethodChanged(transformationMethod)) {
                 passwordTransformationChecker.updatePasswordTransformationMethod(transformationMethod);

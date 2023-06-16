@@ -5,13 +5,13 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutEmailOrPhoneNumber"
+        android:id="@+id/textInputLayoutLoginEmail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="32dp"
-        android:hint="@string/log_in_page_hint_e_mail_or_phone_number"
+        android:hint="@string/log_in_page_hint_e_mail"
         android:minHeight="88dp"
         app:boxCornerRadiusBottomEnd="30dp"
         app:boxCornerRadiusBottomStart="30dp"
@@ -25,7 +25,7 @@
         app:startIconDrawable="@drawable/ic_account">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/emailOrPhoneNumber"
+            android:id="@+id/loginEmail"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:fontFamily="@font/just"
@@ -35,7 +35,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutPassword"
+        android:id="@+id/textInputLayoutLoginPassword"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,11 +51,11 @@
         app:errorIconDrawable="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmailOrPhoneNumber"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutLoginEmail"
         app:startIconDrawable="@drawable/ic_password">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password_login"
+            android:id="@+id/loginPassword"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:fontFamily="@font/just"
@@ -75,10 +75,10 @@
         android:fontFamily="@font/just"
         android:text="@string/log_in_page_label_forgot_password"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayoutPassword"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayoutLoginPassword"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayoutPassword" />
+        app:layout_constraintTop_toTopOf="@+id/textInputLayoutLoginPassword" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logInButton"
@@ -94,7 +94,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputLayoutPassword" />
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutLoginPassword" />
 
     <RelativeLayout
         android:id="@+id/layoutOrLogin"
