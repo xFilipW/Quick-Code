@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (fragmentByTag != null) {
                     fragmentByTag.removeTextWatchers();
-                    fragmentByTag.cleanViews();
+                    fragmentByTag.restoreViews();
                     fragmentByTag.restorePasswordTransformationMethods();
                     fragmentByTag.addTextWatchers();
                 }

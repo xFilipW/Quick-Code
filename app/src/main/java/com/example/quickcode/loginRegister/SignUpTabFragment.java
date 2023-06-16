@@ -61,7 +61,7 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
     }
 
     @Override
-    public void cleanViews() {
+    public void restoreViews() {
         model.cleanViews(binding);
     }
 

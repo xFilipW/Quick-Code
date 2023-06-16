@@ -5,7 +5,7 @@ public interface CleanUpFragment {
 
     void addTextWatchers();
 
-    void cleanViews();
+    void restoreViews();
 
     void restorePasswordTransformationMethods();
 }

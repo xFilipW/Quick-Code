@@ -138,7 +138,7 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
     }
 
     @Override
-    public void cleanViews() {
+    public void restoreViews() {
         binding.textInputLayoutEmailOrPhoneNumber.setError(null);
         binding.emailOrPhoneNumber.setText(null);
 
