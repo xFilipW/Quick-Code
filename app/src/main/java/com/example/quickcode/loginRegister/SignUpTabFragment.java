@@ -1,12 +1,16 @@
 package com.example.quickcode.loginRegister;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -25,6 +29,9 @@ import com.example.quickcode.common.validator.SameTextsValidator;
 import com.example.quickcode.common.validator.ValidatorResult;
 import com.example.quickcode.databinding.SignupTabFragmentBinding;
 import com.google.android.material.textfield.TextInputLayout;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -132,5 +139,39 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
                 return;
             }
         }
+
+        ParseUser user = new ParseUser();
+        user.setUsername(getFirstNameText);
+        user.setEmail(getEmailText);
+        user.setPassword(getPasswordText);
+        user.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    showAlert("Successful Sign Up!", "Welcome" + getFirstNameText +"!");
+                } else {
+                    ParseUser.logOut();
+                    Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+    }
+
+    private void showAlert(String title,String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext())
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        Intent intent = new Intent(requireContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog ok = builder.create();
+        ok.show();
     }
 }
