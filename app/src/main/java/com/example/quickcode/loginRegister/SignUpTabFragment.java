@@ -132,20 +132,5 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
                 return;
             }
         }
-
-        User user = new User(getFirstNameText, getEmailText);
-
-        signUpViewModel.liveEmailValidated.removeObservers(getViewLifecycleOwner());
-        signUpViewModel.liveEmailValidated.setValue(null);
-
-        Observer<Boolean> validateObserver = result -> {
-            if (Boolean.TRUE.equals(signUpViewModel.liveEmailValidated.getValue())) {
-                signUpViewModel.createUserAccount(user, getPasswordText, this);
-            }
-        };
-
-        signUpViewModel.liveEmailValidated.observe(getViewLifecycleOwner(), validateObserver);
-
-        signUpViewModel.requireEmailNotUsed(user, binding);
     }
 }
