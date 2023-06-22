@@ -6,3 +6,10 @@
 ╚██████╔╝╚██████╔╝██║╚██████╗██║  ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗
  ╚══▀▀═╝  ╚═════╝ ╚═╝ ╚═════╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
 ```
+# Objectives of the application
+- Splash page
+- Introductory
+- Login form
+- Forgot password layout
+- Sign up form
+- E-mail verification layout
