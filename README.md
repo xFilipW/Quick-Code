@@ -5,7 +5,7 @@
 <div align="center">
 
   <a href="https://github.com/xFilipW/Quick-Code">
-    <img src="https://github.com/xFilipW/Quick-Code/blob/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" alt="Logo" width="120" height="120">
+    <img src="https://github.com/xFilipW/Quick-Code/blob/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" alt="Logo" width="180" height="180">
   </a>
   
   <h1>Quick Code</h1>
@@ -17,23 +17,34 @@
 
 <div align="center">
 
-![pic1](https://github.com/xFilipW/Quick-Code/assets/83404137/f94d5ff2-b97f-47eb-8618-e0ea62f6c19e)
-![pic2](https://github.com/xFilipW/Quick-Code/assets/83404137/79d83f30-aa8d-43d0-a67b-4a013406417a)
-![pic3](https://github.com/xFilipW/Quick-Code/assets/83404137/36783d94-efc4-46ff-be4c-363402c2ab33)
+  <p>
+    (Sped-up video)
+  </p>
+  
+  <p>
+    <img src="./preview/Preview.gif" height="500">
+  </p>
 
 </div>
 
 ## Description
-This is a mobile application for Android, which will include "how to learn programming" tutorials. Application is under construction.
+This is a mobile application for Android, which will include "how to learn programming" tutorials. Application is under construction. More info comming soon.
 
 ## Built With
+ 
+  Android
+  
+  [![Android][Android.io]][Android-url]
 
-[![Android][Android.io]][Android-url]
-<br>
-[![Java][Java.io]][Java-url]
-<br>
-[![kotlin][kotlin.io]][kotlin-url]
+  Java
 
+  [![Java][Java.io]][Java-url]
+
+
+  Kotlin
+  
+  [![kotlin][kotlin.io]][kotlin-url]
+  
 ## Application contains
 - Splash screen
 - 3 pages of introduction
@@ -43,8 +54,8 @@ This is a mobile application for Android, which will include "how to learn progr
 - E-mail verification screen
 - Reset password screen
 
-## Installation
-Not yet able to install. It will be available soon.
+## Download
+Not yet able to download. It will be available soon.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
