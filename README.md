@@ -1,5 +1,7 @@
+<a name="readme-top"></a>
+
 <!-- PROJECT LOGO -->
-<div align="center" id="logo">
+<div align="center">
 
   <a href="https://github.com/xFilipW/Quick-Code">
     <img src="https://github.com/xFilipW/Quick-Code/blob/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" alt="Logo" width="120" height="120">
@@ -14,9 +16,9 @@
 
 <div align="center">
 
-![pic1](https://github.com/xFilipW/Quick-Code/assets/83404137/72db7644-bebc-4ea8-b154-919757dd3a25)
-![pic2](https://github.com/xFilipW/Quick-Code/assets/83404137/c0a8a0b3-51f4-475d-877f-efe9d2df999b)
-![pic3](https://github.com/xFilipW/Quick-Code/assets/83404137/392e5efb-57b7-4502-ab94-69996b81ba21)
+![pic1](https://github.com/xFilipW/Quick-Code/assets/83404137/f94d5ff2-b97f-47eb-8618-e0ea62f6c19e)
+![pic2](https://github.com/xFilipW/Quick-Code/assets/83404137/79d83f30-aa8d-43d0-a67b-4a013406417a)
+![pic3](https://github.com/xFilipW/Quick-Code/assets/83404137/36783d94-efc4-46ff-be4c-363402c2ab33)
 
 </div>
 
@@ -39,7 +41,7 @@ This is a mobile application for Android, which will include "how to learn progr
 - Sign up form
 - E-mail verification layout
 
-<p align="right">(<a href="logo">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [Android.io]: https://skillicons.dev/icons?i=androidstudio&theme=light
