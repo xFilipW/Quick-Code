@@ -1,3 +1,4 @@
+<!-- BACK TO TOP -->
 <a name="readme-top"></a>
 
 <!-- PROJECT LOGO -->
@@ -33,13 +34,17 @@ This is a mobile application for Android, which will include "how to learn progr
 <br>
 [![kotlin][kotlin.io]][kotlin-url]
 
-## Objectives of the application
-- Splash page
-- Introductory
+## Application contains
+- Splash screen
+- 3 pages with a description of the app (introductory)
 - Login form
-- Forgot password layout
 - Sign up form
-- E-mail verification layout
+- Forgot password screen
+- E-mail verification screen
+- Reset password screen
+
+## Installation
+Not yet able to install. It will be available soon.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
