@@ -36,7 +36,7 @@ This is a mobile application for Android, which will include "how to learn progr
 
 ## Application contains
 - Splash screen
-- 3 pages with a description of the app (introductory)
+- 3 pages of introduction
 - Login form
 - Sign up form
 - Forgot password screen
