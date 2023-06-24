@@ -5,10 +5,12 @@
 <div align="center">
 
   <a href="https://github.com/xFilipW/Quick-Code">
-    <img src="https://github.com/xFilipW/Quick-Code/blob/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" alt="Logo" width="180" height="180">
+    <img src="https://github.com/xFilipW/Quick-Code/blob/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" alt="Logo" width="240" height="240">
+    <br>
+    <img src="https://img.shields.io/badge/Quick%20Code-65CBEF" height="60"/>
+    <br>
+    <img src="https://img.shields.io/badge/Programming%20with%20passion-65CBEF" height="40"/>
   </a>
-  
-  <h1>Quick Code</h1>
   
 </div>
 
@@ -45,7 +47,7 @@ This is a mobile application for Android, which will include "how to learn progr
   
   [![kotlin][kotlin.io]][kotlin-url]
   
-## Application contains
+## Currently application contains
 - Splash screen
 - 3 pages of introduction
 - Login form
@@ -53,6 +55,10 @@ This is a mobile application for Android, which will include "how to learn progr
 - Forgot password screen
 - E-mail verification screen
 - Reset password screen
+
+## Contributing
+
+Any contributions will be greatly appreciated.
 
 ## Download
 Not yet able to download. It will be available soon.
