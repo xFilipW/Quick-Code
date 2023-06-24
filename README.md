@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-```ascii
- ██████╗ ██╗   ██╗██╗ ██████╗██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗
-██╔═══██╗██║   ██║██║██╔════╝██║ ██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝
-██║   ██║██║   ██║██║██║     █████╔╝     ██║     ██║   ██║██║  ██║█████╗  
-██║▄▄ ██║██║   ██║██║██║     ██╔═██╗     ██║     ██║   ██║██║  ██║██╔══╝  
-╚██████╔╝╚██████╔╝██║╚██████╗██║  ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗
- ╚══▀▀═╝  ╚═════╝ ╚═╝ ╚═════╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
-```
-=======
 <!-- BACK TO TOP -->
 <a name="readme-top"></a>
 
@@ -32,7 +22,7 @@
   <p>
     (Sped-up video)
   </p>
-  
+   
   <p>
     <img src="./preview/Preview.gif" height="500">
   </p>
@@ -81,4 +71,3 @@ Not yet able to download. It will be available soon.
 [Java-url]: https://www.java.com
 [Kotlin.io]: https://skillicons.dev/icons?i=kotlin&theme=light
 [Kotlin-url]: https://kotlinlang.org
->>>>>>> 6da3a39... Update README.md
