@@ -57,7 +57,6 @@ This is a mobile application for Android, which will include "how to learn progr
 - Reset password screen
 
 ## Contributing
-
 Any contributions will be greatly appreciated.
 
 ## Download
