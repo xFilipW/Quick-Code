@@ -140,22 +140,26 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
             }
         }
 
+        signUpUser(getFirstNameText, getEmailText, getPasswordText);
+
+    }
+
+    private void signUpUser(String username, String email, String password) {
         ParseUser user = new ParseUser();
-        user.setUsername(getFirstNameText);
-        user.setEmail(getEmailText);
-        user.setPassword(getPasswordText);
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(password);
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    showAlert("Successful Sign Up!", "Welcome" + getFirstNameText +"!");
+                    showAlert("Successful Sign Up!", "Welcome" + username +"!");
                 } else {
                     ParseUser.logOut();
                     Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
-
     }
 
     private void showAlert(String title,String message){
