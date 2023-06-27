@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Quick Code</string>
 
+    <string name="back4app_server_url">https://parseapi.back4app.com</string>
+    <string name="back4app_app_id">kxk32QnvsvKU1WRvpQ9OjnuUXDCVNgdEbR7EoMd7</string>
+    <string name="back4app_client_key">auriRRktOIQJVmBRqEcQU5U0w3VaciSedguQBWew</string>
+
     <string name="splash_screen_programming_with_passion">Programming with passion</string>
 
     <string name="on_boarding_label_quick_code">Quick Code</string>
@@ -67,5 +71,4 @@
     <string name="reset_password_heading_text">Enter new password!</string>
     <string name="reset_password_subheading_text">Your new password must be different \nfrom previously used password.</string>
     <string name="reset_password_button_confirm">Reset password</string>
-
 </resources>
