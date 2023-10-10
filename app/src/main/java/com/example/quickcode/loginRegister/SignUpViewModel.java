@@ -3,8 +3,10 @@ package com.example.quickcode.loginRegister;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -15,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.widget.TextViewCompat;
 import androidx.lifecycle.ViewModel;
 
+import com.example.quickcode.Consts;
 import com.example.quickcode.R;
 import com.example.quickcode.common.cleaningEditTexts.PasswordTransformationChecker;
 import com.example.quickcode.common.filters.NoEmptySpaceFilter;
@@ -31,9 +34,29 @@ import com.example.quickcode.common.validator.Validator;
 import com.example.quickcode.common.validator.ValidatorHelper;
 import com.example.quickcode.common.validator.ValidatorResult;
 import com.example.quickcode.databinding.SignupTabFragmentBinding;
+import com.example.quickcode.rest.QuickCodeClient;
+import com.example.quickcode.rest.register.RegisterFailure;
+import com.example.quickcode.rest.register.RegisterError;
+import com.example.quickcode.rest.register.RegisterListener;
+import com.example.quickcode.rest.register.RegisterResponse;
+import com.example.quickcode.rest.register.RegisterSuccess;
+import com.example.quickcode.rest.verify.VerifyError;
+import com.example.quickcode.rest.verify.VerifyFailure;
+import com.example.quickcode.rest.verify.VerifyListener;
+import com.example.quickcode.rest.verify.VerifyResponse;
+import com.example.quickcode.rest.verify.VerifySuccess;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class SignUpViewModel extends ViewModel {
 
@@ -251,5 +274,42 @@ public class SignUpViewModel extends ViewModel {
         binding1.password.setTransformationMethod(PasswordTransformationMethod.getInstance());
         binding1.confirmPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         binding1.confirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+    }
+
+    public void registerUser(String username, String email, String password, RegisterListener registerListener) {
+        QuickCodeClient instance = QuickCodeClient.getInstance();
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        executor.execute(() -> {
+            Call<RegisterResponse> register = instance.register(username, password, email);
+            try {
+                Response<RegisterResponse> execute = register.execute();
+                RegisterResponse body = execute.body();
+
+                if (execute.isSuccessful()) {
+                    registerListener.onRegister(new RegisterSuccess(body));
+                } else {
+                    registerListener.onRegister(new RegisterFailure(body.error_code));
+                }
+            } catch (Exception e) {
+                registerListener.onRegister(new RegisterError(e));
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void saveUserId(Context context, long userId) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putLong(Consts.SP_USER_ID, userId)
+                .apply();
+    }
+
+    public void saveLifetime(Context context, String lifetime) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(Consts.SP_LIFETIME, lifetime)
+                .apply();
     }
 }

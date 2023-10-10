@@ -10,7 +10,10 @@ class PasswordTransformationCheckerTest{
     fun twoTransformationMethodsAreTheSame() {
         // given
         val transformationMethod = PasswordTransformationMethod.getInstance()
-        val passwordTransformationChecker = PasswordTransformationChecker(transformationMethod)
+        val passwordTransformationChecker =
+            PasswordTransformationChecker(
+                transformationMethod
+            )
 
         // when
         val changed = passwordTransformationChecker.hasTransformationMethodChanged(PasswordTransformationMethod())
@@ -23,7 +26,10 @@ class PasswordTransformationCheckerTest{
     fun twoTransformationMethodsAreNotTheSame() {
         // given
         val transformationMethod = PasswordTransformationMethod.getInstance()
-        val passwordTransformationChecker = PasswordTransformationChecker(transformationMethod)
+        val passwordTransformationChecker =
+            PasswordTransformationChecker(
+                transformationMethod
+            )
 
         // when
         val changed = passwordTransformationChecker.hasTransformationMethodChanged(null)

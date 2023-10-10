@@ -3,6 +3,7 @@ package com.example.quickcode.verifyEmail;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,28 @@ import android.widget.FrameLayout;
 
 import androidx.lifecycle.ViewModel;
 
+import com.example.quickcode.Consts;
 import com.example.quickcode.R;
 import com.example.quickcode.common.utils.ScrollUtils;
 import com.example.quickcode.databinding.ActivityVerifyEmailBinding;
+import com.example.quickcode.loginRegister.SignUpViewModel;
+import com.example.quickcode.rest.QuickCodeClient;
+import com.example.quickcode.rest.register.RegisterSuccess;
+import com.example.quickcode.rest.verify.VerifyError;
+import com.example.quickcode.rest.verify.VerifyFailure;
+import com.example.quickcode.rest.verify.VerifyListener;
+import com.example.quickcode.rest.verify.VerifyResponse;
+import com.example.quickcode.rest.verify.VerifySuccess;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class VerifyViewModel extends ViewModel {
 
@@ -90,4 +108,39 @@ public class VerifyViewModel extends ViewModel {
         setExpanded(onShowDialog);
         setDraggable(onShowDialog, false);
     }
+
+    public void verifyUser(long userId, String token, VerifyListener verifyListener) {
+        QuickCodeClient instance = QuickCodeClient.getInstance();
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        executor.execute(() -> {
+            try {
+                Thread.sleep(TimeUnit.SECONDS.toMillis(3));
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            Call<VerifyResponse> verify = instance.verify(userId, token);
+            try {
+                Response<VerifyResponse> execute = verify.execute();
+                VerifyResponse body = execute.body();
+
+                if (execute.isSuccessful()) {
+                    verifyListener.onVerify(new VerifySuccess(body));
+                } else {
+                    verifyListener.onVerify(new VerifyFailure(body.error_code));
+                }
+            } catch (IOException e) {
+                verifyListener.onVerify(new VerifyError(e));
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public long getUserId(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getLong(Consts.SP_USER_ID, -1);
+    }
+
 }

@@ -2,10 +2,13 @@ package com.example.quickcode.loginRegister;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.TooltipCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -16,7 +19,7 @@ import com.example.quickcode.common.simples.SimpleOnTabSelectedListener;
 import com.example.quickcode.databinding.ActivityLoginBinding;
 import com.google.android.material.tabs.TabLayout;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements CircleStatusListener {
 
     private ActivityLoginBinding binding;
 
@@ -79,10 +82,22 @@ public class LoginActivity extends AppCompatActivity {
         for (int i = 0; i < binding.tabLayout.getTabCount(); i++) {
             TabLayout.Tab tabAt = binding.tabLayout.getTabAt(i);
 
-            if(tabAt != null) {
+            if (tabAt != null) {
                 TooltipCompat.setTooltipText(tabAt.view, null);
             }
 
         }
+    }
+
+    @Override
+    public void showCircle() {
+        binding.progressRegister.setVisibility(View.VISIBLE);
+        getWindow().setStatusBarColor(Color.parseColor("#326577"));
+    }
+
+    @Override
+    public void hideCircle() {
+        binding.progressRegister.setVisibility(View.GONE);
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.lightBlue));
     }
 }

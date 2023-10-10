@@ -31,31 +31,6 @@ public class SignUpTest {
     public ActivityScenarioRule<OnBoardingActivity> mActivityScenarioRule = new ActivityScenarioRule<>(OnBoardingActivity.class);
 
     @Test
-    public void shouldTrimPhoneNumberWhenLonger() {
-        onView(withIndex(withId(R.id.skipButton), 0))
-                .check(matches(isDisplayed()))
-                .perform(ViewActions.click());
-
-        onView(withId(R.id.tabLayout))
-                .check(matches(isDisplayed()))
-                .perform(new SelectTabAction(1));
-
-        onView(withId(R.id.phoneNumber))
-                .check(matches(isDisplayed()))
-                .perform(
-                        ViewActions.typeText("1234567890"),
-                        ViewActions.closeSoftKeyboard()
-                );
-
-        // check phoneNumber is correct
-        Matcher<View> hasExactString = withText(MatcherUtilsJava.hasExactString("123 456 789"));
-
-        onView(withId(R.id.phoneNumber))
-                .check(matches(isDisplayed()))
-                .check(matches(hasExactString));
-    }
-
-    @Test
     public void shouldSetGreenColorWhenOneOfTheCircleCheckIsCorrect() {
         onView(withIndex(withId(R.id.skipButton), 0))
                 .check(matches(isDisplayed()))

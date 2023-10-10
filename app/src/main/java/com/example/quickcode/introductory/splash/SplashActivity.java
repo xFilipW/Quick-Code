@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.quickcode.R;
 import com.example.quickcode.introductory.onBoarding.OnBoardingActivity;
+import com.example.quickcode.rest.QuickCodeClient;
 
 public class SplashActivity extends AppCompatActivity {
 
