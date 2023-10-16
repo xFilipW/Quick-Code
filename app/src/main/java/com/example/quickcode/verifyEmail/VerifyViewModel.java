@@ -48,28 +48,40 @@ public class VerifyViewModel extends ViewModel {
 
     @SuppressLint("ClickableViewAccessibility")
     void setTouchListeners(ActivityVerifyEmailBinding binding) {
-        binding.pinView.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                ScrollUtils.smartScrollTo(() -> binding.pinView, "touch");
-            }
-            return false;
-        });
+        View currentView = binding.viewSwitcher.getCurrentView();
 
-        binding.scrollView.setOnTouchListener((v, event) -> {
-            if (binding.pinView.hasFocus()) {
-                binding.pinView.clearFocus();
-            }
-            return false;
-        });
+        if (currentView.getId() == R.id.switch_view_pin) {
+            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+
+            fragmentBinding.pinView.setOnTouchListener((v, event) -> {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    ScrollUtils.smartScrollTo(() -> fragmentBinding.pinView, "touch");
+                }
+                return false;
+            });
+
+            binding.scrollView.setOnTouchListener((v, event) -> {
+                if (fragmentBinding.pinView.hasFocus()) {
+                    fragmentBinding.pinView.clearFocus();
+                }
+                return false;
+            });
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     void setFocusListeners(ActivityVerifyEmailBinding binding) {
-        binding.pinView.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                ScrollUtils.smartScrollTo(() -> binding.pinView, "focus");
-            }
-        });
+        View currentView = binding.viewSwitcher.getCurrentView();
+
+        if (currentView.getId() == R.id.switch_view_pin) {
+            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+
+            fragmentBinding.pinView.setOnFocusChangeListener((v, hasFocus) -> {
+                if (hasFocus) {
+                    ScrollUtils.smartScrollTo(() -> fragmentBinding.pinView, "focus");
+                }
+            });
+        }
     }
 
     public void setExpanded(BottomSheetDialog bottomSheetDialog) {
@@ -143,4 +155,8 @@ public class VerifyViewModel extends ViewModel {
                 .getLong(Consts.SP_USER_ID, -1);
     }
 
+    public String getDisplayUsername(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(Consts.SP_USERNAME, null);
+    }
 }

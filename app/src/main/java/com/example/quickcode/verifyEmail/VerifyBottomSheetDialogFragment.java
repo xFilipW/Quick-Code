@@ -66,6 +66,8 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
 
         viewModel = new ViewModelProvider(this).get(VerifyViewModel.class);
 
+        updateGreetingsText(viewModel.getDisplayUsername(requireContext()));
+
         viewModel.setupToolbarBehaviour(binding, this::dismiss);
         viewModel.setTouchListeners(binding);
         viewModel.setFocusListeners(binding);
@@ -73,25 +75,60 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         setOnClickListeners(binding);
     }
 
-    public void setOnClickListeners(ActivityVerifyEmailBinding binding) {
-        binding.verifyEmailButton.setOnClickListener(v -> {
-            handler.post(() -> showCircle());
-            viewModel.verifyUser(
-                    viewModel.getUserId(requireContext()),
-                    String.valueOf(binding.pinView.getText()),
-                    (VerifyListener) verifyStatus -> {
-                        if (verifyStatus instanceof VerifySuccess) {
-                            handler.post(() -> hideCircle());
-                        } else if (verifyStatus instanceof VerifyFailure) {
-                            Log.e(TAG, "Error: " + ((VerifyFailure) verifyStatus).getError());
-                            handler.post(() -> hideCircle());
-                        } else {
-                            Log.wtf(TAG, "Exception: " + ((VerifyError) verifyStatus).getException().getMessage());
-                            handler.post(() -> hideCircle());
-                        }
-                    }
+    private void updateGreetingsText(String displayUsername) {
+        View currentView = binding.viewSwitcher.getCurrentView();
+
+        if (currentView.getId() == R.id.switch_view_pin) {
+            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+            fragmentBinding.textView1.setText(
+                    String.format(Locale.getDefault(),
+                            getString(R.string.verify_email_heading_text),
+                            displayUsername)
             );
-        });
+        }
+    }
+
+    public void setOnClickListeners(ActivityVerifyEmailBinding binding) {
+        View currentView = binding.viewSwitcher.getCurrentView();
+
+        if (currentView.getId() == R.id.switch_view_pin) {
+            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+            fragmentBinding.verifyEmailButton.setOnClickListener(v -> {
+
+                handler.post(() -> showCircle());
+                viewModel.verifyUser(
+                        viewModel.getUserId(requireContext()),
+                        String.valueOf(fragmentBinding.pinView.getText()),
+                        (VerifyListener) verifyStatus -> {
+                            if (verifyStatus instanceof VerifySuccess) {
+                                handler.post(() -> hideCircle());
+                                showLottieResult(verifyStatus);
+                            } else if (verifyStatus instanceof VerifyFailure) {
+                                Log.e(TAG, "Error: " + ((VerifyFailure) verifyStatus).getError());
+                                handler.post(() -> hideCircle());
+                            } else {
+                                Log.wtf(TAG, "Exception: " + ((VerifyError) verifyStatus).getException().getMessage());
+                                handler.post(() -> hideCircle());
+                            }
+                        }
+                );
+            });
+        } else {
+            // TODO: 10.10.2023
+        }
+    }
+
+    private void showLottieResult(VerifyStatus verifyStatus) {
+        if (verifyStatus instanceof VerifySuccess) {
+            View nextView = binding.viewSwitcher.getNextView();
+            FragmentVerifySuccessBinding fragmentBinding = FragmentVerifySuccessBinding.bind(nextView);
+
+            binding.viewSwitcher.showNext();
+            fragmentBinding.lottie.playAnimation();
+            binding.timer.setVisibility(View.GONE);
+        } else {
+            // TODO: 10.10.2023 not happy path
+        }
     }
 
     public void showCircle() {

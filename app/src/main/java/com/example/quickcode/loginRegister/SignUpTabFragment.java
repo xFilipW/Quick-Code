@@ -66,7 +66,6 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
         viewModel.setupTransformationMethodCheckers(binding);
         viewModel.addTextFilters(binding);
         viewModel.setListeners(v -> {
-            handler.post(() -> ((CircleStatusListener) requireActivity()).showCircle());
             validateAndSignUpUser(binding, viewModel);
         }, binding);
         viewModel.setTouchListeners(binding);
@@ -150,6 +149,8 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
             }
         }
 
+        handler.post(() -> ((CircleStatusListener) requireActivity()).showCircle());
+
         registerUser(getFirstNameText, getEmailText, getPasswordText);
     }
 
@@ -161,6 +162,7 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
 
                 viewModel.saveUserId(requireContext(), userId);
                 viewModel.saveLifetime(requireContext(), lifeTime);
+                viewModel.saveUsername(requireContext(), username);
 
                 handler.post(() -> ((CircleStatusListener) requireActivity()).hideCircle());
 

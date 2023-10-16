@@ -77,11 +77,14 @@
         android:visibility="gone"
         tools:visibility="visible">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/progressAnimationView"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/animation_loading" />
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
