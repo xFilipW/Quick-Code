@@ -17,6 +17,7 @@ import com.example.quickcode.Consts;
 import com.example.quickcode.R;
 import com.example.quickcode.common.utils.ScrollUtils;
 import com.example.quickcode.databinding.ActivityVerifyEmailBinding;
+import com.example.quickcode.databinding.FragmentVerifyPinviewBinding;
 import com.example.quickcode.loginRegister.SignUpViewModel;
 import com.example.quickcode.rest.QuickCodeClient;
 import com.example.quickcode.rest.register.RegisterSuccess;

@@ -21,10 +21,8 @@ import com.example.quickcode.Consts;
 import com.example.quickcode.R;
 import com.example.quickcode.common.utils.TimeUtils;
 import com.example.quickcode.databinding.ActivityVerifyEmailBinding;
-import com.example.quickcode.loginRegister.CircleStatusListener;
-import com.example.quickcode.rest.register.RegisterError;
-import com.example.quickcode.rest.register.RegisterFailure;
-import com.example.quickcode.rest.register.RegisterSuccess;
+import com.example.quickcode.databinding.FragmentVerifyPinviewBinding;
+import com.example.quickcode.databinding.FragmentVerifySuccessBinding;
 import com.example.quickcode.rest.verify.VerifyError;
 import com.example.quickcode.rest.verify.VerifyFailure;
 import com.example.quickcode.rest.verify.VerifyListener;
@@ -33,11 +31,8 @@ import com.example.quickcode.rest.verify.VerifySuccess;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
 

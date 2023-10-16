@@ -21,7 +21,7 @@ import com.example.quickcode.common.validator.IsEmptyValidator;
 import com.example.quickcode.common.validator.Validator;
 import com.example.quickcode.common.validator.ValidatorHelper;
 import com.example.quickcode.common.validator.ValidatorResult;
-import com.example.quickcode.databinding.LoginTabFragmentBinding;
+import com.example.quickcode.databinding.FragmentLoginTabBinding;
 import com.example.quickcode.forgotPassword.ForgotBottomSheetDialogFragment;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
@@ -30,7 +30,7 @@ import java.util.List;
 
 public class LoginTabFragment extends Fragment implements CleanUpFragment {
 
-    private LoginTabFragmentBinding binding;
+    private FragmentLoginTabBinding binding;
 
     private SimpleTextWatcher emailOrPhoneNumberTextWatcher;
     private SimpleTextWatcher passwordTextWatcher;
@@ -38,7 +38,7 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        binding = LoginTabFragmentBinding.inflate(inflater, container, false);
+        binding = FragmentLoginTabBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

@@ -29,7 +29,7 @@ import com.example.quickcode.common.validator.NoDigitValidator;
 import com.example.quickcode.common.validator.NoSpecialCharValidator;
 import com.example.quickcode.common.validator.SameTextsValidator;
 import com.example.quickcode.common.validator.ValidatorResult;
-import com.example.quickcode.databinding.SignupTabFragmentBinding;
+import com.example.quickcode.databinding.FragmentSignupTabBinding;
 import com.example.quickcode.rest.register.RegisterError;
 import com.example.quickcode.rest.register.RegisterFailure;
 import com.example.quickcode.rest.register.RegisterSuccess;
@@ -45,13 +45,13 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
 
     private static final String TAG = "SignUpTabFragment";
 
-    private SignupTabFragmentBinding binding;
+    private FragmentSignupTabBinding binding;
     private SignUpViewModel viewModel;
     private Handler handler;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        binding = SignupTabFragmentBinding.inflate(inflater, container, false);
+        binding = FragmentSignupTabBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -95,7 +95,7 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
         viewModel.restorePasswordTransformationMethods(binding);
     }
 
-    void validateAndSignUpUser(SignupTabFragmentBinding binding, SignUpViewModel signUpViewModel) {
+    void validateAndSignUpUser(FragmentSignupTabBinding binding, SignUpViewModel signUpViewModel) {
         if (!NetworkUtils.isNetworkAvailable(binding.getRoot().getContext())) {
             DialogHelper.showAlertDialogErrorGeneral(binding.getRoot().getContext(), R.string.dialog_title_no_internet, R.string.dialog_message_no_internet);
             return;

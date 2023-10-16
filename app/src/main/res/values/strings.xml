@@ -11,13 +11,13 @@
     <string name="on_boarding_label_skip">Skip</string>
     <string name="on_boarding_1_title_1">Learn with us</string>
     <string name="on_boarding_1_title_2">Quickly and easily!</string>
-    <string name="on_boarding_1_main_info">Here you will find tutorials that will \nhelp you learn programming. \nWe have a database of \nover 100 tutorials!</string>
+    <string name="on_boarding_1_main_info">Here you will find tutorials that will\nhelp you learn programming.\nWe have a database of\nover 100 tutorials!</string>
     <string name="on_boarding_2_title_1">Our tutorials</string>
     <string name="on_boarding_2_title_2">Are for everyone!</string>
-    <string name="on_boarding_2_main_info">We teach the basics and more advanced \nthings. No matter how old you are, \nyou will definitely find something \nfor yourself here!</string>
+    <string name="on_boarding_2_main_info">We teach the basics and more advanced\nthings. No matter how old you are,\nyou will definitely find something\nfor yourself here!</string>
     <string name="on_boarding_3_title_1">We pay for</string>
     <string name="on_boarding_3_title_2">Your education!</string>
-    <string name="on_boarding_3_main_info">You can study as much as you want, \nour tutorials are completely free. \nCheck how to effectively get a \nnew profession and start now!</string>
+    <string name="on_boarding_3_main_info">You can study as much as you want,\nour tutorials are completely free.\nCheck how to effectively get a\nnew profession and start now!</string>
     <string name="on_boarding_3_button_text">READY</string>
 
     <string name="dialog_title_no_internet">SOONER OR LATER IT HAPPENS</string>
@@ -58,17 +58,20 @@
 
     <string name="verify_email_toolbar_title">E-mail Verification</string>
     <string name="verify_email_timer">05:00</string>
-    <string name="verify_email_heading_text">Hey User! \nVerify your e-mail address.</string>
-    <string name="verify_email_subheading_text">Enter the 4 digit code below, which you will \nreceive at the e-mail address you provided.</string>
+    <string name="verify_email_heading_text">Hey %s!\nVerify your e-mail address.</string>
+    <string name="verify_email_subheading_text">Enter the 4 digit code below, which you will\nreceive at the e-mail address you provided.</string>
+    <string name="verify_acc_has_been_verified">Your account has been verified.\nYou can now log in and start using our app!</string>
+    <string name="verify_congratulations">Congratulations!</string>
     <string name="verify_email_button_verify">Verify e-mail</string>
+    <string name="verify_back_to_log_in_button">Back to log in</string>
 
     <string name="forgot_password_toolbar_title">Forgot Password</string>
-    <string name="forgot_password_heading_text">Forgot password? \nThat\'s okay, it happens!</string>
-    <string name="forgot_password_subheading_text">Enter the e-mail address \nassociated with your account below.</string>
+    <string name="forgot_password_heading_text">Forgot password?\nThat\'s okay, it happens!</string>
+    <string name="forgot_password_subheading_text">Enter the e-mail address\nassociated with your account below.</string>
     <string name="forgot_password_button_confirm">Recover password</string>
 
     <string name="reset_password_toolbar_title">Reset Password</string>
     <string name="reset_password_heading_text">Enter new password!</string>
-    <string name="reset_password_subheading_text">Your new password must be different \nfrom previously used password.</string>
+    <string name="reset_password_subheading_text">Your new password must be different\nfrom previously used password.</string>
     <string name="reset_password_button_confirm">Reset password</string>
 </resources>

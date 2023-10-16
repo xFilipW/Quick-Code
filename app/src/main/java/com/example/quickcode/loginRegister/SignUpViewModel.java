@@ -6,7 +6,6 @@ import android.content.res.ColorStateList;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -33,27 +32,19 @@ import com.example.quickcode.common.validator.PasswordLengthValidator;
 import com.example.quickcode.common.validator.Validator;
 import com.example.quickcode.common.validator.ValidatorHelper;
 import com.example.quickcode.common.validator.ValidatorResult;
-import com.example.quickcode.databinding.SignupTabFragmentBinding;
+import com.example.quickcode.databinding.FragmentSignupTabBinding;
 import com.example.quickcode.rest.QuickCodeClient;
-import com.example.quickcode.rest.register.RegisterFailure;
 import com.example.quickcode.rest.register.RegisterError;
+import com.example.quickcode.rest.register.RegisterFailure;
 import com.example.quickcode.rest.register.RegisterListener;
 import com.example.quickcode.rest.register.RegisterResponse;
 import com.example.quickcode.rest.register.RegisterSuccess;
-import com.example.quickcode.rest.verify.VerifyError;
-import com.example.quickcode.rest.verify.VerifyFailure;
-import com.example.quickcode.rest.verify.VerifyListener;
-import com.example.quickcode.rest.verify.VerifyResponse;
-import com.example.quickcode.rest.verify.VerifySuccess;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -69,19 +60,19 @@ public class SignUpViewModel extends ViewModel {
     private PasswordTransformationChecker passwordTransformationChecker;
     private PasswordTransformationChecker confirmPasswordTransformationChecker;
 
-    void addTextFilters(SignupTabFragmentBinding binding) {
+    void addTextFilters(FragmentSignupTabBinding binding) {
         InputFilterHelper.addFilter(binding.firstName, new NoEmptySpaceFilter());
         InputFilterHelper.addFilter(binding.email, new NoEmptySpaceFilter());
         InputFilterHelper.addFilter(binding.password, new NoEmptySpaceFilter());
         InputFilterHelper.addFilter(binding.confirmPassword, new NoEmptySpaceFilter());
     }
 
-    void setListeners(View.OnClickListener onClickListener, SignupTabFragmentBinding binding) {
+    void setListeners(View.OnClickListener onClickListener, FragmentSignupTabBinding binding) {
         binding.signUpButton.setOnClickListener(onClickListener);
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    void setTouchListeners(SignupTabFragmentBinding binding) {
+    void setTouchListeners(FragmentSignupTabBinding binding) {
         binding.password.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 ScrollUtils.smartScrollTo(() -> binding.passwordRequirements, "touch");
@@ -106,7 +97,7 @@ public class SignUpViewModel extends ViewModel {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    void setFocusListeners(SignupTabFragmentBinding binding) {
+    void setFocusListeners(FragmentSignupTabBinding binding) {
         binding.password.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 ScrollUtils.smartScrollTo(() -> binding.passwordRequirements, "focus");
@@ -124,7 +115,7 @@ public class SignUpViewModel extends ViewModel {
         });
     }
 
-    void setImeListeners(SignupTabFragmentBinding binding) {
+    void setImeListeners(FragmentSignupTabBinding binding) {
         binding.confirmPassword.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 v.clearFocus();
@@ -159,7 +150,7 @@ public class SignUpViewModel extends ViewModel {
         }
     }
 
-    void cleanViews(SignupTabFragmentBinding binding) {
+    void cleanViews(FragmentSignupTabBinding binding) {
         binding.textInputLayoutFirstName.setError(null);
         binding.firstName.setText(null);
 
@@ -184,8 +175,8 @@ public class SignUpViewModel extends ViewModel {
         binding.scrollView.scrollTo(0, 0);
     }
 
-    void addTextWatchers(SignupTabFragmentBinding binding) {
-        BindingProvider<SignupTabFragmentBinding> bindingProvider = () -> binding;
+    void addTextWatchers(FragmentSignupTabBinding binding) {
+        BindingProvider<FragmentSignupTabBinding> bindingProvider = () -> binding;
 
         firstNameTextWatcher = new FirstNameTextWatcher(bindingProvider);
         emailTextWatcher = new EmailTextWatcher(bindingProvider);
@@ -202,12 +193,12 @@ public class SignUpViewModel extends ViewModel {
         binding.confirmPassword.addTextChangedListener(confirmPasswordTextWatcher);
     }
 
-    void setupTransformationMethodCheckers(SignupTabFragmentBinding binding) {
+    void setupTransformationMethodCheckers(FragmentSignupTabBinding binding) {
         passwordTransformationChecker = new PasswordTransformationChecker(binding.password.getTransformationMethod());
         confirmPasswordTransformationChecker = new PasswordTransformationChecker(binding.confirmPassword.getTransformationMethod());
     }
 
-    void removeTextWatchers(SignupTabFragmentBinding binding) {
+    void removeTextWatchers(FragmentSignupTabBinding binding) {
         binding.firstName.removeTextChangedListener(firstNameTextWatcher);
         binding.email.removeTextChangedListener(emailTextWatcher);
         binding.password.removeTextChangedListener(passwordTextWatcher);
@@ -220,7 +211,7 @@ public class SignUpViewModel extends ViewModel {
         return validatorResult;
     }
 
-    ValidatorResult validatePasswordAndSetError(CharSequence charSequence, int colorSuccess, int colorFailure, SignupTabFragmentBinding binding) {
+    ValidatorResult validatePasswordAndSetError(CharSequence charSequence, int colorSuccess, int colorFailure, FragmentSignupTabBinding binding) {
         ArrayList<ValidatorResult> validatorResultArrayList = new ArrayList<>();
         String text = charSequence.toString();
 
@@ -269,7 +260,7 @@ public class SignUpViewModel extends ViewModel {
         return (int) (12 * context.getResources().getDisplayMetrics().density);
     }
 
-    void restorePasswordTransformationMethods(SignupTabFragmentBinding binding1) {
+    void restorePasswordTransformationMethods(FragmentSignupTabBinding binding1) {
         binding1.password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         binding1.password.setTransformationMethod(PasswordTransformationMethod.getInstance());
         binding1.confirmPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -310,6 +301,13 @@ public class SignUpViewModel extends ViewModel {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
                 .putString(Consts.SP_LIFETIME, lifetime)
+                .apply();
+    }
+
+    public void saveUsername(Context context, String username) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(Consts.SP_USERNAME, username)
                 .apply();
     }
 }
