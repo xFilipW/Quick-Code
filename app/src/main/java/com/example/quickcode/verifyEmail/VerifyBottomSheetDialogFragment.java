@@ -2,7 +2,6 @@ package com.example.quickcode.verifyEmail;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,7 +13,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.quickcode.Consts;
@@ -23,6 +21,9 @@ import com.example.quickcode.common.utils.TimeUtils;
 import com.example.quickcode.databinding.ActivityVerifyEmailBinding;
 import com.example.quickcode.databinding.FragmentVerifyPinviewBinding;
 import com.example.quickcode.databinding.FragmentVerifySuccessBinding;
+import com.example.quickcode.loginRegister.CircleStatusListener;
+import com.example.quickcode.loginRegister.SignupSharedViewModel;
+import com.example.quickcode.loginRegister.SwipeControlListener;
 import com.example.quickcode.rest.verify.VerifyError;
 import com.example.quickcode.rest.verify.VerifyFailure;
 import com.example.quickcode.rest.verify.VerifyListener;
@@ -34,7 +35,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.util.Date;
 import java.util.Locale;
 
-public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
+public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment implements CircleStatusListener {
 
     public static final String TAG = "ForgotBottomSheetDialog";
 
@@ -44,6 +45,7 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
     private Handler handler;
     private long futureTime = Integer.MIN_VALUE;
     private boolean countdownEnabled = true;
+    private SignupSharedViewModel signupSharedViewModel;
 
     @Nullable
     @Override
@@ -60,6 +62,7 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         handler = new Handler(Looper.getMainLooper());
 
         viewModel = new ViewModelProvider(this).get(VerifyViewModel.class);
+        signupSharedViewModel = new ViewModelProvider(requireActivity()).get(SignupSharedViewModel.class);
 
         updateGreetingsText(viewModel.getDisplayUsername(requireContext()));
 
@@ -90,20 +93,20 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
             FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
             fragmentBinding.verifyEmailButton.setOnClickListener(v -> {
 
-                handler.post(() -> showCircle());
+                handler.post(this::showCircle);
                 viewModel.verifyUser(
                         viewModel.getUserId(requireContext()),
                         String.valueOf(fragmentBinding.pinView.getText()),
-                        (VerifyListener) verifyStatus -> {
+                        verifyStatus -> {
                             if (verifyStatus instanceof VerifySuccess) {
-                                handler.post(() -> hideCircle());
+                                handler.post(this::hideCircle);
                                 showLottieResult(verifyStatus);
                             } else if (verifyStatus instanceof VerifyFailure) {
                                 Log.e(TAG, "Error: " + ((VerifyFailure) verifyStatus).getError());
-                                handler.post(() -> hideCircle());
+                                handler.post(this::hideCircle);
                             } else {
                                 Log.wtf(TAG, "Exception: " + ((VerifyError) verifyStatus).getException().getMessage());
-                                handler.post(() -> hideCircle());
+                                handler.post(this::hideCircle);
                             }
                         }
                 );
@@ -126,14 +129,26 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         }
     }
 
+    @Override
     public void showCircle() {
-        binding.progressVerify.setVisibility(View.VISIBLE);
-        requireActivity().getWindow().setStatusBarColor(Color.parseColor("#326577"));
+        View currentView = binding.viewSwitcher.getCurrentView();
+
+        if (currentView.getId() == R.id.switch_view_pin) {
+            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+            fragmentBinding.progressRegister.setVisibility(View.VISIBLE);
+            ((SwipeControlListener) requireActivity()).disableViewpagerSwiping();
+        }
     }
 
+    @Override
     public void hideCircle() {
-        binding.progressVerify.setVisibility(View.GONE);
-        requireActivity().getWindow().setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.lightBlue));
+        View currentView = binding.viewSwitcher.getCurrentView();
+
+        if (currentView.getId() == R.id.switch_view_pin) {
+            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+            fragmentBinding.progressRegister.setVisibility(View.GONE);
+            ((SwipeControlListener) requireActivity()).enableViewpagerSwiping();
+        }
     }
 
     @NonNull
@@ -167,10 +182,16 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
     public void onResume() {
         super.onResume();
         updateTextLifetime();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                signupSharedViewModel.hideCircle();
+            }
+        }, 1000);
     }
 
     private void updateTextLifetime() {
-        if (countdownEnabled == false)
+        if (!countdownEnabled)
             return;
 
         String lifetime = PreferenceManager.getDefaultSharedPreferences(requireContext()).getString(Consts.SP_LIFETIME, null);

@@ -3,12 +3,10 @@ package com.example.quickcode.loginRegister;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.TooltipCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -19,9 +17,13 @@ import com.example.quickcode.common.simples.SimpleOnTabSelectedListener;
 import com.example.quickcode.databinding.ActivityLoginBinding;
 import com.google.android.material.tabs.TabLayout;
 
-public class LoginActivity extends AppCompatActivity implements CircleStatusListener {
+import java.util.ArrayList;
+
+public class LoginActivity extends AppCompatActivity implements SwipeControlListener {
 
     private ActivityLoginBinding binding;
+    private SimpleOnTabSelectedListener tabSelectedListener;
+    private ArrayList<View> touchables;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +51,13 @@ public class LoginActivity extends AppCompatActivity implements CircleStatusList
             @Override
             public void onPageSelected(int position) {
                 binding.tabLayout.selectTab(position == 0 ? first : second);
+
             }
         });
 
-        binding.tabLayout.addOnTabSelectedListener(new SimpleOnTabSelectedListener() {
+        touchables = binding.tabLayout.getTouchables();
+
+        tabSelectedListener = new SimpleOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 binding.viewPager.setCurrentItem(tab.getPosition(), true);
@@ -71,7 +76,9 @@ public class LoginActivity extends AppCompatActivity implements CircleStatusList
                     fragmentByTag.addTextWatchers();
                 }
             }
-        });
+        };
+
+        binding.tabLayout.addOnTabSelectedListener(tabSelectedListener);
 
         binding.viewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
 
@@ -89,15 +96,23 @@ public class LoginActivity extends AppCompatActivity implements CircleStatusList
         }
     }
 
-    @Override
-    public void showCircle() {
-        binding.progressRegister.setVisibility(View.VISIBLE);
-        getWindow().setStatusBarColor(Color.parseColor("#326577"));
+    private void setUntouchableTab(boolean enabled) {
+        for (View v : touchables) {
+            v.setEnabled(enabled);
+        }
     }
 
     @Override
-    public void hideCircle() {
-        binding.progressRegister.setVisibility(View.GONE);
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.lightBlue));
+    public void disableViewpagerSwiping() {
+        binding.viewPager.setUserInputEnabled(false);
+        binding.tabLayout.removeOnTabSelectedListener(tabSelectedListener);
+        setUntouchableTab(false);
+    }
+
+    @Override
+    public void enableViewpagerSwiping() {
+        binding.viewPager.setUserInputEnabled(true);
+        binding.tabLayout.addOnTabSelectedListener(tabSelectedListener);
+        setUntouchableTab(true);
     }
 }

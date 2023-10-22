@@ -19,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
         runIntroductory();
         finish();
     };
-    private final int DELAY_MILLIS = 4000;
+    private final int DELAY_MILLIS = 5000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

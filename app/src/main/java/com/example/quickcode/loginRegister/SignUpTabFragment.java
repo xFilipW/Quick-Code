@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.quickcode.R;
@@ -41,13 +42,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class SignUpTabFragment extends Fragment implements CleanUpFragment {
+public class SignUpTabFragment extends Fragment implements CleanUpFragment, CircleStatusListener {
 
     private static final String TAG = "SignUpTabFragment";
 
     private FragmentSignupTabBinding binding;
     private SignUpViewModel viewModel;
     private Handler handler;
+    private SignupSharedViewModel signupSharedViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -62,6 +64,14 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
         handler = new Handler(Looper.getMainLooper());
 
         viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
+        signupSharedViewModel = new ViewModelProvider(requireActivity()).get(SignupSharedViewModel.class);
+        signupSharedViewModel.circle.observe(requireActivity(), isShown -> {
+            if (isShown) {
+                showCircle();
+            } else {
+                hideCircle();
+            }
+        });
 
         viewModel.setupTransformationMethodCheckers(binding);
         viewModel.addTextFilters(binding);
@@ -149,7 +159,7 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
             }
         }
 
-        handler.post(() -> ((CircleStatusListener) requireActivity()).showCircle());
+        signupSharedViewModel.showCircle();
 
         registerUser(getFirstNameText, getEmailText, getPasswordText);
     }
@@ -164,15 +174,15 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
                 viewModel.saveLifetime(requireContext(), lifeTime);
                 viewModel.saveUsername(requireContext(), username);
 
-                handler.post(() -> ((CircleStatusListener) requireActivity()).hideCircle());
+//                handler.post(this::hideCircle);
 
                 showVerifyBottomSheetDialogFragment();
             } else if (registerStatus instanceof RegisterFailure) {
                 Log.e(TAG, "Error: " + ((RegisterFailure) registerStatus).getError());
-                handler.post(() -> ((CircleStatusListener) requireActivity()).hideCircle());
+                signupSharedViewModel.hideCircle();
             } else {
                 Log.wtf(TAG, "Exception: " + ((RegisterError) registerStatus).getException().getMessage());
-                handler.post(() -> ((CircleStatusListener) requireActivity()).hideCircle());
+                signupSharedViewModel.hideCircle();
             }
         });
     }
@@ -186,6 +196,12 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
             fragmentByTag.dismissAllowingStateLoss();
         }
         fragmentByTag.show(supportFragmentManager, VerifyBottomSheetDialogFragment.TAG);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        handler = null;
     }
 
     private void showAlert(String title, String message) {
@@ -206,9 +222,14 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void showCircle() {
+        binding.progressRegister.setVisibility(View.VISIBLE);
+        ((SwipeControlListener) requireActivity()).disableViewpagerSwiping();
+    }
 
-        handler = null;
+    @Override
+    public void hideCircle() {
+        binding.progressRegister.setVisibility(View.GONE);
+        ((SwipeControlListener) requireActivity()).enableViewpagerSwiping();
     }
 }
