@@ -52,7 +52,7 @@
         android:layout_height="55dp"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/ripple_normal"
+        android:background="@drawable/button_ripple_normal"
         android:text="@string/verify_back_to_log_in_button"
         android:textColor="@color/white"
         android:textSize="18sp"

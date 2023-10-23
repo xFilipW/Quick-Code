@@ -1,4 +1,4 @@
-package com.example.quickcode;
+package com.example.quickcode.consts;
 
 public class Consts {
     public static String SP_USER_ID = "user_id";

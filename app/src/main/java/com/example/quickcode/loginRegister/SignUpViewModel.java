@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.widget.TextViewCompat;
 import androidx.lifecycle.ViewModel;
 
-import com.example.quickcode.Consts;
+import com.example.quickcode.consts.Consts;
 import com.example.quickcode.R;
 import com.example.quickcode.common.cleaningEditTexts.PasswordTransformationChecker;
 import com.example.quickcode.common.filters.NoEmptySpaceFilter;

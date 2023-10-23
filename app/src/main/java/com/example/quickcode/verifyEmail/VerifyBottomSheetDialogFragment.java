@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.quickcode.Consts;
+import com.example.quickcode.consts.Consts;
 import com.example.quickcode.R;
 import com.example.quickcode.common.utils.TimeUtils;
 import com.example.quickcode.databinding.ActivityVerifyEmailBinding;
@@ -26,7 +26,6 @@ import com.example.quickcode.loginRegister.SignupSharedViewModel;
 import com.example.quickcode.loginRegister.SwipeControlListener;
 import com.example.quickcode.rest.verify.VerifyError;
 import com.example.quickcode.rest.verify.VerifyFailure;
-import com.example.quickcode.rest.verify.VerifyListener;
 import com.example.quickcode.rest.verify.VerifyStatus;
 import com.example.quickcode.rest.verify.VerifySuccess;
 import com.google.android.material.bottomsheet.BottomSheetDialog;

@@ -78,7 +78,7 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
         binding.layoutOrLogin.setTranslationY(300);
         binding.fabFacebook.setTranslationY(300);
         binding.fabGoogle.setTranslationY(300);
-        binding.fabTwitter.setTranslationY(300);
+        binding.fabTwitterX.setTranslationY(300);
 
         binding.textInputLayoutLoginEmail.setAlpha(v);
         binding.textInputLayoutLoginPassword.setAlpha(v);
@@ -87,7 +87,7 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
         binding.layoutOrLogin.setAlpha(v);
         binding.fabFacebook.setAlpha(v);
         binding.fabGoogle.setAlpha(v);
-        binding.fabTwitter.setAlpha(v);
+        binding.fabTwitterX.setAlpha(v);
 
         binding.textInputLayoutLoginEmail.animate().translationY(1).alpha(1).setDuration(1000).setStartDelay(400).start();
         binding.textInputLayoutLoginPassword.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(600).start();
@@ -96,7 +96,7 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
         binding.layoutOrLogin.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1200).start();
         binding.fabFacebook.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1300).start();
         binding.fabGoogle.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1400).start();
-        binding.fabTwitter.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1500).start();
+        binding.fabTwitterX.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1500).start();
 
     }
 

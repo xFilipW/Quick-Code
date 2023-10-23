@@ -13,7 +13,7 @@ import android.widget.FrameLayout;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.quickcode.Consts;
+import com.example.quickcode.consts.Consts;
 import com.example.quickcode.R;
 import com.example.quickcode.common.utils.ScrollUtils;
 import com.example.quickcode.databinding.ActivityVerifyEmailBinding;
