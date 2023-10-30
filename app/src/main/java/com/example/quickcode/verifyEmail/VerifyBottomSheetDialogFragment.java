@@ -210,18 +210,18 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
                 long l = futureTime - currentTime;
                 long seconds = l / 1000;
 
-                if (seconds < -1) {
+                if (seconds < 0) {
                     handler.removeCallbacksAndMessages(null);
                     return;
                 }
 
                 binding.timer.setText(String.format(Locale.getDefault(), "%02d:%02d", seconds / 60, seconds % 60));
 
-                handler.postDelayed(this, 100);
+                handler.postDelayed(this, 1000);
             }
         };
 
-        handler.postDelayed(runnable, 100);
+        handler.post(runnable);
     }
 
     private void stopTextLifeTime() {

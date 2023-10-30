@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:fontFamily="@font/just"
+        android:fontFamily="@font/cabin"
         android:gravity="center"
         android:text="@string/verify_email_heading_text"
         android:textColor="@color/black"
@@ -36,10 +36,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:fontFamily="@font/just"
+        android:fontFamily="@font/cabin"
         android:gravity="center"
         android:text="@string/verify_email_subheading_text"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView1" />
@@ -81,9 +81,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/just"
+            android:fontFamily="@font/cabin"
             android:text="Didn't receive code? "
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -91,10 +91,10 @@
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:fontFamily="@font/just"
+            android:fontFamily="@font/cabin"
             android:text="Resend code"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -129,8 +129,7 @@
         android:clickable="true"
         android:focusable="true"
         android:translationZ="10dp"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/progressAnimationView"
