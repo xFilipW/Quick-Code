@@ -15,6 +15,8 @@
         <item name="android:windowAnimationStyle">@style/ActivityAnim</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.AppTheme.BottomSheetDialog</item>
         <item name="colorAccent">@color/lightBlue</item>
+
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
 
     <!-- Customize your style here. -->
@@ -31,18 +33,9 @@
         <item name="android:navigationBarColor">@color/navigationBarColor</item>
     </style>
 
-    <style name="Theme.QuickCode.SplashScreen" parent="Theme.QuickCode">
-        <item name="android:statusBarColor">@color/lightBlue</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowBackground">@color/lightBlue</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
-        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">@null</item>
-        <item name="android:enforceNavigationBarContrast" tools:targetApi="Q">false</item>
-    </style>
-
     <style name="Theme.QuickCode.OnBoarding" parent="Theme.QuickCode">
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/lightBlue</item>
     </style>
 
     <style name="Theme.QuickCode.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

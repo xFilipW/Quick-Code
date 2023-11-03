@@ -28,7 +28,7 @@
             android:id="@+id/loginEmail"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:fontFamily="@font/cabin"
+            android:fontFamily="@font/roboto"
             android:inputType="text"
             android:maxLines="1"
             android:textSize="20sp" />
@@ -58,7 +58,7 @@
             android:id="@+id/loginPassword"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:fontFamily="@font/cabin"
+            android:fontFamily="@font/roboto"
             android:inputType="textPassword"
             android:maxLines="1"
             android:textSize="20sp" />
@@ -72,7 +72,7 @@
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:fontFamily="@font/cabin"
+        android:fontFamily="@font/roboto"
         android:text="@string/log_in_page_label_forgot_password"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayoutLoginPassword"
@@ -119,7 +119,7 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:fontFamily="@font/cabin"
+            android:fontFamily="@font/roboto"
             android:text="@string/log_in_page_label_or_log_in_with"
             android:textColor="#808080"
             android:textSize="20sp" />
