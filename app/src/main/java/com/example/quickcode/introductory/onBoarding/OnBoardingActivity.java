@@ -3,10 +3,11 @@ package com.example.quickcode.introductory.onBoarding;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -16,12 +17,13 @@ import com.example.quickcode.databinding.ActivityOnBoardingBinding;
 public class OnBoardingActivity extends AppCompatActivity {
 
     public static final float ROUND_SQUARE_HEIGHT = 1.07f;
+    public static final int ANIMATION_START_DELAY = 4000;
+    public static final int ANIMATION_DURATION = 1100;
     private ActivityOnBoardingBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        super.onCreate(savedInstanceState);
 
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -29,40 +31,43 @@ public class OnBoardingActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         );
 
+        super.onCreate(savedInstanceState);
+
         binding = ActivityOnBoardingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        int realMetrics = getRealMetrics();
+        setBackgroundImageHeight(realMetrics);
         binding.imageBg.setImageResource(R.drawable.img_on_boarding_background);
-
-        binding.getRoot().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int heightInPixels = binding.getRoot().getHeight();
-
-                ViewGroup.LayoutParams layoutParams = binding.imageBg.getLayoutParams();
-                int translateYValue = (int) ((heightInPixels * ROUND_SQUARE_HEIGHT));
-                layoutParams.height = translateYValue;
-                binding.imageBg.setLayoutParams(layoutParams);
-
-                binding.getRoot().getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
-                onBackgroundImageHeightSet(translateYValue);
-            }
-        });
-
         binding.pager.setAdapter(new OnBoardingAdapter(getSupportFragmentManager()));
+        translateViews(realMetrics);
     }
 
-    private void onBackgroundImageHeightSet(int translateYValue) {
-        int expectedHeightToTranslate = translateYValue;
+    private void setBackgroundImageHeight(int realMetrics) {
+        ViewGroup.LayoutParams layoutParams = binding.imageBg.getLayoutParams();
+        layoutParams.height = realMetrics;
+        binding.imageBg.setLayoutParams(layoutParams);
+    }
 
+    private int getRealMetrics() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(displayMetrics);
+        return (int) (displayMetrics.heightPixels * ROUND_SQUARE_HEIGHT);
+    }
+
+    private void translateViews(int translateYValue) {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(() -> {
-            binding.imageBg.animate().translationY(expectedHeightToTranslate * -1).setDuration(1100).setStartDelay(4000);
-            binding.imageLogo.animate().translationY(expectedHeightToTranslate).setDuration(1100).setStartDelay(4000);
-            binding.text.animate().translationY(expectedHeightToTranslate).setDuration(1100).setStartDelay(4000);
-            binding.lottie.animate().translationY(expectedHeightToTranslate).setDuration(1100).setStartDelay(4000);
+            translateView(binding.imageBg, translateYValue * -1);
+            translateView(binding.imageLogo, translateYValue);
+            translateView(binding.text, translateYValue);
+            translateView(binding.lottie, translateYValue);
         });
+    }
+
+    @NonNull
+    private void translateView(View view, int value) {
+        view.animate().translationY(value).setDuration(ANIMATION_DURATION).setStartDelay(ANIMATION_START_DELAY);
     }
 
     @Override
