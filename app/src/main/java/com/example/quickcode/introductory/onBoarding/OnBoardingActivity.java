@@ -6,6 +6,8 @@ import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,8 @@ public class OnBoardingActivity extends AppCompatActivity {
     public static final int ANIMATION_START_DELAY = 4000;
     public static final int ANIMATION_DURATION = 1100;
     private ActivityOnBoardingBinding binding;
+
+    Animation animation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,9 @@ public class OnBoardingActivity extends AppCompatActivity {
             translateView(binding.imageLogo, translateYValue);
             translateView(binding.text, translateYValue);
             translateView(binding.lottie, translateYValue);
+
+            animation = AnimationUtils.loadAnimation(this, R.anim.on_boarding_show_up);
+            binding.pager.startAnimation(animation);
         });
     }
 

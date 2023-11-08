@@ -22,13 +22,15 @@
         android:id="@+id/imageLogo"
         android:layout_width="wrap_content"
         android:layout_height="138dp"
+        android:layout_marginBottom="8dp"
         android:adjustViewBounds="true"
         android:src="@drawable/img_quick_code_logo_with_text"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".15" />
+        app:layout_constraintVertical_bias="1"
+        tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/text"
@@ -39,22 +41,21 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/lottie"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageLogo"
-        app:layout_constraintVertical_bias="0" />
+        tools:text="@tools:sample/lorem"
+        tools:textColor="@color/black" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie"
         android:layout_width="wrap_content"
-        android:layout_height="312dp"
+        android:layout_height="314dp"
         android:adjustViewBounds="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text"
-        app:layout_constraintVertical_bias="0"
+        app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_rawRes="@raw/animation_splash" />
 

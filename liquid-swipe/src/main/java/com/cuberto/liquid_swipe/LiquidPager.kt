@@ -77,6 +77,11 @@ class LiquidPager : ViewPager, ViewTreeObserver.OnDrawListener, ViewI {
 
     override fun switchPage(direction: Int) {
         setCurrentItem(if (direction == LEFT) currentItem + 1 else currentItem - 1, false)
+
+        if(currentItem == 0)
+            setButtonDrawable(R.drawable.ic_button)
+        else
+            setButtonDrawable(R.drawable.ic_button_2)
     }
 
     override fun blockInput(block: Boolean) {

@@ -172,7 +172,6 @@ class RightEdgeController(
             drawPath(canvas)
             canvas?.drawBitmap(bitmap!!, currentItem * width.toFloat(), 0f, sourceOutPaint)
         }
-
     }
 
     private fun drawPath(canvas: Canvas?) {

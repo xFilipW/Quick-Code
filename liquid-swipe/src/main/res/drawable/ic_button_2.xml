@@ -13,14 +13,15 @@
             android:fillType="evenOdd"
             android:pathData="M24,24m-23,0a23,23 0,1 1,46 0a23,23 0,1 1,-46 0"
             android:strokeWidth="1"
-            android:strokeAlpha="0.3"
-            android:strokeColor="#000000" />
+            android:strokeAlpha="0.6"
+            android:strokeColor="#E3F2FD" />
         <path
             android:fillColor="#00000000"
             android:fillType="evenOdd"
             android:pathData="M22.2551,18l5.3033,5.3033l-5.5584,5.5584"
             android:strokeWidth="2"
-            android:strokeColor="#000000" />
+            android:strokeColor="#E3F2FD" />
     </group>
 
 </vector>
+
