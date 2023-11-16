@@ -3,10 +3,16 @@ package com.example.quickcode.loginRegister;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.TooltipCompat;
+import androidx.constraintlayout.widget.Guideline;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -28,12 +34,25 @@ public class LoginActivity extends AppCompatActivity implements SwipeControlList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.topBarrier, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ((Guideline) v).setGuidelineBegin(insets.top);
+            ViewGroup.LayoutParams layoutParams = binding.background.getLayoutParams();
+            layoutParams.height = layoutParams.height + (int) (insets.top * .5f);
+            binding.background.setLayoutParams(layoutParams);
+            return WindowInsetsCompat.CONSUMED;
+        });
+
         int navigationBarColor = Color.parseColor("#F1F1F1");
         getWindow().setNavigationBarColor(navigationBarColor);
+
         WindowInsetsControllerCompat windowInsetsControllerCompat = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
         windowInsetsControllerCompat.setAppearanceLightNavigationBars(true);
 

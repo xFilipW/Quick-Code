@@ -8,56 +8,56 @@
 
     <ImageView
         android:id="@+id/background"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         android:adjustViewBounds="true"
-        android:background="@drawable/img_login_background"
+        android:background="@drawable/png_login_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/topBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="0dp" />
+
     <ImageView
         android:id="@+id/imageLogoQuickCode"
         android:layout_width="112dp"
-        android:layout_height="98dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/img_quick_code_logo"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_marginVertical="8dp"
+        android:src="@drawable/logo_quick_code"
         app:layout_constraintBottom_toTopOf="@+id/textWelcome"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topBarrier"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/textWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
         android:fontFamily="@font/roboto"
         android:text="@string/log_in_page_label_welcome_to_quick_code"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/background"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
         app:layout_constraintLeft_toLeftOf="@+id/imageLogoQuickCode"
         app:layout_constraintRight_toRightOf="@+id/imageLogoQuickCode"
         app:layout_constraintTop_toBottomOf="@+id/imageLogoQuickCode" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toBottomOf="@id/background" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/login_shape_rounded"
+        android:background="@drawable/tab_layout_rounding"
+        app:layout_constraintBottom_toBottomOf="@+id/background"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"

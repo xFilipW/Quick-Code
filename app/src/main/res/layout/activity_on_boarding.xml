@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/liquidLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:background="@color/lightBlue">
 
     <com.cuberto.liquid_swipe.LiquidPager
         android:id="@+id/pager"
@@ -21,16 +22,15 @@
     <ImageView
         android:id="@+id/imageLogo"
         android:layout_width="wrap_content"
-        android:layout_height="138dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="148dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/img_quick_code_logo_with_text"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/logo_quick_code_text"
         app:layout_constraintBottom_toTopOf="@+id/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintVertical_bias="1" />
 
     <TextView
         android:id="@+id/text"
@@ -43,9 +43,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/lottie"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="@tools:sample/lorem"
-        tools:textColor="@color/black" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie"

@@ -3,20 +3,21 @@
     <style name="Theme.QuickCode" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/lightBlue</item>
-        <item name="colorPrimaryVariant">@color/lightBlue</item>
+        <item name="colorPrimaryVariant">@android:color/transparent</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <!-- Customize your theme here. -->
         <item name="android:windowAnimationStyle">@style/ActivityAnim</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.AppTheme.BottomSheetDialog</item>
         <item name="colorAccent">@color/lightBlue</item>
 
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <!-- Customize your style here. -->
@@ -35,7 +36,9 @@
 
     <style name="Theme.QuickCode.OnBoarding" parent="Theme.QuickCode">
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@color/lightBlue</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="Theme.QuickCode.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

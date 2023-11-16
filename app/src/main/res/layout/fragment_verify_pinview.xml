@@ -11,7 +11,7 @@
         android:layout_width="226dp"
         android:layout_height="196dp"
         android:layout_marginTop="48dp"
-        android:src="@drawable/img_email_verification"
+        android:src="@drawable/vector_verify_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

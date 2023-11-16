@@ -13,15 +13,21 @@
     <!-- CUSTOM -->
     <color name="blue">#44A3FF</color>
     <color name="darkBlue">#1034A6</color>
-    <color name="darkerBlue">#2196F3</color>
+    <color name="darkerBlue">#00ABE8</color>
     <color name="lightBlue">#65CBEF</color>
     <color name="brightestBlue">#E3F2FD</color>
+
     <color name="purple">#A371FB</color>
     <color name="lightPurple">#D1C4E9</color>
+
+    <color name="yellow">#FFFF00</color>
+
     <color name="green">#00FF00</color>
     <color name="darkerGreen">#00bb00</color>
+
     <color name="red">#FF0000</color>
     <color name="darkerRed">#BF0000</color>
+
     <color name="grey">#808080</color>
     <color name="navigationBarColor">#F1F1F1</color>
 </resources>
