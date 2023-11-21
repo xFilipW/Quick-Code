@@ -1,6 +1,5 @@
 package com.example.quickcode.loginRegister;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.constraintlayout.widget.Guideline;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity implements SwipeControlList
     private ActivityLoginBinding binding;
     private SimpleOnTabSelectedListener tabSelectedListener;
     private ArrayList<View> touchables;
+    private boolean windowInsetsCompatConsumed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +40,14 @@ public class LoginActivity extends AppCompatActivity implements SwipeControlList
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        bindUI();
+        bindStatusBar();
+        bindHeader();
+        bindNavigationBar();
+        bindTabLayout();
+    }
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.topBarrier, (v, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            ((Guideline) v).setGuidelineBegin(insets.top);
-            ViewGroup.LayoutParams layoutParams = binding.background.getLayoutParams();
-            layoutParams.height = layoutParams.height + (int) (insets.top * .5f);
-            binding.background.setLayoutParams(layoutParams);
-            return WindowInsetsCompat.CONSUMED;
-        });
-
-        int navigationBarColor = Color.parseColor("#F1F1F1");
-        getWindow().setNavigationBarColor(navigationBarColor);
-
-        WindowInsetsControllerCompat windowInsetsControllerCompat = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
-        windowInsetsControllerCompat.setAppearanceLightNavigationBars(true);
-
+    private void bindTabLayout() {
         TabLayout.Tab first = binding.tabLayout.newTab().setText(R.string.log_in_page_tab_layout_label_tab1_title);
         TabLayout.Tab second = binding.tabLayout.newTab().setText(R.string.log_in_page_tab_layout_label_tab2_title);
 
@@ -70,10 +62,10 @@ public class LoginActivity extends AppCompatActivity implements SwipeControlList
             @Override
             public void onPageSelected(int position) {
                 binding.tabLayout.selectTab(position == 0 ? first : second);
-
             }
         });
 
+        // save original touchables before further modifications
         touchables = binding.tabLayout.getTouchables();
 
         tabSelectedListener = new SimpleOnTabSelectedListener() {
@@ -104,6 +96,36 @@ public class LoginActivity extends AppCompatActivity implements SwipeControlList
         removeToolTipForTabs();
     }
 
+    private void bindStatusBar() {
+        WindowInsetsControllerCompat windowInsetsControllerCompat = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        windowInsetsControllerCompat.setAppearanceLightNavigationBars(true);
+    }
+
+    private void bindNavigationBar() {
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.navigationBarColor));
+    }
+
+    private void bindHeader() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.topBarrier, (v, windowInsets) -> {
+            if (windowInsetsCompatConsumed) {
+                ViewCompat.setOnApplyWindowInsetsListener(binding.topBarrier, null);
+                return WindowInsetsCompat.CONSUMED;
+            }
+
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ((Guideline) v).setGuidelineBegin(insets.top);
+            ViewGroup.LayoutParams layoutParams = binding.background.getLayoutParams();
+            layoutParams.height = layoutParams.height + (int) (insets.top * .5f);
+            binding.background.setLayoutParams(layoutParams);
+            windowInsetsCompatConsumed = true;
+            return WindowInsetsCompat.CONSUMED;
+        });
+    }
+
+    private void bindUI() {
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+    }
+
     private void removeToolTipForTabs() {
         for (int i = 0; i < binding.tabLayout.getTabCount(); i++) {
             TabLayout.Tab tabAt = binding.tabLayout.getTabAt(i);
@@ -111,7 +133,6 @@ public class LoginActivity extends AppCompatActivity implements SwipeControlList
             if (tabAt != null) {
                 TooltipCompat.setTooltipText(tabAt.view, null);
             }
-
         }
     }
 

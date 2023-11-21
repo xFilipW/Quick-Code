@@ -1,11 +1,9 @@
-package com.example.quickcode.introductory;
+package com.example.quickcode.loginRegister;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static com.example.quickcode.testingtools.CustomMatchers.withIndex;
 import static com.example.quickcode.testingtools.CustomMatchers.withTextColor;
 
 import android.view.View;
@@ -15,7 +13,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.quickcode.R;
-import com.example.quickcode.introductory.onBoarding.OnBoardingActivity;
 import com.example.quickcode.testingtools.MatcherUtilsJava;
 import com.example.quickcode.testingtools.SelectTabAction;
 
@@ -25,17 +22,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class SignUpTest {
+public class LoginActivityTest {
 
     @Rule
-    public ActivityScenarioRule<OnBoardingActivity> mActivityScenarioRule = new ActivityScenarioRule<>(OnBoardingActivity.class);
+    public ActivityScenarioRule<LoginActivity> mActivityScenarioRule = new ActivityScenarioRule<>(LoginActivity.class);
 
     @Test
-    public void shouldSetGreenColorWhenOneOfTheCircleCheckIsCorrect() {
-        onView(withIndex(withId(R.id.skipButton), 0))
-                .check(matches(isDisplayed()))
-                .perform(ViewActions.click());
-
+    public void testPasswordVerification_shouldHighlightGreenWhenCorrectAndDimWhenRemoved() {
         onView(withId(R.id.tabLayout))
                 .check(matches(isDisplayed()))
                 .perform(new SelectTabAction(1));
@@ -78,11 +71,7 @@ public class SignUpTest {
     }
 
     @Test
-    public void shouldSetAllGreenColorWhenAllOfTheCircleCheckIsCorrect() {
-        onView(withIndex(withId(R.id.skipButton), 0))
-                .check(matches(isDisplayed()))
-                .perform(ViewActions.click());
-
+    public void testPasswordVerification_shouldHighlightAllGreensWhenCorrectAndDimWhenRemoved() {
         onView(withId(R.id.tabLayout))
                 .check(matches(isDisplayed()))
                 .perform(new SelectTabAction(1));
