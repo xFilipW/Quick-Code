@@ -28,10 +28,10 @@
             android:id="@+id/loginEmail"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/notosans"
             android:inputType="text"
             android:maxLines="1"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -58,10 +58,10 @@
             android:id="@+id/loginPassword"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/notosans"
             android:inputType="textPassword"
             android:maxLines="1"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -72,7 +72,8 @@
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="@font/poppins"
+        android:includeFontPadding="false"
         android:text="@string/log_in_page_label_forgot_password"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayoutLoginPassword"
@@ -119,7 +120,8 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/poppins"
+            android:includeFontPadding="false"
             android:text="@string/log_in_page_label_or_log_in_with"
             android:textColor="#808080"
             android:textSize="20sp" />

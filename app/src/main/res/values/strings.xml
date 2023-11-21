@@ -11,13 +11,13 @@
     <string name="on_boarding_label_skip">Skip</string>
     <string name="on_boarding_1_title_1">Learn with us</string>
     <string name="on_boarding_1_title_2">Quickly and easily!</string>
-    <string name="on_boarding_1_main_info">Here you will find tutorials that will\nhelp you learn programming.\nWe have a database of\nover 100 tutorials!</string>
+    <string name="on_boarding_1_main_info">Dive into the world of programming \neffortlessly with our streamlined and \nuser-friendly tutorials.</string>
     <string name="on_boarding_2_title_1">Our tutorials</string>
     <string name="on_boarding_2_title_2">Are for everyone!</string>
-    <string name="on_boarding_2_main_info">We teach the basics and more advanced\nthings. No matter how old you are,\nyou will definitely find something\nfor yourself here!</string>
+    <string name="on_boarding_2_main_info">Whether you are a beginner or expert. \nOur tutorials are suitable for all skill levels. \nWe have more than 100 of them!</string>
     <string name="on_boarding_3_title_1">We pay for</string>
     <string name="on_boarding_3_title_2">Your education!</string>
-    <string name="on_boarding_3_main_info">You can study as much as you want,\nour tutorials are completely free.\nCheck how to effectively get a\nnew profession and start now!</string>
+    <string name="on_boarding_3_main_info">All our tutorials are not only well made \nbut also completely free of charge. \nThere are no limitations. Try it now!</string>
     <string name="on_boarding_3_button_text">READY</string>
 
     <string name="dialog_title_no_internet">SOONER OR LATER IT HAPPENS</string>

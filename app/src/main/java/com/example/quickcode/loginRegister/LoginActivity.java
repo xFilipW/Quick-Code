@@ -21,11 +21,12 @@ import com.example.quickcode.R;
 import com.example.quickcode.common.cleaningEditTexts.CleanUpFragment;
 import com.example.quickcode.common.simples.SimpleOnTabSelectedListener;
 import com.example.quickcode.databinding.ActivityLoginBinding;
+import com.example.quickcode.introductory.onBoarding.StatusBarListener;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
-public class LoginActivity extends AppCompatActivity implements SwipeControlListener {
+public class LoginActivity extends AppCompatActivity implements SwipeControlListener, StatusBarListener {
 
     private ActivityLoginBinding binding;
     private SimpleOnTabSelectedListener tabSelectedListener;
@@ -154,5 +155,17 @@ public class LoginActivity extends AppCompatActivity implements SwipeControlList
         binding.viewPager.setUserInputEnabled(true);
         binding.tabLayout.addOnTabSelectedListener(tabSelectedListener);
         setUntouchableTab(true);
+    }
+
+    @Override
+    public void setStatusBarTextColorLight() {
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(false);
+    }
+
+    @Override
+    public void setStatusBarTextColorDark() {
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(true);
     }
 }
