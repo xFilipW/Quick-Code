@@ -6,8 +6,8 @@ import android.content.res.ColorStateList;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
@@ -16,14 +16,12 @@ import androidx.core.content.ContextCompat;
 import androidx.core.widget.TextViewCompat;
 import androidx.lifecycle.ViewModel;
 
-import com.example.quickcode.consts.Consts;
 import com.example.quickcode.R;
 import com.example.quickcode.common.cleaningEditTexts.PasswordTransformationChecker;
 import com.example.quickcode.common.filters.NoEmptySpaceFilter;
 import com.example.quickcode.common.helpers.InputFilterHelper;
 import com.example.quickcode.common.simples.SimpleTextWatcher;
 import com.example.quickcode.common.utils.ResourceUtils;
-import com.example.quickcode.common.utils.ScrollUtils;
 import com.example.quickcode.common.validator.ContainsDigit;
 import com.example.quickcode.common.validator.ContainsLowerCase;
 import com.example.quickcode.common.validator.ContainsSpecialChar;
@@ -32,6 +30,7 @@ import com.example.quickcode.common.validator.PasswordLengthValidator;
 import com.example.quickcode.common.validator.Validator;
 import com.example.quickcode.common.validator.ValidatorHelper;
 import com.example.quickcode.common.validator.ValidatorResult;
+import com.example.quickcode.consts.Consts;
 import com.example.quickcode.databinding.FragmentSignupTabBinding;
 import com.example.quickcode.rest.QuickCodeClient;
 import com.example.quickcode.rest.register.RegisterError;
@@ -72,47 +71,41 @@ public class SignUpViewModel extends ViewModel {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    void setTouchListeners(FragmentSignupTabBinding binding) {
-        binding.password.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                ScrollUtils.smartScrollTo(() -> binding.passwordRequirements, "touch");
-            }
-            return false;
-        });
-
-        binding.confirmPassword.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                ScrollUtils.smartScrollTo(() -> binding.confirmPassword, "touch");
-            }
-            return false;
-        });
-
-        binding.scrollView.setOnTouchListener((v, event) -> {
-            View focusedChild = binding.getRoot().getFocusedChild();
-            if (focusedChild != null) {
-                focusedChild.clearFocus();
-            }
-            return false;
-        });
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
     void setFocusListeners(FragmentSignupTabBinding binding) {
-        binding.password.setOnFocusChangeListener((v, hasFocus) -> {
+        binding.textInputLayoutPassword.getEditText().setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                ScrollUtils.smartScrollTo(() -> binding.passwordRequirements, "focus");
+                extendDummy(binding, (int) (binding.getRoot().getHeight() * .5f));
+                scrollToTopsViewBorder(binding, binding.textInputLayoutPassword);
             } else {
-                ScrollUtils.cleanup();
+                extendDummy(binding, 0);
             }
         });
 
         binding.confirmPassword.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                ScrollUtils.smartScrollTo(() -> binding.confirmPassword, "focus");
+                extendDummy(binding, (int) (binding.getRoot().getHeight() * .5f));
+                scrollToTopsViewBorder(binding, binding.textInputLayoutConfirmPassword);
             } else {
-                ScrollUtils.cleanup();
+                extendDummy(binding, 0);
             }
         });
+    }
+
+    private static void scrollToTopsViewBorder(FragmentSignupTabBinding binding, final TextInputLayout targetView) {
+        binding.getRoot().post(new Runnable() {
+            @Override
+            public void run() {
+                binding.scrollView.smoothScrollTo(0, targetView.getTop());
+            }
+        });
+    }
+
+
+
+    public static void extendDummy(FragmentSignupTabBinding binding, int binding1) {
+        ViewGroup.LayoutParams layoutParams = binding.dummy.getLayoutParams();
+        layoutParams.height = binding1;
+        binding.dummy.setLayoutParams(layoutParams);
     }
 
     void setImeListeners(FragmentSignupTabBinding binding) {

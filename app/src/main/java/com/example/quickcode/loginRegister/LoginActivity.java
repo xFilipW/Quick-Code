@@ -1,13 +1,14 @@
 package com.example.quickcode.loginRegister;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.TooltipCompat;
-import androidx.constraintlayout.widget.Guideline;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity implements SwipeControlListener, StatusBarListener {
 
+    public static final int INSETS_TOP_VALUE = 1;
     private ActivityLoginBinding binding;
     private SimpleOnTabSelectedListener tabSelectedListener;
     private ArrayList<View> touchables;
@@ -66,7 +68,6 @@ public class LoginActivity extends AppCompatActivity implements SwipeControlList
             }
         });
 
-        // save original touchables before further modifications
         touchables = binding.tabLayout.getTouchables();
 
         tabSelectedListener = new SimpleOnTabSelectedListener() {
@@ -107,24 +108,31 @@ public class LoginActivity extends AppCompatActivity implements SwipeControlList
     }
 
     private void bindHeader() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.topBarrier, (v, windowInsets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, windowInsets) -> {
             if (windowInsetsCompatConsumed) {
-                ViewCompat.setOnApplyWindowInsetsListener(binding.topBarrier, null);
+                ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), null);
                 return WindowInsetsCompat.CONSUMED;
             }
 
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            ((Guideline) v).setGuidelineBegin(insets.top);
+
             ViewGroup.LayoutParams layoutParams = binding.background.getLayoutParams();
-            layoutParams.height = layoutParams.height + (int) (insets.top * .5f);
+            layoutParams.height = layoutParams.height + (insets.top * INSETS_TOP_VALUE);
             binding.background.setLayoutParams(layoutParams);
             windowInsetsCompatConsumed = true;
+
+            ViewGroup.LayoutParams layoutParams2 = binding.logoTopSeparator.getLayoutParams();
+            layoutParams2.height = insets.top;
+            binding.logoTopSeparator.setLayoutParams(layoutParams2);
+
             return WindowInsetsCompat.CONSUMED;
         });
     }
 
     private void bindUI() {
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 
     private void removeToolTipForTabs() {
