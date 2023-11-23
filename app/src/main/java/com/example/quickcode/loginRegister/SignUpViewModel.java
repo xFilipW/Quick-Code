@@ -1,18 +1,26 @@
 package com.example.quickcode.loginRegister;
 
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsAnimationCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.core.widget.TextViewCompat;
 import androidx.lifecycle.ViewModel;
 
@@ -74,38 +82,73 @@ public class SignUpViewModel extends ViewModel {
     void setFocusListeners(FragmentSignupTabBinding binding) {
         binding.textInputLayoutPassword.getEditText().setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                extendDummy(binding, (int) (binding.getRoot().getHeight() * .5f));
+                resizeView(binding, (int) (binding.getRoot().getHeight() * .5f));
                 scrollToTopsViewBorder(binding, binding.textInputLayoutPassword);
-            } else {
-                extendDummy(binding, 0);
             }
         });
 
         binding.confirmPassword.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                extendDummy(binding, (int) (binding.getRoot().getHeight() * .5f));
+                resizeView(binding, (int) (binding.getRoot().getHeight() * .5f));
                 scrollToTopsViewBorder(binding, binding.textInputLayoutConfirmPassword);
-            } else {
-                extendDummy(binding, 0);
             }
+        });
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    void setTouchListeners(FragmentSignupTabBinding binding) {
+        binding.textInputLayoutPassword.getEditText().setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                resizeView(binding, (int) (binding.getRoot().getHeight() * .5f));
+                scrollToTopsViewBorder(binding, binding.textInputLayoutPassword);
+            }
+
+            return false;
+        });
+
+        binding.confirmPassword.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                resizeView(binding, (int) (binding.getRoot().getHeight() * .5f));
+                scrollToTopsViewBorder(binding, binding.textInputLayoutConfirmPassword);
+            }
+
+            return false;
         });
     }
 
     private static void scrollToTopsViewBorder(FragmentSignupTabBinding binding, final TextInputLayout targetView) {
-        binding.getRoot().post(new Runnable() {
-            @Override
-            public void run() {
-                binding.scrollView.smoothScrollTo(0, targetView.getTop());
-            }
-        });
+        binding.getRoot().post(() -> binding.scrollView.smoothScrollTo(0, targetView.getTop()));
     }
 
+    public void resizeView(FragmentSignupTabBinding binding, int pixelHeight) {
+        ViewGroup.LayoutParams layoutParams = binding.bottomSpacer.getLayoutParams();
+        layoutParams.height = pixelHeight;
 
+        if (pixelHeight == 0) {
+            smoothResizeView(binding.bottomSpacer, binding.bottomSpacer.getHeight(), pixelHeight);
+        } else {
+            binding.bottomSpacer.setLayoutParams(layoutParams);
+        }
+    }
 
-    public static void extendDummy(FragmentSignupTabBinding binding, int binding1) {
-        ViewGroup.LayoutParams layoutParams = binding.dummy.getLayoutParams();
-        layoutParams.height = binding1;
-        binding.dummy.setLayoutParams(layoutParams);
+    public static void smoothResizeView(View view,
+                                        int currentHeight,
+                                        int newHeight) {
+
+        ValueAnimator slideAnimator = ValueAnimator
+                .ofInt(currentHeight, newHeight)
+                .setDuration(500);
+
+        slideAnimator.addUpdateListener(animation1 -> {
+            Integer value = (Integer) animation1.getAnimatedValue();
+            view.getLayoutParams().height = value.intValue();
+            view.requestLayout();
+        });
+
+        AnimatorSet animationSet = new AnimatorSet();
+        animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animationSet.play(slideAnimator);
+        animationSet.start();
     }
 
     void setImeListeners(FragmentSignupTabBinding binding) {
@@ -115,6 +158,26 @@ public class SignUpViewModel extends ViewModel {
                 return false;
             }
             return false;
+        });
+    }
+
+    public void setOnKeyboardShowed(FragmentSignupTabBinding binding) {
+        ViewCompat.setWindowInsetsAnimationCallback(binding.getRoot(), new WindowInsetsAnimationCompat.Callback(WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onProgress(@NonNull WindowInsetsCompat insets, @NonNull List<WindowInsetsAnimationCompat> runningAnimations) {
+                return insets;
+            }
+
+            @Override
+            public void onEnd(@NonNull WindowInsetsAnimationCompat animation) {
+                super.onEnd(animation);
+                boolean keyboardShowed = ViewCompat.getRootWindowInsets(binding.getRoot()).isVisible(WindowInsetsCompat.Type.ime());
+
+                if (!keyboardShowed) {
+                    resizeView(binding, 0);
+                }
+            }
         });
     }
 

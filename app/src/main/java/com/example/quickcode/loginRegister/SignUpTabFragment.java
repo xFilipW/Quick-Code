@@ -6,12 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -74,10 +71,13 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
             validateAndSignUpUser(binding, viewModel);
         }, binding);
         viewModel.setFocusListeners(binding);
+        viewModel.setTouchListeners(binding);
         viewModel.setImeListeners(binding);
+        viewModel.setOnKeyboardShowed(binding);
 
         addTextWatchers();
     }
+
 
     @Override
     public void restoreViews() {
@@ -99,32 +99,9 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
         viewModel.restorePasswordTransformationMethods(binding);
     }
 
-    void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) requireContext().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
-        requireActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                if (binding.textInputLayoutPassword.getEditText().hasFocus()) {
-                    SignUpViewModel.extendDummy(binding, 0);
-                    setEnabled(false);
-                    requireActivity().onBackPressed();
-                } else if (binding.textInputLayoutConfirmPassword.getEditText().hasFocus()) {
-                    SignUpViewModel.extendDummy(binding, 0);
-                    setEnabled(false);
-                    requireActivity().onBackPressed();
-                } else {
-                    setEnabled(false);
-                    requireActivity().onBackPressed();
-                }
-            }
-        });
     }
 
     void validateAndSignUpUser(FragmentSignupTabBinding binding, SignUpViewModel signUpViewModel) {
@@ -229,4 +206,6 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
         binding.progressRegister.setVisibility(View.GONE);
         ((SwipeControlListener) requireActivity()).enableViewpagerSwiping();
     }
+
+
 }
