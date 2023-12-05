@@ -34,6 +34,12 @@
         <item name="android:navigationBarColor">@color/navigationBarColor</item>
     </style>
 
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowFullscreen">false</item>
+    </style>
+
     <style name="Theme.QuickCode.OnBoarding" parent="Theme.QuickCode">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>

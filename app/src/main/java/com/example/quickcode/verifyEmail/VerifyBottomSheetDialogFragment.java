@@ -2,6 +2,7 @@ package com.example.quickcode.verifyEmail;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,6 +52,10 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = ActivityVerifyEmailBinding.inflate(inflater, container, false);
+        Window window = getDialog().getWindow();
+        if(window != null) {
+            window.setStatusBarColor(Color.parseColor("#65CBEF"));
+        }
         return binding.getRoot();
     }
 
@@ -70,6 +76,13 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
         viewModel.setFocusListeners(binding);
 
         setOnClickListeners(binding);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(STYLE_NORMAL, R.style.BottomSheetDialogTheme);
+
     }
 
     private void updateGreetingsText(String displayUsername) {

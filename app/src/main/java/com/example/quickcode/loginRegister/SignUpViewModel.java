@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
@@ -72,10 +73,6 @@ public class SignUpViewModel extends ViewModel {
         InputFilterHelper.addFilter(binding.email, new NoEmptySpaceFilter());
         InputFilterHelper.addFilter(binding.password, new NoEmptySpaceFilter());
         InputFilterHelper.addFilter(binding.confirmPassword, new NoEmptySpaceFilter());
-    }
-
-    void setListeners(View.OnClickListener onClickListener, FragmentSignupTabBinding binding) {
-        binding.signUpButton.setOnClickListener(onClickListener);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -179,6 +176,11 @@ public class SignUpViewModel extends ViewModel {
                 }
             }
         });
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     ValidatorResult validateAndGetResult(TextInputLayout textInputLayout, List<Validator> validatorList) {

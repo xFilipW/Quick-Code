@@ -67,9 +67,12 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
 
         viewModel.setupTransformationMethodCheckers(binding);
         viewModel.addTextFilters(binding);
-        viewModel.setListeners(v -> {
-            validateAndSignUpUser(binding, viewModel);
-        }, binding);
+
+        binding.signUpButton.setOnClickListener(v -> {
+            //validateAndSignUpUser(binding, viewModel);
+            showVerifyBottomSheetDialogFragment();
+        });
+
         viewModel.setFocusListeners(binding);
         viewModel.setTouchListeners(binding);
         viewModel.setImeListeners(binding);
@@ -157,6 +160,8 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
                 return;
             }
         }
+
+        signUpViewModel.hideKeyboard(binding.signUpButton);
 
         signupSharedViewModel.showCircle();
 

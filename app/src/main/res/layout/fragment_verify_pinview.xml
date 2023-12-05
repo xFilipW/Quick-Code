@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/switch_view_pin"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="226dp"
-        android:layout_height="196dp"
+        android:layout_width="275dp"
+        android:layout_height="206dp"
         android:layout_marginTop="48dp"
         android:src="@drawable/vector_verify_email"
         app:layout_constraintEnd_toEndOf="parent"
