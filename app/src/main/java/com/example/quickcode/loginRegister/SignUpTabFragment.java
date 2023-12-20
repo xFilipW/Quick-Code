@@ -190,6 +190,10 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
     }
 
     private void showVerifyBottomSheetDialogFragment() {
+        ((LoginActivity) requireActivity()).animateStatusBarColor(
+                android.R.color.transparent,
+                R.color.lightBlue);
+
         FragmentManager supportFragmentManager = requireActivity().getSupportFragmentManager();
         BottomSheetDialogFragment fragmentByTag = (BottomSheetDialogFragment) supportFragmentManager.findFragmentByTag(VerifyBottomSheetDialogFragment.TAG);
         if (fragmentByTag == null) {
@@ -211,6 +215,5 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
         binding.progressRegister.setVisibility(View.GONE);
         ((SwipeControlListener) requireActivity()).enableViewpagerSwiping();
     }
-
 
 }

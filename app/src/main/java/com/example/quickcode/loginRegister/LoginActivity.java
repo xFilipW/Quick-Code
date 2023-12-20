@@ -1,11 +1,14 @@
 package com.example.quickcode.loginRegister;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import androidx.annotation.ColorRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.TooltipCompat;
@@ -174,5 +177,22 @@ public class LoginActivity extends AppCompatActivity implements SwipeControlList
     public void setStatusBarTextColorDark() {
         WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
         controller.setAppearanceLightStatusBars(true);
+    }
+
+    public void animateStatusBarColor(@ColorRes int startColor, @ColorRes int endColor) {
+        ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+        int animationDuration = 500;
+        int startColorVal = ContextCompat.getColor(this, startColor);
+        int endColorVal = ContextCompat.getColor(this, endColor);
+        ValueAnimator colorAnimator = ValueAnimator.ofObject(argbEvaluator, startColorVal, endColorVal);
+        colorAnimator.setDuration(animationDuration);
+        colorAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                int animatedColor = (int) animator.getAnimatedValue();
+                getWindow().setStatusBarColor(animatedColor);
+            }
+        });
+        colorAnimator.start();
     }
 }

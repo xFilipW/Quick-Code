@@ -2,7 +2,7 @@ package com.example.quickcode.verifyEmail;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.graphics.Color;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,19 +11,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.quickcode.consts.Consts;
 import com.example.quickcode.R;
 import com.example.quickcode.common.utils.TimeUtils;
+import com.example.quickcode.consts.Consts;
 import com.example.quickcode.databinding.ActivityVerifyEmailBinding;
 import com.example.quickcode.databinding.FragmentVerifyPinviewBinding;
 import com.example.quickcode.databinding.FragmentVerifySuccessBinding;
 import com.example.quickcode.loginRegister.CircleStatusListener;
+import com.example.quickcode.loginRegister.LoginActivity;
 import com.example.quickcode.loginRegister.SignupSharedViewModel;
 import com.example.quickcode.loginRegister.SwipeControlListener;
 import com.example.quickcode.rest.verify.VerifyError;
@@ -52,10 +52,6 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = ActivityVerifyEmailBinding.inflate(inflater, container, false);
-        Window window = getDialog().getWindow();
-        if(window != null) {
-            window.setStatusBarColor(Color.parseColor("#65CBEF"));
-        }
         return binding.getRoot();
     }
 
@@ -249,4 +245,13 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
         handler.removeCallbacksAndMessages(null);
     }
 
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        ((LoginActivity) requireActivity()).animateStatusBarColor(
+                R.color.lightBlue,
+                android.R.color.transparent
+        );
+    }
 }
