@@ -45,7 +45,15 @@ This is a mobile application for Android, which will include "how to learn progr
 
   Kotlin
   
-  [![kotlin][kotlin.io]][kotlin-url]
+  [![Kotlin][Kotlin.io]][Kotlin-url]
+  
+  PHP
+  
+  [![PHP][PHP.io]][PHP-url]
+  
+  MySql
+  
+  [![MySql][MySql.io]][MySql-url]
   
 ## Currently application contains
 - Splash screen
@@ -71,3 +79,7 @@ Not yet able to download. It will be available soon.
 [Java-url]: https://www.java.com
 [Kotlin.io]: https://skillicons.dev/icons?i=kotlin&theme=light
 [Kotlin-url]: https://kotlinlang.org
+[PHP.io]: https://skillicons.dev/icons?i=php&theme=light
+[PHP-url]: https://www.php.net
+[MySql.io]: https://skillicons.dev/icons?i=mysql&theme=light
+[MySql-url]: https://www.mysql.com
