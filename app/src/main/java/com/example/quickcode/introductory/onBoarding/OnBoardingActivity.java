@@ -84,6 +84,7 @@ public class OnBoardingActivity extends AppCompatActivity implements StatusBarLi
         handler.post(() -> {
             translateView(binding.imageBg, translateYValue * -1);
             translateView(binding.imageLogo, translateYValue);
+            translateView(binding.appNameText, translateYValue);
             translateView(binding.text, translateYValue);
 
             translateView(binding.lottie, translateYValue).setListener(new SimpleAnimationListener() {
