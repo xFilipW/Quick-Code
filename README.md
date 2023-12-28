@@ -20,7 +20,7 @@
 <div align="center">
 
   <p>
-    (Sped-up video)
+  (Demo)
   </p>
   
   <p>
@@ -33,36 +33,21 @@
 This is a mobile application for Android, which will include "how to learn programming" tutorials. Application is under construction. More info comming soon.
 
 ## Built With
+
+<div align="center">
+
+	[![Android][Android.io]][Android-url] [![Java][Java.io]][Java-url] [![Kotlin][Kotlin.io]][Kotlin-url] [![PHP][PHP.io]][PHP-url] [![MySql][MySql.io]][MySql-url]
+
+</div>
  
-  Android
-  
-  [![Android][Android.io]][Android-url]
-
-  Java
-
-  [![Java][Java.io]][Java-url]
-
-
-  Kotlin
-  
-  [![Kotlin][Kotlin.io]][Kotlin-url]
-  
-  PHP
-  
-  [![PHP][PHP.io]][PHP-url]
-  
-  MySql
-  
-  [![MySql][MySql.io]][MySql-url]
-  
 ## Currently application contains
 - Splash screen
-- 3 pages of introduction
+- 3 screens of introduction
 - Login form
 - Sign up form
 - Forgot password screen
-- E-mail verification screen
 - Reset password screen
+- E-mail verification screen
 
 ## Contributing
 Any contributions will be greatly appreciated.
