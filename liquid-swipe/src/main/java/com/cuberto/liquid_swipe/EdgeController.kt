@@ -17,8 +17,8 @@ abstract class EdgeController(
     protected val view: ViewI
 ) {
 
-    protected val SWITCH_ANIMATION_DURATION = 700L
-    protected val Y_RATIO = 0.3f
+    protected val SWITCH_ANIMATION_DURATION = 900L
+    protected val Y_RATIO = 0.45f
 
     protected var helper: AnimationHelper
 

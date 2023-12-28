@@ -4,16 +4,16 @@ import android.text.method.TransformationMethod;
 
 import com.example.quickcode.common.cleaningEditTexts.PasswordTransformationChecker;
 import com.example.quickcode.common.simples.SimpleTextWatcher;
-import com.example.quickcode.databinding.SignupTabFragmentBinding;
+import com.example.quickcode.databinding.FragmentSignupTabBinding;
 
 class PasswordTextWatcher extends SimpleTextWatcher {
 
-    private final BindingProvider<SignupTabFragmentBinding> bindingBindingProvider;
+    private final BindingProvider<FragmentSignupTabBinding> bindingBindingProvider;
     private final PasswordTransformationChecker passwordTransformationChecker;
     private final PasswordTextPostCallback passwordTextPostCallback;
 
     public PasswordTextWatcher(
-            BindingProvider<SignupTabFragmentBinding> bindingBindingProvider,
+            BindingProvider<FragmentSignupTabBinding> bindingBindingProvider,
             PasswordTransformationChecker passwordTransformationChecker,
             PasswordTextPostCallback passwordTextPostCallback) {
         this.bindingBindingProvider = bindingBindingProvider;
@@ -23,7 +23,7 @@ class PasswordTextWatcher extends SimpleTextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        SignupTabFragmentBinding binding = bindingBindingProvider.provide();
+        FragmentSignupTabBinding binding = bindingBindingProvider.provide();
         TransformationMethod transformationMethod = binding.password.getTransformationMethod();
 
         if (passwordTransformationChecker.hasTransformationMethodChanged(transformationMethod)) {

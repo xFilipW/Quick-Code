@@ -22,7 +22,7 @@
   <p>
   (Demo)
   </p>
-   
+  
   <p>
     <img src="./preview/Preview.gif" height="500">
   </p>
@@ -66,3 +66,7 @@ Not yet able to download. It will be available soon.
 [Java-url]: https://www.java.com
 [Kotlin.io]: https://skillicons.dev/icons?i=kotlin&theme=light
 [Kotlin-url]: https://kotlinlang.org
+[PHP.io]: https://skillicons.dev/icons?i=php&theme=light
+[PHP-url]: https://www.php.net
+[MySql.io]: https://skillicons.dev/icons?i=mysql&theme=light
+[MySql-url]: https://www.mysql.com

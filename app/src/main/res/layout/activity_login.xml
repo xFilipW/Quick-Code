@@ -6,57 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".loginRegister.LoginActivity">
 
-    <View
+    <ImageView
         android:id="@+id/background"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/lightBlue"
+        android:adjustViewBounds="true"
+        android:background="@drawable/png_login_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:id="@+id/logoTopSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toTopOf="@id/imageLogoQuickCode"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
     <ImageView
         android:id="@+id/imageLogoQuickCode"
-        android:layout_width="112dp"
-        android:layout_height="98dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_logo_quick_code_without_text"
+        android:layout_width="wrap_content"
+        android:layout_height="72dp"
+        android:layout_marginVertical="8dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/logo_quick_code"
         app:layout_constraintBottom_toTopOf="@+id/textWelcome"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@+id/logoTopSeparator" />
 
     <TextView
         android:id="@+id/textWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
-        android:fontFamily="@font/just"
+        android:fontFamily="@font/poppins"
+        android:includeFontPadding="false"
         android:text="@string/log_in_page_label_welcome_to_quick_code"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/background"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
         app:layout_constraintLeft_toLeftOf="@+id/imageLogoQuickCode"
         app:layout_constraintRight_toRightOf="@+id/imageLogoQuickCode"
         app:layout_constraintTop_toBottomOf="@+id/imageLogoQuickCode" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toBottomOf="@id/background" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_header_rounded"
+        android:background="@drawable/tab_layout_rounding"
+        app:layout_constraintBottom_toBottomOf="@+id/background"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"

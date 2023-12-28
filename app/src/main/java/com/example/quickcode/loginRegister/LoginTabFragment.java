@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.quickcode.R;
 import com.example.quickcode.common.cleaningEditTexts.CleanUpFragment;
 import com.example.quickcode.common.cleaningEditTexts.PasswordTransformationChecker;
 import com.example.quickcode.common.simples.SimpleTextWatcher;
@@ -21,7 +22,7 @@ import com.example.quickcode.common.validator.IsEmptyValidator;
 import com.example.quickcode.common.validator.Validator;
 import com.example.quickcode.common.validator.ValidatorHelper;
 import com.example.quickcode.common.validator.ValidatorResult;
-import com.example.quickcode.databinding.LoginTabFragmentBinding;
+import com.example.quickcode.databinding.FragmentLoginTabBinding;
 import com.example.quickcode.forgotPassword.ForgotBottomSheetDialogFragment;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
@@ -30,7 +31,7 @@ import java.util.List;
 
 public class LoginTabFragment extends Fragment implements CleanUpFragment {
 
-    private LoginTabFragmentBinding binding;
+    private FragmentLoginTabBinding binding;
 
     private SimpleTextWatcher emailOrPhoneNumberTextWatcher;
     private SimpleTextWatcher passwordTextWatcher;
@@ -38,7 +39,7 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        binding = LoginTabFragmentBinding.inflate(inflater, container, false);
+        binding = FragmentLoginTabBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -55,6 +56,10 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
         binding.forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((LoginActivity) requireActivity()).animateStatusBarColor(
+                        android.R.color.transparent,
+                        R.color.lightBlue);
+
                 FragmentManager parentFragmentManager = requireActivity().getSupportFragmentManager();
                 BottomSheetDialogFragment fragmentByTag = (BottomSheetDialogFragment) parentFragmentManager.findFragmentByTag(ForgotBottomSheetDialogFragment.TAG);
 
@@ -71,32 +76,32 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
 
         float v = 0;
 
-        binding.textInputLayoutEmailOrPhoneNumber.setTranslationY(300);
-        binding.textInputLayoutPassword.setTranslationY(300);
+        binding.textInputLayoutLoginEmail.setTranslationY(300);
+        binding.textInputLayoutLoginPassword.setTranslationY(300);
         binding.forgotPassword.setTranslationY(300);
         binding.logInButton.setTranslationY(300);
         binding.layoutOrLogin.setTranslationY(300);
         binding.fabFacebook.setTranslationY(300);
         binding.fabGoogle.setTranslationY(300);
-        binding.fabTwitter.setTranslationY(300);
+        binding.fabTwitterX.setTranslationY(300);
 
-        binding.textInputLayoutEmailOrPhoneNumber.setAlpha(v);
-        binding.textInputLayoutPassword.setAlpha(v);
+        binding.textInputLayoutLoginEmail.setAlpha(v);
+        binding.textInputLayoutLoginPassword.setAlpha(v);
         binding.forgotPassword.setAlpha(v);
         binding.logInButton.setAlpha(v);
         binding.layoutOrLogin.setAlpha(v);
         binding.fabFacebook.setAlpha(v);
         binding.fabGoogle.setAlpha(v);
-        binding.fabTwitter.setAlpha(v);
+        binding.fabTwitterX.setAlpha(v);
 
-        binding.textInputLayoutEmailOrPhoneNumber.animate().translationY(1).alpha(1).setDuration(1000).setStartDelay(400).start();
-        binding.textInputLayoutPassword.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(600).start();
+        binding.textInputLayoutLoginEmail.animate().translationY(1).alpha(1).setDuration(1000).setStartDelay(400).start();
+        binding.textInputLayoutLoginPassword.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(600).start();
         binding.forgotPassword.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(600).start();
         binding.logInButton.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1000).start();
         binding.layoutOrLogin.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1200).start();
         binding.fabFacebook.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1300).start();
         binding.fabGoogle.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1400).start();
-        binding.fabTwitter.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1500).start();
+        binding.fabTwitterX.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1500).start();
 
     }
 
@@ -112,17 +117,17 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
 
     private void validateAndLogInUser() {
 
-        String getEmailOrPhoneNumber = binding.emailOrPhoneNumber.getText().toString();
-        String getPassword = binding.passwordLogin.getText().toString();
+        String getEmailOrPhoneNumber = binding.loginEmail.getText().toString();
+        String getPassword = binding.loginPassword.getText().toString();
 
         boolean success = true;
 
-        ValidatorResult validateEmailAndPhoneNumber = validateText(binding.textInputLayoutEmailOrPhoneNumber, List.of(new IsEmptyValidator(getEmailOrPhoneNumber)));
+        ValidatorResult validateEmailAndPhoneNumber = validateText(binding.textInputLayoutLoginEmail, List.of(new IsEmptyValidator(getEmailOrPhoneNumber)));
         if (validateEmailAndPhoneNumber instanceof ValidatorResult.Error) {
             success = false;
         }
 
-        ValidatorResult validatePassword = validateText(binding.textInputLayoutPassword, List.of(new IsEmptyValidator(getPassword)));
+        ValidatorResult validatePassword = validateText(binding.textInputLayoutLoginPassword, List.of(new IsEmptyValidator(getPassword)));
         if (validatePassword instanceof ValidatorResult.Error) {
             success = false;
         }
@@ -138,12 +143,12 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
     }
 
     @Override
-    public void cleanViews() {
-        binding.textInputLayoutEmailOrPhoneNumber.setError(null);
-        binding.emailOrPhoneNumber.setText(null);
+    public void restoreViews() {
+        binding.textInputLayoutLoginEmail.setError(null);
+        binding.loginEmail.setText(null);
 
-        binding.textInputLayoutPassword.setError(null);
-        binding.passwordLogin.setText(null);
+        binding.textInputLayoutLoginPassword.setError(null);
+        binding.loginPassword.setText(null);
     }
 
     @Override
@@ -151,36 +156,36 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
         emailOrPhoneNumberTextWatcher = new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.textInputLayoutEmailOrPhoneNumber.setError(null);
+                binding.textInputLayoutLoginEmail.setError(null);
             }
         };
 
         passwordTextWatcher = new PasswordTextWatcher();
 
-        binding.emailOrPhoneNumber.addTextChangedListener(emailOrPhoneNumberTextWatcher);
-        binding.passwordLogin.addTextChangedListener(passwordTextWatcher);
+        binding.loginEmail.addTextChangedListener(emailOrPhoneNumberTextWatcher);
+        binding.loginPassword.addTextChangedListener(passwordTextWatcher);
     }
 
     @Override
     public void removeTextWatchers() {
-        binding.emailOrPhoneNumber.removeTextChangedListener(emailOrPhoneNumberTextWatcher);
-        binding.passwordLogin.removeTextChangedListener(passwordTextWatcher);
+        binding.loginEmail.removeTextChangedListener(emailOrPhoneNumberTextWatcher);
+        binding.loginPassword.removeTextChangedListener(passwordTextWatcher);
     }
 
     @Override
     public void restorePasswordTransformationMethods() {
-        binding.passwordLogin.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        binding.passwordLogin.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        binding.loginPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        binding.loginPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
     }
 
     private void setUpTransformationMethodCheckers() {
-        passwordTransformationChecker = new PasswordTransformationChecker(binding.passwordLogin.getTransformationMethod());
+        passwordTransformationChecker = new PasswordTransformationChecker(binding.loginPassword.getTransformationMethod());
     }
 
     private class PasswordTextWatcher extends SimpleTextWatcher {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            TransformationMethod transformationMethod = binding.passwordLogin.getTransformationMethod();
+            TransformationMethod transformationMethod = binding.loginPassword.getTransformationMethod();
 
             if (passwordTransformationChecker.hasTransformationMethodChanged(transformationMethod)) {
                 passwordTransformationChecker.updatePasswordTransformationMethod(transformationMethod);
