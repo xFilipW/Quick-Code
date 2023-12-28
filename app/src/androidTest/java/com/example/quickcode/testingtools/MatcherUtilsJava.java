@@ -50,8 +50,11 @@ public class MatcherUtilsJava {
             public void describeTo(Description description) {
                 description.appendText("with color: ");
 
-                if(textViewWeakReference != null && textViewWeakReference.get() != null) {
-                    description.appendValue(ContextCompat.getColor(textViewWeakReference.get().getContext(), colorResId));
+                if (textViewWeakReference != null) {
+                    TextView textView = textViewWeakReference.get();
+                    if (textView != null) {
+                        description.appendValue(ContextCompat.getColor(textView.getContext(), colorResId));
+                    }
                 }
             }
         };

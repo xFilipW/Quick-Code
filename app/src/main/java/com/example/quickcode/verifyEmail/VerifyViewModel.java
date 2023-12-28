@@ -3,6 +3,8 @@ package com.example.quickcode.verifyEmail;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,13 +15,12 @@ import android.widget.FrameLayout;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.quickcode.Consts;
 import com.example.quickcode.R;
 import com.example.quickcode.common.utils.ScrollUtils;
+import com.example.quickcode.consts.Consts;
 import com.example.quickcode.databinding.ActivityVerifyEmailBinding;
-import com.example.quickcode.loginRegister.SignUpViewModel;
+import com.example.quickcode.databinding.FragmentVerifyPinviewBinding;
 import com.example.quickcode.rest.QuickCodeClient;
-import com.example.quickcode.rest.register.RegisterSuccess;
 import com.example.quickcode.rest.verify.VerifyError;
 import com.example.quickcode.rest.verify.VerifyFailure;
 import com.example.quickcode.rest.verify.VerifyListener;
@@ -48,28 +49,40 @@ public class VerifyViewModel extends ViewModel {
 
     @SuppressLint("ClickableViewAccessibility")
     void setTouchListeners(ActivityVerifyEmailBinding binding) {
-        binding.pinView.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                ScrollUtils.smartScrollTo(() -> binding.pinView, "touch");
-            }
-            return false;
-        });
+        View currentView = binding.viewSwitcher.getCurrentView();
 
-        binding.scrollView.setOnTouchListener((v, event) -> {
-            if (binding.pinView.hasFocus()) {
-                binding.pinView.clearFocus();
-            }
-            return false;
-        });
+        if (currentView.getId() == R.id.switch_view_pin) {
+            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+
+            fragmentBinding.pinView.setOnTouchListener((v, event) -> {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    ScrollUtils.smartScrollTo(() -> fragmentBinding.pinView, "touch");
+                }
+                return false;
+            });
+
+            binding.scrollView.setOnTouchListener((v, event) -> {
+                if (fragmentBinding.pinView.hasFocus()) {
+                    fragmentBinding.pinView.clearFocus();
+                }
+                return false;
+            });
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     void setFocusListeners(ActivityVerifyEmailBinding binding) {
-        binding.pinView.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                ScrollUtils.smartScrollTo(() -> binding.pinView, "focus");
-            }
-        });
+        View currentView = binding.viewSwitcher.getCurrentView();
+
+        if (currentView.getId() == R.id.switch_view_pin) {
+            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+
+            fragmentBinding.pinView.setOnFocusChangeListener((v, hasFocus) -> {
+                if (hasFocus) {
+                    ScrollUtils.smartScrollTo(() -> fragmentBinding.pinView, "focus");
+                }
+            });
+        }
     }
 
     public void setExpanded(BottomSheetDialog bottomSheetDialog) {
@@ -112,6 +125,7 @@ public class VerifyViewModel extends ViewModel {
     public void verifyUser(long userId, String token, VerifyListener verifyListener) {
         QuickCodeClient instance = QuickCodeClient.getInstance();
 
+        Handler handler = new Handler(Looper.getMainLooper());
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         executor.execute(() -> {
@@ -127,13 +141,19 @@ public class VerifyViewModel extends ViewModel {
                 VerifyResponse body = execute.body();
 
                 if (execute.isSuccessful()) {
-                    verifyListener.onVerify(new VerifySuccess(body));
+                    handler.post(() ->
+                            verifyListener.onVerify(new VerifySuccess(body))
+                    );
                 } else {
-                    verifyListener.onVerify(new VerifyFailure(body.error_code));
+                    handler.post(() ->
+                            verifyListener.onVerify(new VerifyFailure(body.error_code))
+                    );
                 }
             } catch (IOException e) {
-                verifyListener.onVerify(new VerifyError(e));
-                e.printStackTrace();
+                handler.post(() -> {
+                    verifyListener.onVerify(new VerifyError(e));
+                    e.printStackTrace();
+                });
             }
         });
     }
@@ -143,4 +163,8 @@ public class VerifyViewModel extends ViewModel {
                 .getLong(Consts.SP_USER_ID, -1);
     }
 
+    public String getDisplayUsername(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(Consts.SP_USERNAME, null);
+    }
 }

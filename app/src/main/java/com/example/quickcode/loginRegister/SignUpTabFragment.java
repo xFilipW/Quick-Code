@@ -1,10 +1,7 @@
 package com.example.quickcode.loginRegister;
 
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +9,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -29,7 +25,7 @@ import com.example.quickcode.common.validator.NoDigitValidator;
 import com.example.quickcode.common.validator.NoSpecialCharValidator;
 import com.example.quickcode.common.validator.SameTextsValidator;
 import com.example.quickcode.common.validator.ValidatorResult;
-import com.example.quickcode.databinding.SignupTabFragmentBinding;
+import com.example.quickcode.databinding.FragmentSignupTabBinding;
 import com.example.quickcode.rest.register.RegisterError;
 import com.example.quickcode.rest.register.RegisterFailure;
 import com.example.quickcode.rest.register.RegisterSuccess;
@@ -41,17 +37,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class SignUpTabFragment extends Fragment implements CleanUpFragment {
+public class SignUpTabFragment extends Fragment implements CleanUpFragment, CircleStatusListener {
 
     private static final String TAG = "SignUpTabFragment";
 
-    private SignupTabFragmentBinding binding;
+    private FragmentSignupTabBinding binding;
     private SignUpViewModel viewModel;
-    private Handler handler;
+    private SignupSharedViewModel signupSharedViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        binding = SignupTabFragmentBinding.inflate(inflater, container, false);
+        binding = FragmentSignupTabBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -59,19 +55,28 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        handler = new Handler(Looper.getMainLooper());
-
         viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
+        signupSharedViewModel = new ViewModelProvider(requireActivity()).get(SignupSharedViewModel.class);
+        signupSharedViewModel.circle.observe(requireActivity(), isShown -> {
+            if (isShown) {
+                showCircle();
+            } else {
+                hideCircle();
+            }
+        });
 
         viewModel.setupTransformationMethodCheckers(binding);
         viewModel.addTextFilters(binding);
-        viewModel.setListeners(v -> {
-            handler.post(() -> ((CircleStatusListener) requireActivity()).showCircle());
+
+        binding.signUpButton.setOnClickListener(v -> {
             validateAndSignUpUser(binding, viewModel);
-        }, binding);
-        viewModel.setTouchListeners(binding);
+            //showVerifyBottomSheetDialogFragment();
+        });
+
         viewModel.setFocusListeners(binding);
+        viewModel.setTouchListeners(binding);
         viewModel.setImeListeners(binding);
+        viewModel.setOnKeyboardShowed(binding);
 
         addTextWatchers();
     }
@@ -96,7 +101,12 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
         viewModel.restorePasswordTransformationMethods(binding);
     }
 
-    void validateAndSignUpUser(SignupTabFragmentBinding binding, SignUpViewModel signUpViewModel) {
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
+
+    void validateAndSignUpUser(FragmentSignupTabBinding binding, SignUpViewModel signUpViewModel) {
         if (!NetworkUtils.isNetworkAvailable(binding.getRoot().getContext())) {
             DialogHelper.showAlertDialogErrorGeneral(binding.getRoot().getContext(), R.string.dialog_title_no_internet, R.string.dialog_message_no_internet);
             return;
@@ -150,6 +160,10 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
             }
         }
 
+        signUpViewModel.hideKeyboard(binding.signUpButton);
+
+        signupSharedViewModel.showCircle();
+
         registerUser(getFirstNameText, getEmailText, getPasswordText);
     }
 
@@ -161,21 +175,24 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
 
                 viewModel.saveUserId(requireContext(), userId);
                 viewModel.saveLifetime(requireContext(), lifeTime);
-
-                handler.post(() -> ((CircleStatusListener) requireActivity()).hideCircle());
+                viewModel.saveUsername(requireContext(), username);
 
                 showVerifyBottomSheetDialogFragment();
             } else if (registerStatus instanceof RegisterFailure) {
                 Log.e(TAG, "Error: " + ((RegisterFailure) registerStatus).getError());
-                handler.post(() -> ((CircleStatusListener) requireActivity()).hideCircle());
+                signupSharedViewModel.hideCircle();
             } else {
                 Log.wtf(TAG, "Exception: " + ((RegisterError) registerStatus).getException().getMessage());
-                handler.post(() -> ((CircleStatusListener) requireActivity()).hideCircle());
+                signupSharedViewModel.hideCircle();
             }
         });
     }
 
     private void showVerifyBottomSheetDialogFragment() {
+        ((LoginActivity) requireActivity()).animateStatusBarColor(
+                android.R.color.transparent,
+                R.color.lightBlue);
+
         FragmentManager supportFragmentManager = requireActivity().getSupportFragmentManager();
         BottomSheetDialogFragment fragmentByTag = (BottomSheetDialogFragment) supportFragmentManager.findFragmentByTag(VerifyBottomSheetDialogFragment.TAG);
         if (fragmentByTag == null) {
@@ -186,27 +203,16 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment {
         fragmentByTag.show(supportFragmentManager, VerifyBottomSheetDialogFragment.TAG);
     }
 
-    private void showAlert(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext())
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        Intent intent = new Intent(requireContext(), LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
-                });
-        AlertDialog ok = builder.create();
-        ok.show();
+    @Override
+    public void showCircle() {
+        binding.progressRegister.setVisibility(View.VISIBLE);
+        ((SwipeControlListener) requireActivity()).disableViewpagerSwiping();
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-        handler = null;
+    public void hideCircle() {
+        binding.progressRegister.setVisibility(View.GONE);
+        ((SwipeControlListener) requireActivity()).enableViewpagerSwiping();
     }
+
 }

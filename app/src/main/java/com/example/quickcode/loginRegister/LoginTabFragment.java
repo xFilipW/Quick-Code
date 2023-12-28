@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.quickcode.R;
 import com.example.quickcode.common.cleaningEditTexts.CleanUpFragment;
 import com.example.quickcode.common.cleaningEditTexts.PasswordTransformationChecker;
 import com.example.quickcode.common.simples.SimpleTextWatcher;
@@ -21,7 +22,7 @@ import com.example.quickcode.common.validator.IsEmptyValidator;
 import com.example.quickcode.common.validator.Validator;
 import com.example.quickcode.common.validator.ValidatorHelper;
 import com.example.quickcode.common.validator.ValidatorResult;
-import com.example.quickcode.databinding.LoginTabFragmentBinding;
+import com.example.quickcode.databinding.FragmentLoginTabBinding;
 import com.example.quickcode.forgotPassword.ForgotBottomSheetDialogFragment;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
@@ -30,7 +31,7 @@ import java.util.List;
 
 public class LoginTabFragment extends Fragment implements CleanUpFragment {
 
-    private LoginTabFragmentBinding binding;
+    private FragmentLoginTabBinding binding;
 
     private SimpleTextWatcher emailOrPhoneNumberTextWatcher;
     private SimpleTextWatcher passwordTextWatcher;
@@ -38,7 +39,7 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        binding = LoginTabFragmentBinding.inflate(inflater, container, false);
+        binding = FragmentLoginTabBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -55,6 +56,10 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
         binding.forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((LoginActivity) requireActivity()).animateStatusBarColor(
+                        android.R.color.transparent,
+                        R.color.lightBlue);
+
                 FragmentManager parentFragmentManager = requireActivity().getSupportFragmentManager();
                 BottomSheetDialogFragment fragmentByTag = (BottomSheetDialogFragment) parentFragmentManager.findFragmentByTag(ForgotBottomSheetDialogFragment.TAG);
 
@@ -78,7 +83,7 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
         binding.layoutOrLogin.setTranslationY(300);
         binding.fabFacebook.setTranslationY(300);
         binding.fabGoogle.setTranslationY(300);
-        binding.fabTwitter.setTranslationY(300);
+        binding.fabTwitterX.setTranslationY(300);
 
         binding.textInputLayoutLoginEmail.setAlpha(v);
         binding.textInputLayoutLoginPassword.setAlpha(v);
@@ -87,7 +92,7 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
         binding.layoutOrLogin.setAlpha(v);
         binding.fabFacebook.setAlpha(v);
         binding.fabGoogle.setAlpha(v);
-        binding.fabTwitter.setAlpha(v);
+        binding.fabTwitterX.setAlpha(v);
 
         binding.textInputLayoutLoginEmail.animate().translationY(1).alpha(1).setDuration(1000).setStartDelay(400).start();
         binding.textInputLayoutLoginPassword.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(600).start();
@@ -96,7 +101,7 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
         binding.layoutOrLogin.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1200).start();
         binding.fabFacebook.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1300).start();
         binding.fabGoogle.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1400).start();
-        binding.fabTwitter.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1500).start();
+        binding.fabTwitterX.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(1500).start();
 
     }
 

@@ -1,30 +1,38 @@
 package com.example.quickcode.loginRegister;
 
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsAnimationCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.core.widget.TextViewCompat;
 import androidx.lifecycle.ViewModel;
 
-import com.example.quickcode.Consts;
 import com.example.quickcode.R;
 import com.example.quickcode.common.cleaningEditTexts.PasswordTransformationChecker;
 import com.example.quickcode.common.filters.NoEmptySpaceFilter;
 import com.example.quickcode.common.helpers.InputFilterHelper;
 import com.example.quickcode.common.simples.SimpleTextWatcher;
 import com.example.quickcode.common.utils.ResourceUtils;
-import com.example.quickcode.common.utils.ScrollUtils;
 import com.example.quickcode.common.validator.ContainsDigit;
 import com.example.quickcode.common.validator.ContainsLowerCase;
 import com.example.quickcode.common.validator.ContainsSpecialChar;
@@ -33,27 +41,20 @@ import com.example.quickcode.common.validator.PasswordLengthValidator;
 import com.example.quickcode.common.validator.Validator;
 import com.example.quickcode.common.validator.ValidatorHelper;
 import com.example.quickcode.common.validator.ValidatorResult;
-import com.example.quickcode.databinding.SignupTabFragmentBinding;
+import com.example.quickcode.consts.Consts;
+import com.example.quickcode.databinding.FragmentSignupTabBinding;
 import com.example.quickcode.rest.QuickCodeClient;
-import com.example.quickcode.rest.register.RegisterFailure;
 import com.example.quickcode.rest.register.RegisterError;
+import com.example.quickcode.rest.register.RegisterFailure;
 import com.example.quickcode.rest.register.RegisterListener;
 import com.example.quickcode.rest.register.RegisterResponse;
 import com.example.quickcode.rest.register.RegisterSuccess;
-import com.example.quickcode.rest.verify.VerifyError;
-import com.example.quickcode.rest.verify.VerifyFailure;
-import com.example.quickcode.rest.verify.VerifyListener;
-import com.example.quickcode.rest.verify.VerifyResponse;
-import com.example.quickcode.rest.verify.VerifySuccess;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -69,62 +70,87 @@ public class SignUpViewModel extends ViewModel {
     private PasswordTransformationChecker passwordTransformationChecker;
     private PasswordTransformationChecker confirmPasswordTransformationChecker;
 
-    void addTextFilters(SignupTabFragmentBinding binding) {
+    private static void scrollToTopsViewBorder(FragmentSignupTabBinding binding, final TextInputLayout targetView) {
+        binding.getRoot().post(() -> binding.scrollView.smoothScrollTo(0, targetView.getTop()));
+    }
+
+    public static void smoothResizeView(View view,
+                                        int currentHeight,
+                                        int newHeight) {
+
+        ValueAnimator slideAnimator = ValueAnimator
+                .ofInt(currentHeight, newHeight)
+                .setDuration(500);
+
+        slideAnimator.addUpdateListener(animation1 -> {
+            Integer value = (Integer) animation1.getAnimatedValue();
+            view.getLayoutParams().height = value.intValue();
+            view.requestLayout();
+        });
+
+        AnimatorSet animationSet = new AnimatorSet();
+        animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animationSet.play(slideAnimator);
+        animationSet.start();
+    }
+
+    void addTextFilters(FragmentSignupTabBinding binding) {
         InputFilterHelper.addFilter(binding.firstName, new NoEmptySpaceFilter());
         InputFilterHelper.addFilter(binding.email, new NoEmptySpaceFilter());
         InputFilterHelper.addFilter(binding.password, new NoEmptySpaceFilter());
         InputFilterHelper.addFilter(binding.confirmPassword, new NoEmptySpaceFilter());
     }
 
-    void setListeners(View.OnClickListener onClickListener, SignupTabFragmentBinding binding) {
-        binding.signUpButton.setOnClickListener(onClickListener);
-    }
-
     @SuppressLint("ClickableViewAccessibility")
-    void setTouchListeners(SignupTabFragmentBinding binding) {
-        binding.password.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                ScrollUtils.smartScrollTo(() -> binding.passwordRequirements, "touch");
-            }
-            return false;
-        });
-
-        binding.confirmPassword.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                ScrollUtils.smartScrollTo(() -> binding.confirmPassword, "touch");
-            }
-            return false;
-        });
-
-        binding.scrollView.setOnTouchListener((v, event) -> {
-            View focusedChild = binding.getRoot().getFocusedChild();
-            if (focusedChild != null) {
-                focusedChild.clearFocus();
-            }
-            return false;
-        });
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    void setFocusListeners(SignupTabFragmentBinding binding) {
-        binding.password.setOnFocusChangeListener((v, hasFocus) -> {
+    void setFocusListeners(FragmentSignupTabBinding binding) {
+        binding.textInputLayoutPassword.getEditText().setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                ScrollUtils.smartScrollTo(() -> binding.passwordRequirements, "focus");
-            } else {
-                ScrollUtils.cleanup();
+                resizeView(binding, (int) (binding.getRoot().getHeight() * .5f));
+                scrollToTopsViewBorder(binding, binding.textInputLayoutPassword);
             }
         });
 
         binding.confirmPassword.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                ScrollUtils.smartScrollTo(() -> binding.confirmPassword, "focus");
-            } else {
-                ScrollUtils.cleanup();
+                resizeView(binding, (int) (binding.getRoot().getHeight() * .5f));
+                scrollToTopsViewBorder(binding, binding.textInputLayoutConfirmPassword);
             }
         });
     }
 
-    void setImeListeners(SignupTabFragmentBinding binding) {
+    @SuppressLint("ClickableViewAccessibility")
+    void setTouchListeners(FragmentSignupTabBinding binding) {
+        binding.textInputLayoutPassword.getEditText().setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                resizeView(binding, (int) (binding.getRoot().getHeight() * .5f));
+                scrollToTopsViewBorder(binding, binding.textInputLayoutPassword);
+            }
+
+            return false;
+        });
+
+        binding.confirmPassword.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                resizeView(binding, (int) (binding.getRoot().getHeight() * .5f));
+                scrollToTopsViewBorder(binding, binding.textInputLayoutConfirmPassword);
+            }
+
+            return false;
+        });
+    }
+
+    public void resizeView(FragmentSignupTabBinding binding, int pixelHeight) {
+        ViewGroup.LayoutParams layoutParams = binding.bottomSpacer.getLayoutParams();
+        layoutParams.height = pixelHeight;
+
+        if (pixelHeight == 0) {
+            smoothResizeView(binding.bottomSpacer, binding.bottomSpacer.getHeight(), pixelHeight);
+        } else {
+            binding.bottomSpacer.setLayoutParams(layoutParams);
+        }
+    }
+
+    void setImeListeners(FragmentSignupTabBinding binding) {
         binding.confirmPassword.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 v.clearFocus();
@@ -132,6 +158,31 @@ public class SignUpViewModel extends ViewModel {
             }
             return false;
         });
+    }
+
+    public void setOnKeyboardShowed(FragmentSignupTabBinding binding) {
+        ViewCompat.setWindowInsetsAnimationCallback(binding.getRoot(), new WindowInsetsAnimationCompat.Callback(WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onProgress(@NonNull WindowInsetsCompat insets, @NonNull List<WindowInsetsAnimationCompat> runningAnimations) {
+                return insets;
+            }
+
+            @Override
+            public void onEnd(@NonNull WindowInsetsAnimationCompat animation) {
+                super.onEnd(animation);
+                boolean keyboardShowed = ViewCompat.getRootWindowInsets(binding.getRoot()).isVisible(WindowInsetsCompat.Type.ime());
+
+                if (!keyboardShowed) {
+                    resizeView(binding, 0);
+                }
+            }
+        });
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     ValidatorResult validateAndGetResult(TextInputLayout textInputLayout, List<Validator> validatorList) {
@@ -159,7 +210,7 @@ public class SignUpViewModel extends ViewModel {
         }
     }
 
-    void cleanViews(SignupTabFragmentBinding binding) {
+    void cleanViews(FragmentSignupTabBinding binding) {
         binding.textInputLayoutFirstName.setError(null);
         binding.firstName.setText(null);
 
@@ -184,8 +235,8 @@ public class SignUpViewModel extends ViewModel {
         binding.scrollView.scrollTo(0, 0);
     }
 
-    void addTextWatchers(SignupTabFragmentBinding binding) {
-        BindingProvider<SignupTabFragmentBinding> bindingProvider = () -> binding;
+    void addTextWatchers(FragmentSignupTabBinding binding) {
+        BindingProvider<FragmentSignupTabBinding> bindingProvider = () -> binding;
 
         firstNameTextWatcher = new FirstNameTextWatcher(bindingProvider);
         emailTextWatcher = new EmailTextWatcher(bindingProvider);
@@ -202,12 +253,12 @@ public class SignUpViewModel extends ViewModel {
         binding.confirmPassword.addTextChangedListener(confirmPasswordTextWatcher);
     }
 
-    void setupTransformationMethodCheckers(SignupTabFragmentBinding binding) {
+    void setupTransformationMethodCheckers(FragmentSignupTabBinding binding) {
         passwordTransformationChecker = new PasswordTransformationChecker(binding.password.getTransformationMethod());
         confirmPasswordTransformationChecker = new PasswordTransformationChecker(binding.confirmPassword.getTransformationMethod());
     }
 
-    void removeTextWatchers(SignupTabFragmentBinding binding) {
+    void removeTextWatchers(FragmentSignupTabBinding binding) {
         binding.firstName.removeTextChangedListener(firstNameTextWatcher);
         binding.email.removeTextChangedListener(emailTextWatcher);
         binding.password.removeTextChangedListener(passwordTextWatcher);
@@ -220,7 +271,7 @@ public class SignUpViewModel extends ViewModel {
         return validatorResult;
     }
 
-    ValidatorResult validatePasswordAndSetError(CharSequence charSequence, int colorSuccess, int colorFailure, SignupTabFragmentBinding binding) {
+    ValidatorResult validatePasswordAndSetError(CharSequence charSequence, int colorSuccess, int colorFailure, FragmentSignupTabBinding binding) {
         ArrayList<ValidatorResult> validatorResultArrayList = new ArrayList<>();
         String text = charSequence.toString();
 
@@ -269,7 +320,7 @@ public class SignUpViewModel extends ViewModel {
         return (int) (12 * context.getResources().getDisplayMetrics().density);
     }
 
-    void restorePasswordTransformationMethods(SignupTabFragmentBinding binding1) {
+    void restorePasswordTransformationMethods(FragmentSignupTabBinding binding1) {
         binding1.password.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         binding1.password.setTransformationMethod(PasswordTransformationMethod.getInstance());
         binding1.confirmPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -279,6 +330,7 @@ public class SignUpViewModel extends ViewModel {
     public void registerUser(String username, String email, String password, RegisterListener registerListener) {
         QuickCodeClient instance = QuickCodeClient.getInstance();
 
+        Handler handler = new Handler(Looper.getMainLooper());
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         executor.execute(() -> {
@@ -288,13 +340,16 @@ public class SignUpViewModel extends ViewModel {
                 RegisterResponse body = execute.body();
 
                 if (execute.isSuccessful()) {
-                    registerListener.onRegister(new RegisterSuccess(body));
+                    handler.post(() -> registerListener.onRegister(new RegisterSuccess(body)));
                 } else {
-                    registerListener.onRegister(new RegisterFailure(body.error_code));
+                    handler.post(() -> registerListener.onRegister(new RegisterFailure(body.error_code)));
                 }
             } catch (Exception e) {
-                registerListener.onRegister(new RegisterError(e));
-                e.printStackTrace();
+                handler.post(() -> {
+                            registerListener.onRegister(new RegisterError(e));
+                            e.printStackTrace();
+                        }
+                );
             }
         });
     }
@@ -310,6 +365,13 @@ public class SignUpViewModel extends ViewModel {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
                 .putString(Consts.SP_LIFETIME, lifetime)
+                .apply();
+    }
+
+    public void saveUsername(Context context, String username) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(Consts.SP_USERNAME, username)
                 .apply();
     }
 }

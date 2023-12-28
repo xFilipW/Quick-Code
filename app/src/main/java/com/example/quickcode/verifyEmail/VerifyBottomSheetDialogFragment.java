@@ -2,7 +2,7 @@ package com.example.quickcode.verifyEmail;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.graphics.Color;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,32 +14,29 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.quickcode.Consts;
 import com.example.quickcode.R;
 import com.example.quickcode.common.utils.TimeUtils;
+import com.example.quickcode.consts.Consts;
 import com.example.quickcode.databinding.ActivityVerifyEmailBinding;
+import com.example.quickcode.databinding.FragmentVerifyPinviewBinding;
+import com.example.quickcode.databinding.FragmentVerifySuccessBinding;
 import com.example.quickcode.loginRegister.CircleStatusListener;
-import com.example.quickcode.rest.register.RegisterError;
-import com.example.quickcode.rest.register.RegisterFailure;
-import com.example.quickcode.rest.register.RegisterSuccess;
+import com.example.quickcode.loginRegister.LoginActivity;
+import com.example.quickcode.loginRegister.SignupSharedViewModel;
+import com.example.quickcode.loginRegister.SwipeControlListener;
 import com.example.quickcode.rest.verify.VerifyError;
 import com.example.quickcode.rest.verify.VerifyFailure;
-import com.example.quickcode.rest.verify.VerifyListener;
 import com.example.quickcode.rest.verify.VerifyStatus;
 import com.example.quickcode.rest.verify.VerifySuccess;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
-public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
+public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment implements CircleStatusListener {
 
     public static final String TAG = "ForgotBottomSheetDialog";
 
@@ -49,6 +46,7 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
     private Handler handler;
     private long futureTime = Integer.MIN_VALUE;
     private boolean countdownEnabled = true;
+    private SignupSharedViewModel signupSharedViewModel;
 
     @Nullable
     @Override
@@ -65,6 +63,9 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         handler = new Handler(Looper.getMainLooper());
 
         viewModel = new ViewModelProvider(this).get(VerifyViewModel.class);
+        signupSharedViewModel = new ViewModelProvider(requireActivity()).get(SignupSharedViewModel.class);
+
+        updateGreetingsText(viewModel.getDisplayUsername(requireContext()));
 
         viewModel.setupToolbarBehaviour(binding, this::dismiss);
         viewModel.setTouchListeners(binding);
@@ -73,35 +74,88 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         setOnClickListeners(binding);
     }
 
-    public void setOnClickListeners(ActivityVerifyEmailBinding binding) {
-        binding.verifyEmailButton.setOnClickListener(v -> {
-            handler.post(() -> showCircle());
-            viewModel.verifyUser(
-                    viewModel.getUserId(requireContext()),
-                    String.valueOf(binding.pinView.getText()),
-                    (VerifyListener) verifyStatus -> {
-                        if (verifyStatus instanceof VerifySuccess) {
-                            handler.post(() -> hideCircle());
-                        } else if (verifyStatus instanceof VerifyFailure) {
-                            Log.e(TAG, "Error: " + ((VerifyFailure) verifyStatus).getError());
-                            handler.post(() -> hideCircle());
-                        } else {
-                            Log.wtf(TAG, "Exception: " + ((VerifyError) verifyStatus).getException().getMessage());
-                            handler.post(() -> hideCircle());
-                        }
-                    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(STYLE_NORMAL, R.style.BottomSheetDialogTheme);
+    }
+
+    private void updateGreetingsText(String displayUsername) {
+        View currentView = binding.viewSwitcher.getCurrentView();
+
+        if (currentView.getId() == R.id.switch_view_pin) {
+            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+            fragmentBinding.textView1.setText(
+                    String.format(Locale.getDefault(),
+                            getString(R.string.verify_email_heading_text),
+                            displayUsername)
             );
-        });
+        }
     }
 
+    public void setOnClickListeners(ActivityVerifyEmailBinding binding) {
+        View currentView = binding.viewSwitcher.getCurrentView();
+
+        if (currentView.getId() == R.id.switch_view_pin) {
+            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+            fragmentBinding.verifyEmailButton.setOnClickListener(v -> {
+
+                handler.post(this::showCircle);
+                viewModel.verifyUser(
+                        viewModel.getUserId(requireContext()),
+                        String.valueOf(fragmentBinding.pinView.getText()),
+                        verifyStatus -> {
+                            if (verifyStatus instanceof VerifySuccess) {
+                                handler.post(this::hideCircle);
+                                showLottieResult(verifyStatus);
+                            } else if (verifyStatus instanceof VerifyFailure) {
+                                Log.e(TAG, "Error: " + ((VerifyFailure) verifyStatus).getError());
+                                handler.post(this::hideCircle);
+                            } else {
+                                Log.wtf(TAG, "Exception: " + ((VerifyError) verifyStatus).getException().getMessage());
+                                handler.post(this::hideCircle);
+                            }
+                        }
+                );
+            });
+        } else {
+            // TODO: 10.10.2023
+        }
+    }
+
+    private void showLottieResult(VerifyStatus verifyStatus) {
+        if (verifyStatus instanceof VerifySuccess) {
+            View nextView = binding.viewSwitcher.getNextView();
+            FragmentVerifySuccessBinding fragmentBinding = FragmentVerifySuccessBinding.bind(nextView);
+
+            binding.viewSwitcher.showNext();
+            fragmentBinding.lottie.playAnimation();
+            binding.timer.setVisibility(View.GONE);
+        } else {
+            // TODO: 10.10.2023 not happy path
+        }
+    }
+
+    @Override
     public void showCircle() {
-        binding.progressVerify.setVisibility(View.VISIBLE);
-        requireActivity().getWindow().setStatusBarColor(Color.parseColor("#326577"));
+        View currentView = binding.viewSwitcher.getCurrentView();
+
+        if (currentView.getId() == R.id.switch_view_pin) {
+            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+            fragmentBinding.progressRegister.setVisibility(View.VISIBLE);
+            ((SwipeControlListener) requireActivity()).disableViewpagerSwiping();
+        }
     }
 
+    @Override
     public void hideCircle() {
-        binding.progressVerify.setVisibility(View.GONE);
-        requireActivity().getWindow().setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.lightBlue));
+        View currentView = binding.viewSwitcher.getCurrentView();
+
+        if (currentView.getId() == R.id.switch_view_pin) {
+            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+            fragmentBinding.progressRegister.setVisibility(View.GONE);
+            ((SwipeControlListener) requireActivity()).enableViewpagerSwiping();
+        }
     }
 
     @NonNull
@@ -135,10 +189,16 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
     public void onResume() {
         super.onResume();
         updateTextLifetime();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                signupSharedViewModel.hideCircle();
+            }
+        }, 1000);
     }
 
     private void updateTextLifetime() {
-        if (countdownEnabled == false)
+        if (!countdownEnabled)
             return;
 
         String lifetime = PreferenceManager.getDefaultSharedPreferences(requireContext()).getString(Consts.SP_LIFETIME, null);
@@ -158,18 +218,18 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
                 long l = futureTime - currentTime;
                 long seconds = l / 1000;
 
-                if (seconds < -1) {
+                if (seconds < 0) {
                     handler.removeCallbacksAndMessages(null);
                     return;
                 }
 
                 binding.timer.setText(String.format(Locale.getDefault(), "%02d:%02d", seconds / 60, seconds % 60));
 
-                handler.postDelayed(this, 100);
+                handler.postDelayed(this, 1000);
             }
         };
 
-        handler.postDelayed(runnable, 100);
+        handler.post(runnable);
     }
 
     private void stopTextLifeTime() {
@@ -184,4 +244,13 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         handler.removeCallbacksAndMessages(null);
     }
 
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        ((LoginActivity) requireActivity()).animateStatusBarColor(
+                R.color.lightBlue,
+                android.R.color.transparent
+        );
+    }
 }
