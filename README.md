@@ -24,7 +24,7 @@
   </p>
   
   <p>
-    <img src="./preview/Preview.gif" height="850">
+    <img src="./preview/Preview.gif" height="650">
   </p>
 
 </div>
