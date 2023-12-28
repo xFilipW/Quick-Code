@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.quickcode.R;
 import com.example.quickcode.common.cleaningEditTexts.CleanUpFragment;
 import com.example.quickcode.common.cleaningEditTexts.PasswordTransformationChecker;
 import com.example.quickcode.common.simples.SimpleTextWatcher;
@@ -55,6 +56,10 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
         binding.forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((LoginActivity) requireActivity()).animateStatusBarColor(
+                        android.R.color.transparent,
+                        R.color.lightBlue);
+
                 FragmentManager parentFragmentManager = requireActivity().getSupportFragmentManager();
                 BottomSheetDialogFragment fragmentByTag = (BottomSheetDialogFragment) parentFragmentManager.findFragmentByTag(ForgotBottomSheetDialogFragment.TAG);
 

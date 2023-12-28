@@ -2,6 +2,7 @@ package com.example.quickcode.forgotPassword;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.quickcode.R;
 import com.example.quickcode.databinding.ActivityForgotPasswordBinding;
+import com.example.quickcode.loginRegister.LoginActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -21,6 +24,12 @@ public class ForgotBottomSheetDialogFragment extends BottomSheetDialogFragment {
 
     private ActivityForgotPasswordBinding binding;
     private ForgotViewModel model;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(STYLE_NORMAL, R.style.BottomSheetDialogTheme);
+    }
 
     @Nullable
     @Override
@@ -65,5 +74,14 @@ public class ForgotBottomSheetDialogFragment extends BottomSheetDialogFragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        ((LoginActivity) requireActivity()).animateStatusBarColor(
+                R.color.lightBlue,
+                android.R.color.transparent
+        );
     }
 }

@@ -5,6 +5,8 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
@@ -68,6 +70,30 @@ public class SignUpViewModel extends ViewModel {
     private PasswordTransformationChecker passwordTransformationChecker;
     private PasswordTransformationChecker confirmPasswordTransformationChecker;
 
+    private static void scrollToTopsViewBorder(FragmentSignupTabBinding binding, final TextInputLayout targetView) {
+        binding.getRoot().post(() -> binding.scrollView.smoothScrollTo(0, targetView.getTop()));
+    }
+
+    public static void smoothResizeView(View view,
+                                        int currentHeight,
+                                        int newHeight) {
+
+        ValueAnimator slideAnimator = ValueAnimator
+                .ofInt(currentHeight, newHeight)
+                .setDuration(500);
+
+        slideAnimator.addUpdateListener(animation1 -> {
+            Integer value = (Integer) animation1.getAnimatedValue();
+            view.getLayoutParams().height = value.intValue();
+            view.requestLayout();
+        });
+
+        AnimatorSet animationSet = new AnimatorSet();
+        animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animationSet.play(slideAnimator);
+        animationSet.start();
+    }
+
     void addTextFilters(FragmentSignupTabBinding binding) {
         InputFilterHelper.addFilter(binding.firstName, new NoEmptySpaceFilter());
         InputFilterHelper.addFilter(binding.email, new NoEmptySpaceFilter());
@@ -113,10 +139,6 @@ public class SignUpViewModel extends ViewModel {
         });
     }
 
-    private static void scrollToTopsViewBorder(FragmentSignupTabBinding binding, final TextInputLayout targetView) {
-        binding.getRoot().post(() -> binding.scrollView.smoothScrollTo(0, targetView.getTop()));
-    }
-
     public void resizeView(FragmentSignupTabBinding binding, int pixelHeight) {
         ViewGroup.LayoutParams layoutParams = binding.bottomSpacer.getLayoutParams();
         layoutParams.height = pixelHeight;
@@ -126,26 +148,6 @@ public class SignUpViewModel extends ViewModel {
         } else {
             binding.bottomSpacer.setLayoutParams(layoutParams);
         }
-    }
-
-    public static void smoothResizeView(View view,
-                                        int currentHeight,
-                                        int newHeight) {
-
-        ValueAnimator slideAnimator = ValueAnimator
-                .ofInt(currentHeight, newHeight)
-                .setDuration(500);
-
-        slideAnimator.addUpdateListener(animation1 -> {
-            Integer value = (Integer) animation1.getAnimatedValue();
-            view.getLayoutParams().height = value.intValue();
-            view.requestLayout();
-        });
-
-        AnimatorSet animationSet = new AnimatorSet();
-        animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
-        animationSet.play(slideAnimator);
-        animationSet.start();
     }
 
     void setImeListeners(FragmentSignupTabBinding binding) {
@@ -328,6 +330,7 @@ public class SignUpViewModel extends ViewModel {
     public void registerUser(String username, String email, String password, RegisterListener registerListener) {
         QuickCodeClient instance = QuickCodeClient.getInstance();
 
+        Handler handler = new Handler(Looper.getMainLooper());
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         executor.execute(() -> {
@@ -337,13 +340,16 @@ public class SignUpViewModel extends ViewModel {
                 RegisterResponse body = execute.body();
 
                 if (execute.isSuccessful()) {
-                    registerListener.onRegister(new RegisterSuccess(body));
+                    handler.post(() -> registerListener.onRegister(new RegisterSuccess(body)));
                 } else {
-                    registerListener.onRegister(new RegisterFailure(body.error_code));
+                    handler.post(() -> registerListener.onRegister(new RegisterFailure(body.error_code)));
                 }
             } catch (Exception e) {
-                registerListener.onRegister(new RegisterError(e));
-                e.printStackTrace();
+                handler.post(() -> {
+                            registerListener.onRegister(new RegisterError(e));
+                            e.printStackTrace();
+                        }
+                );
             }
         });
     }

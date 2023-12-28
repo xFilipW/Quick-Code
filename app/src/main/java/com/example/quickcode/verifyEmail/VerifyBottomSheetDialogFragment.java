@@ -78,7 +78,6 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(STYLE_NORMAL, R.style.BottomSheetDialogTheme);
-
     }
 
     private void updateGreetingsText(String displayUsername) {

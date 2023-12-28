@@ -3,6 +3,8 @@ package com.example.quickcode.verifyEmail;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
@@ -123,6 +125,7 @@ public class VerifyViewModel extends ViewModel {
     public void verifyUser(long userId, String token, VerifyListener verifyListener) {
         QuickCodeClient instance = QuickCodeClient.getInstance();
 
+        Handler handler = new Handler(Looper.getMainLooper());
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         executor.execute(() -> {
@@ -138,13 +141,19 @@ public class VerifyViewModel extends ViewModel {
                 VerifyResponse body = execute.body();
 
                 if (execute.isSuccessful()) {
-                    verifyListener.onVerify(new VerifySuccess(body));
+                    handler.post(() ->
+                            verifyListener.onVerify(new VerifySuccess(body))
+                    );
                 } else {
-                    verifyListener.onVerify(new VerifyFailure(body.error_code));
+                    handler.post(() ->
+                            verifyListener.onVerify(new VerifyFailure(body.error_code))
+                    );
                 }
             } catch (IOException e) {
-                verifyListener.onVerify(new VerifyError(e));
-                e.printStackTrace();
+                handler.post(() -> {
+                    verifyListener.onVerify(new VerifyError(e));
+                    e.printStackTrace();
+                });
             }
         });
     }

@@ -69,8 +69,8 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
         viewModel.addTextFilters(binding);
 
         binding.signUpButton.setOnClickListener(v -> {
-            //validateAndSignUpUser(binding, viewModel);
-            showVerifyBottomSheetDialogFragment();
+            validateAndSignUpUser(binding, viewModel);
+            //showVerifyBottomSheetDialogFragment();
         });
 
         viewModel.setFocusListeners(binding);
@@ -80,7 +80,6 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
 
         addTextWatchers();
     }
-
 
     @Override
     public void restoreViews() {
