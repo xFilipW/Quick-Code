@@ -1,5 +1,7 @@
 package com.example.quickcode.verifyEmail;
 
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -11,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.lifecycle.ViewModel;
 
@@ -28,6 +32,9 @@ import com.example.quickcode.rest.verify.VerifyResponse;
 import com.example.quickcode.rest.verify.VerifySuccess;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -47,6 +54,10 @@ public class VerifyViewModel extends ViewModel {
         );
     }
 
+    private static void scrollToTopsViewBorder(FragmentVerifyPinviewBinding binding, final ImageView targetView) {
+        binding.getRoot().post(() -> binding.scrollView.smoothScrollTo(0, targetView.getTop()));
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     void setTouchListeners(ActivityVerifyEmailBinding binding) {
         View currentView = binding.viewSwitcher.getCurrentView();
@@ -61,7 +72,7 @@ public class VerifyViewModel extends ViewModel {
                 return false;
             });
 
-            binding.scrollView.setOnTouchListener((v, event) -> {
+            fragmentBinding.scrollView.setOnTouchListener((v, event) -> {
                 if (fragmentBinding.pinView.hasFocus()) {
                     fragmentBinding.pinView.clearFocus();
                 }
@@ -77,12 +88,50 @@ public class VerifyViewModel extends ViewModel {
         if (currentView.getId() == R.id.switch_view_pin) {
             FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
 
+//            fragmentBinding.pinView.setOnFocusChangeListener((v, hasFocus) -> {
+//                if (hasFocus) {
+//                    ScrollUtils.smartScrollTo(() -> fragmentBinding.pinView, "focus");
+//                }
+//            });
+
             fragmentBinding.pinView.setOnFocusChangeListener((v, hasFocus) -> {
                 if (hasFocus) {
-                    ScrollUtils.smartScrollTo(() -> fragmentBinding.pinView, "focus");
+                    resizeView(fragmentBinding, (int) (fragmentBinding.getRoot().getHeight() * .35f));
+                    scrollToTopsViewBorder(fragmentBinding, fragmentBinding.imageView);
                 }
             });
         }
+    }
+
+    public void resizeView(FragmentVerifyPinviewBinding binding, int pixelHeight) {
+        ViewGroup.LayoutParams layoutParams = binding.bottomSpacer.getLayoutParams();
+        layoutParams.height = pixelHeight;
+
+        if (pixelHeight == 0) {
+            smoothResizeView(binding.bottomSpacer, binding.bottomSpacer.getHeight(), pixelHeight);
+        } else {
+            binding.bottomSpacer.setLayoutParams(layoutParams);
+        }
+    }
+
+    public static void smoothResizeView(View view,
+                                        int currentHeight,
+                                        int newHeight) {
+
+        ValueAnimator slideAnimator = ValueAnimator
+                .ofInt(currentHeight, newHeight)
+                .setDuration(500);
+
+        slideAnimator.addUpdateListener(animation1 -> {
+            Integer value = (Integer) animation1.getAnimatedValue();
+            view.getLayoutParams().height = value.intValue();
+            view.requestLayout();
+        });
+
+        AnimatorSet animationSet = new AnimatorSet();
+        animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animationSet.play(slideAnimator);
+        animationSet.start();
     }
 
     public void setExpanded(BottomSheetDialog bottomSheetDialog) {
@@ -145,9 +194,17 @@ public class VerifyViewModel extends ViewModel {
                             verifyListener.onVerify(new VerifySuccess(body))
                     );
                 } else {
-                    handler.post(() ->
-                            verifyListener.onVerify(new VerifyFailure(body.error_code))
-                    );
+                    try {
+                        JSONObject jsonObjectError = new JSONObject(execute.errorBody().string());
+                        int errorCode = jsonObjectError.optInt("error_code");
+
+                        handler.post(() ->
+                                verifyListener.onVerify(new VerifyFailure(errorCode))
+                        );
+                    } catch (JSONException jsonException) {
+                        jsonException.printStackTrace();
+                    }
+
                 }
             } catch (IOException e) {
                 handler.post(() -> {

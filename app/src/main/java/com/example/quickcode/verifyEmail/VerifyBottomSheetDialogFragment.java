@@ -35,6 +35,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment implements CircleStatusListener {
 
@@ -201,13 +202,11 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
         if (!countdownEnabled)
             return;
 
-        String lifetime = PreferenceManager.getDefaultSharedPreferences(requireContext()).getString(Consts.SP_LIFETIME, null);
-        if (lifetime == null)
+        int lifetime = PreferenceManager.getDefaultSharedPreferences(requireContext()).getInt(Consts.SP_LIFETIME_MINUTES, -1);
+        if (lifetime == -1)
             return;
 
-        Date date = TimeUtils.formatDate(lifetime);
-        if (date == null)
-            return;
+        Date date = TimeUtils.createDate((int) TimeUnit.MINUTES.toMillis(lifetime));
 
         futureTime = date.getTime();
 

@@ -7,8 +7,8 @@ public class RegisterResponse {
     @SerializedName("user_id")
     public long user_id;
 
-    @SerializedName("lifetime")
-    public String lifetime;
+    @SerializedName("lifetime_minutes")
+    public int lifetime_minutes;
 
     @SerializedName("error_code")
     public int error_code;

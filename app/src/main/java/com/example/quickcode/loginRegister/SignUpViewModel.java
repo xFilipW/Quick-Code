@@ -361,10 +361,10 @@ public class SignUpViewModel extends ViewModel {
                 .apply();
     }
 
-    public void saveLifetime(Context context, String lifetime) {
+    public void saveLifetime(Context context, int lifetime) {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
-                .putString(Consts.SP_LIFETIME, lifetime)
+                .putInt(Consts.SP_LIFETIME_MINUTES, lifetime)
                 .apply();
     }
 

@@ -171,10 +171,10 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
         viewModel.registerUser(username, email, password, registerStatus -> {
             if (registerStatus instanceof RegisterSuccess) {
                 long userId = ((RegisterSuccess) registerStatus).getResponse().user_id;
-                String lifeTime = ((RegisterSuccess) registerStatus).getResponse().lifetime;
+                int lifeTimeMinutes = ((RegisterSuccess) registerStatus).getResponse().lifetime_minutes;
 
                 viewModel.saveUserId(requireContext(), userId);
-                viewModel.saveLifetime(requireContext(), lifeTime);
+                viewModel.saveLifetime(requireContext(), lifeTimeMinutes);
                 viewModel.saveUsername(requireContext(), username);
 
                 showVerifyBottomSheetDialogFragment();
