@@ -32,6 +32,7 @@ import com.example.quickcode.common.cleaningEditTexts.PasswordTransformationChec
 import com.example.quickcode.common.filters.NoEmptySpaceFilter;
 import com.example.quickcode.common.helpers.InputFilterHelper;
 import com.example.quickcode.common.simples.SimpleTextWatcher;
+import com.example.quickcode.common.utils.ResizeUtils;
 import com.example.quickcode.common.utils.ResourceUtils;
 import com.example.quickcode.common.validator.ContainsDigit;
 import com.example.quickcode.common.validator.ContainsLowerCase;
@@ -74,26 +75,6 @@ public class SignUpViewModel extends ViewModel {
         binding.getRoot().post(() -> binding.scrollView.smoothScrollTo(0, targetView.getTop()));
     }
 
-    public static void smoothResizeView(View view,
-                                        int currentHeight,
-                                        int newHeight) {
-
-        ValueAnimator slideAnimator = ValueAnimator
-                .ofInt(currentHeight, newHeight)
-                .setDuration(500);
-
-        slideAnimator.addUpdateListener(animation1 -> {
-            Integer value = (Integer) animation1.getAnimatedValue();
-            view.getLayoutParams().height = value.intValue();
-            view.requestLayout();
-        });
-
-        AnimatorSet animationSet = new AnimatorSet();
-        animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
-        animationSet.play(slideAnimator);
-        animationSet.start();
-    }
-
     void addTextFilters(FragmentSignupTabBinding binding) {
         InputFilterHelper.addFilter(binding.firstName, new NoEmptySpaceFilter());
         InputFilterHelper.addFilter(binding.email, new NoEmptySpaceFilter());
@@ -105,14 +86,14 @@ public class SignUpViewModel extends ViewModel {
     void setFocusListeners(FragmentSignupTabBinding binding) {
         binding.textInputLayoutPassword.getEditText().setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                resizeView(binding, (int) (binding.getRoot().getHeight() * .5f));
+                ResizeUtils.resizeView((int) (binding.getRoot().getHeight() * .5f), binding.bottomSpacer);
                 scrollToTopsViewBorder(binding, binding.textInputLayoutPassword);
             }
         });
 
         binding.confirmPassword.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                resizeView(binding, (int) (binding.getRoot().getHeight() * .5f));
+                ResizeUtils.resizeView((int) (binding.getRoot().getHeight() * .5f), binding.bottomSpacer);
                 scrollToTopsViewBorder(binding, binding.textInputLayoutConfirmPassword);
             }
         });
@@ -122,7 +103,7 @@ public class SignUpViewModel extends ViewModel {
     void setTouchListeners(FragmentSignupTabBinding binding) {
         binding.textInputLayoutPassword.getEditText().setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
-                resizeView(binding, (int) (binding.getRoot().getHeight() * .5f));
+                ResizeUtils.resizeView((int) (binding.getRoot().getHeight() * .5f), binding.bottomSpacer);
                 scrollToTopsViewBorder(binding, binding.textInputLayoutPassword);
             }
 
@@ -131,58 +112,12 @@ public class SignUpViewModel extends ViewModel {
 
         binding.confirmPassword.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
-                resizeView(binding, (int) (binding.getRoot().getHeight() * .5f));
+                ResizeUtils.resizeView((int) (binding.getRoot().getHeight() * .5f), binding.bottomSpacer);
                 scrollToTopsViewBorder(binding, binding.textInputLayoutConfirmPassword);
             }
 
             return false;
         });
-    }
-
-    public void resizeView(FragmentSignupTabBinding binding, int pixelHeight) {
-        ViewGroup.LayoutParams layoutParams = binding.bottomSpacer.getLayoutParams();
-        layoutParams.height = pixelHeight;
-
-        if (pixelHeight == 0) {
-            smoothResizeView(binding.bottomSpacer, binding.bottomSpacer.getHeight(), pixelHeight);
-        } else {
-            binding.bottomSpacer.setLayoutParams(layoutParams);
-        }
-    }
-
-    void setImeListeners(FragmentSignupTabBinding binding) {
-        binding.confirmPassword.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                v.clearFocus();
-                return false;
-            }
-            return false;
-        });
-    }
-
-    public void setOnKeyboardShowed(FragmentSignupTabBinding binding) {
-        ViewCompat.setWindowInsetsAnimationCallback(binding.getRoot(), new WindowInsetsAnimationCompat.Callback(WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
-            @NonNull
-            @Override
-            public WindowInsetsCompat onProgress(@NonNull WindowInsetsCompat insets, @NonNull List<WindowInsetsAnimationCompat> runningAnimations) {
-                return insets;
-            }
-
-            @Override
-            public void onEnd(@NonNull WindowInsetsAnimationCompat animation) {
-                super.onEnd(animation);
-                boolean keyboardShowed = ViewCompat.getRootWindowInsets(binding.getRoot()).isVisible(WindowInsetsCompat.Type.ime());
-
-                if (!keyboardShowed) {
-                    resizeView(binding, 0);
-                }
-            }
-        });
-    }
-
-    public void hideKeyboard(View view) {
-        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     ValidatorResult validateAndGetResult(TextInputLayout textInputLayout, List<Validator> validatorList) {

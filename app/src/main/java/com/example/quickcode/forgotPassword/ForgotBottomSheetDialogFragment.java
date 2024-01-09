@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.quickcode.R;
+import com.example.quickcode.common.utils.AnimateUtils;
 import com.example.quickcode.databinding.ActivityForgotPasswordBinding;
 import com.example.quickcode.loginRegister.LoginActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -79,7 +80,8 @@ public class ForgotBottomSheetDialogFragment extends BottomSheetDialogFragment {
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
-        ((LoginActivity) requireActivity()).animateStatusBarColor(
+        AnimateUtils.animateStatusBarColor(
+                (LoginActivity) requireActivity(),
                 R.color.lightBlue,
                 android.R.color.transparent
         );

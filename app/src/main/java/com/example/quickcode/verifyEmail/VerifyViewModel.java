@@ -1,26 +1,22 @@
 package com.example.quickcode.verifyEmail;
 
-import android.animation.AnimatorSet;
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.lifecycle.ViewModel;
 
 import com.example.quickcode.R;
-import com.example.quickcode.common.utils.ScrollUtils;
+import com.example.quickcode.common.utils.ResizeUtils;
 import com.example.quickcode.consts.Consts;
 import com.example.quickcode.databinding.ActivityVerifyEmailBinding;
 import com.example.quickcode.databinding.FragmentVerifyPinviewBinding;
@@ -54,31 +50,8 @@ public class VerifyViewModel extends ViewModel {
         );
     }
 
-    private static void scrollToTopsViewBorder(FragmentVerifyPinviewBinding binding, final ImageView targetView) {
+    private static void scrollToTopsViewBorder(FragmentVerifyPinviewBinding binding, ImageView targetView) {
         binding.getRoot().post(() -> binding.scrollView.smoothScrollTo(0, targetView.getTop()));
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    void setTouchListeners(ActivityVerifyEmailBinding binding) {
-        View currentView = binding.viewSwitcher.getCurrentView();
-
-        if (currentView.getId() == R.id.switch_view_pin) {
-            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
-
-            fragmentBinding.pinView.setOnTouchListener((v, event) -> {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    ScrollUtils.smartScrollTo(() -> fragmentBinding.pinView, "touch");
-                }
-                return false;
-            });
-
-            fragmentBinding.scrollView.setOnTouchListener((v, event) -> {
-                if (fragmentBinding.pinView.hasFocus()) {
-                    fragmentBinding.pinView.clearFocus();
-                }
-                return false;
-            });
-        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -88,50 +61,14 @@ public class VerifyViewModel extends ViewModel {
         if (currentView.getId() == R.id.switch_view_pin) {
             FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
 
-//            fragmentBinding.pinView.setOnFocusChangeListener((v, hasFocus) -> {
-//                if (hasFocus) {
-//                    ScrollUtils.smartScrollTo(() -> fragmentBinding.pinView, "focus");
-//                }
-//            });
-
             fragmentBinding.pinView.setOnFocusChangeListener((v, hasFocus) -> {
                 if (hasFocus) {
-                    resizeView(fragmentBinding, (int) (fragmentBinding.getRoot().getHeight() * .35f));
+                    //ResizeUtils.resizeView((int) (fragmentBinding.getRoot().getHeight() * .35f), fragmentBinding.test);
+                    ResizeUtils.resizeView((int) (fragmentBinding.getRoot().getHeight() * .35f), fragmentBinding.bottomSpacer);
                     scrollToTopsViewBorder(fragmentBinding, fragmentBinding.imageView);
                 }
             });
         }
-    }
-
-    public void resizeView(FragmentVerifyPinviewBinding binding, int pixelHeight) {
-        ViewGroup.LayoutParams layoutParams = binding.bottomSpacer.getLayoutParams();
-        layoutParams.height = pixelHeight;
-
-        if (pixelHeight == 0) {
-            smoothResizeView(binding.bottomSpacer, binding.bottomSpacer.getHeight(), pixelHeight);
-        } else {
-            binding.bottomSpacer.setLayoutParams(layoutParams);
-        }
-    }
-
-    public static void smoothResizeView(View view,
-                                        int currentHeight,
-                                        int newHeight) {
-
-        ValueAnimator slideAnimator = ValueAnimator
-                .ofInt(currentHeight, newHeight)
-                .setDuration(500);
-
-        slideAnimator.addUpdateListener(animation1 -> {
-            Integer value = (Integer) animation1.getAnimatedValue();
-            view.getLayoutParams().height = value.intValue();
-            view.requestLayout();
-        });
-
-        AnimatorSet animationSet = new AnimatorSet();
-        animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
-        animationSet.play(slideAnimator);
-        animationSet.start();
     }
 
     public void setExpanded(BottomSheetDialog bottomSheetDialog) {

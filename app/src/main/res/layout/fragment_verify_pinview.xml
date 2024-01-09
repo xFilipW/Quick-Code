@@ -8,7 +8,7 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:fillViewport="true"
         android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,6 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <View
+                android:id="@+id/test"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:layout_constraintBottom_toTopOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="275dp"
@@ -26,7 +33,7 @@
                 android:src="@drawable/vector_verify_email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/test" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -67,7 +74,7 @@
                 android:cursorVisible="true"
                 android:elevation="8dp"
                 android:inputType="text"
-                android:paddingBottom="24dp"
+                android:paddingBottom="48dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:cursorWidth="2dp"

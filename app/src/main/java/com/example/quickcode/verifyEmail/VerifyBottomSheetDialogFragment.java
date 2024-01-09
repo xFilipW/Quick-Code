@@ -11,12 +11,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.quickcode.R;
+import com.example.quickcode.common.utils.AnimateUtils;
+import com.example.quickcode.common.utils.ResizeUtils;
 import com.example.quickcode.common.utils.TimeUtils;
 import com.example.quickcode.consts.Consts;
 import com.example.quickcode.databinding.ActivityVerifyEmailBinding;
@@ -69,8 +72,9 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
         updateGreetingsText(viewModel.getDisplayUsername(requireContext()));
 
         viewModel.setupToolbarBehaviour(binding, this::dismiss);
-        viewModel.setTouchListeners(binding);
         viewModel.setFocusListeners(binding);
+
+        setPinViewBehaviour();
 
         setOnClickListeners(binding);
     }
@@ -91,6 +95,25 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
                             getString(R.string.verify_email_heading_text),
                             displayUsername)
             );
+        }
+    }
+
+    private void setPinViewBehaviour() {
+        View currentView = binding.viewSwitcher.getCurrentView();
+
+        if (currentView.getId() == R.id.switch_view_pin) {
+            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+
+            fragmentBinding.pinView.setOnEditorActionListener((v, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    v.clearFocus();
+
+                    ResizeUtils.resizeView(0, fragmentBinding.bottomSpacer);
+
+                    return false;
+                }
+                return false;
+            });
         }
     }
 
@@ -247,7 +270,8 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
-        ((LoginActivity) requireActivity()).animateStatusBarColor(
+        AnimateUtils.animateStatusBarColor(
+                ((LoginActivity) requireActivity()),
                 R.color.lightBlue,
                 android.R.color.transparent
         );

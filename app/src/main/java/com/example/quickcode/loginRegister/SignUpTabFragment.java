@@ -17,7 +17,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.quickcode.R;
 import com.example.quickcode.common.cleaningEditTexts.CleanUpFragment;
 import com.example.quickcode.common.helpers.DialogHelper;
+import com.example.quickcode.common.utils.AnimateUtils;
+import com.example.quickcode.common.utils.KeyboardListener;
+import com.example.quickcode.common.utils.KeyboardUtils;
 import com.example.quickcode.common.utils.NetworkUtils;
+import com.example.quickcode.common.utils.ResizeUtils;
 import com.example.quickcode.common.validator.CorrectEmailValidator;
 import com.example.quickcode.common.validator.FirstLetterCapitalizedValidator;
 import com.example.quickcode.common.validator.IsEmptyValidator;
@@ -69,14 +73,19 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
         viewModel.addTextFilters(binding);
 
         binding.signUpButton.setOnClickListener(v -> {
-            validateAndSignUpUser(binding, viewModel);
-            //showVerifyBottomSheetDialogFragment();
+//            validateAndSignUpUser(binding, viewModel);
+            showVerifyBottomSheetDialogFragment();
         });
 
         viewModel.setFocusListeners(binding);
         viewModel.setTouchListeners(binding);
-        viewModel.setImeListeners(binding);
-        viewModel.setOnKeyboardShowed(binding);
+        KeyboardUtils.setImeListeners(binding.confirmPassword);
+        KeyboardUtils.setOnKeyboardShowed(binding, new KeyboardListener() {
+            @Override
+            public void onNotShowed() {
+                ResizeUtils.resizeView(0, binding.bottomSpacer);
+            }
+        });
 
         addTextWatchers();
     }
@@ -160,7 +169,7 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
             }
         }
 
-        signUpViewModel.hideKeyboard(binding.signUpButton);
+        KeyboardUtils.hideKeyboard(binding.signUpButton);
 
         signupSharedViewModel.showCircle();
 
@@ -189,7 +198,8 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
     }
 
     private void showVerifyBottomSheetDialogFragment() {
-        ((LoginActivity) requireActivity()).animateStatusBarColor(
+        AnimateUtils.animateStatusBarColor(
+                (LoginActivity) requireActivity(),
                 android.R.color.transparent,
                 R.color.lightBlue);
 

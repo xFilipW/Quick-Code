@@ -179,20 +179,4 @@ public class LoginActivity extends AppCompatActivity implements SwipeControlList
         controller.setAppearanceLightStatusBars(true);
     }
 
-    public void animateStatusBarColor(@ColorRes int startColor, @ColorRes int endColor) {
-        ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-
-        int animationDuration = 500;
-        int startColorVal = ContextCompat.getColor(this, startColor);
-        int endColorVal = ContextCompat.getColor(this, endColor);
-
-        ValueAnimator colorAnimator = ValueAnimator.ofObject(argbEvaluator, startColorVal, endColorVal);
-        colorAnimator.setDuration(animationDuration);
-        colorAnimator.addUpdateListener(animator -> {
-            int animatedColor = (int) animator.getAnimatedValue();
-            getWindow().setStatusBarColor(animatedColor);
-        });
-
-        colorAnimator.start();
-    }
 }
