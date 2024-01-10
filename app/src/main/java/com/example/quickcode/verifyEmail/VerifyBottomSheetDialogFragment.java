@@ -124,23 +124,34 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
             FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
             fragmentBinding.verifyEmailButton.setOnClickListener(v -> {
 
-                handler.post(this::showCircle);
-                viewModel.verifyUser(
-                        viewModel.getUserId(requireContext()),
-                        String.valueOf(fragmentBinding.pinView.getText()),
-                        verifyStatus -> {
-                            if (verifyStatus instanceof VerifySuccess) {
-                                handler.post(this::hideCircle);
-                                showLottieResult(verifyStatus);
-                            } else if (verifyStatus instanceof VerifyFailure) {
-                                Log.e(TAG, "Error: " + ((VerifyFailure) verifyStatus).getError());
-                                handler.post(this::hideCircle);
-                            } else {
-                                Log.wtf(TAG, "Exception: " + ((VerifyError) verifyStatus).getException().getMessage());
-                                handler.post(this::hideCircle);
+                if (fragmentBinding.pinView.getText().toString().isEmpty()) {
+                    fragmentBinding.textViewWrongPin.setText("Required field");
+                    fragmentBinding.pinView.setLineColor(getResources().getColor(R.color.darkerRed));
+                    handler.post(this::hideCircle);
+                } else {
+                    fragmentBinding.textViewWrongPin.setText("");
+                    handler.post(this::showCircle);
+                    viewModel.verifyUser(
+                            viewModel.getUserId(requireContext()),
+                            String.valueOf(fragmentBinding.pinView.getText()),
+                            verifyStatus -> {
+                                if (verifyStatus instanceof VerifySuccess) {
+                                    handler.post(this::hideCircle);
+                                    showLottieResult(verifyStatus);
+                                } else if (verifyStatus instanceof VerifyFailure) {
+                                    Log.e(TAG, "Error: " + ((VerifyFailure) verifyStatus).getError());
+                                    handler.post(this::hideCircle);
+                                    fragmentBinding.textViewWrongPin.setText("Code is incorrect");
+                                    fragmentBinding.pinView.setLineColor(getResources().getColor(R.color.darkerRed));
+                                } else {
+                                    Log.wtf(TAG, "Exception: " + ((VerifyError) verifyStatus).getException().getMessage());
+                                    handler.post(this::hideCircle);
+                                }
                             }
-                        }
-                );
+                    );
+                }
+
+
             });
         } else {
             // TODO: 10.10.2023

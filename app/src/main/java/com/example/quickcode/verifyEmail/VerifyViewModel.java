@@ -138,6 +138,7 @@ public class VerifyViewModel extends ViewModel {
                         handler.post(() ->
                                 verifyListener.onVerify(new VerifyFailure(errorCode))
                         );
+
                     } catch (JSONException jsonException) {
                         jsonException.printStackTrace();
                     }

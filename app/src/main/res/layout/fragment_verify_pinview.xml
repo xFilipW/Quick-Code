@@ -74,7 +74,7 @@
                 android:cursorVisible="true"
                 android:elevation="8dp"
                 android:inputType="text"
-                android:paddingBottom="48dp"
+                android:paddingBottom="34dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:cursorWidth="2dp"
@@ -89,6 +89,19 @@
                 app:lineColor="@color/lightBlue"
                 app:lineWidth="3dp"
                 app:viewType="rectangle" />
+
+            <TextView
+                android:id="@+id/textViewWrongPin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkerRed"
+                android:textSize="16sp"
+                android:includeFontPadding="false"
+                android:fontFamily="@font/poppins"
+                app:layout_constraintBottom_toTopOf="@+id/verifyEmailButton"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout"
+                app:layout_constraintTop_toTopOf="@+id/pinView" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"

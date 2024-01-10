@@ -73,8 +73,7 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
         viewModel.addTextFilters(binding);
 
         binding.signUpButton.setOnClickListener(v -> {
-//            validateAndSignUpUser(binding, viewModel);
-            showVerifyBottomSheetDialogFragment();
+            validateAndSignUpUser(binding, viewModel);
         });
 
         viewModel.setFocusListeners(binding);
