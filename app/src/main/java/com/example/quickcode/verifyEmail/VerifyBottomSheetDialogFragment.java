@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.quickcode.R;
 import com.example.quickcode.common.utils.AnimateUtils;
+import com.example.quickcode.common.utils.MetricUtils;
 import com.example.quickcode.common.utils.ResizeUtils;
 import com.example.quickcode.common.utils.TimeUtils;
 import com.example.quickcode.consts.Consts;
@@ -122,11 +123,15 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
 
         if (currentView.getId() == R.id.switch_view_pin) {
             FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+            int dpTop = MetricUtils.toDp(fragmentBinding.getRoot().getContext(), 8);
+            int dpBot = MetricUtils.toDp(fragmentBinding.getRoot().getContext(), 12);
             fragmentBinding.verifyEmailButton.setOnClickListener(v -> {
 
                 if (fragmentBinding.pinView.getText().toString().isEmpty()) {
-                    fragmentBinding.textViewWrongPin.setText("Required field");
-                    fragmentBinding.pinView.setLineColor(getResources().getColor(R.color.darkerRed));
+                    onPinViewCodeInvalid(fragmentBinding, dpTop, dpBot, "Required field");
+                    handler.post(this::hideCircle);
+                } else if (fragmentBinding.pinView.getText().length() < 4 || fragmentBinding.pinView.getText().toString().contains(" ")) {
+                    onPinViewCodeInvalid(fragmentBinding, dpTop, dpBot, "Fill in all fields");
                     handler.post(this::hideCircle);
                 } else {
                     fragmentBinding.textViewWrongPin.setText("");
@@ -141,8 +146,7 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
                                 } else if (verifyStatus instanceof VerifyFailure) {
                                     Log.e(TAG, "Error: " + ((VerifyFailure) verifyStatus).getError());
                                     handler.post(this::hideCircle);
-                                    fragmentBinding.textViewWrongPin.setText("Code is incorrect");
-                                    fragmentBinding.pinView.setLineColor(getResources().getColor(R.color.darkerRed));
+                                    onPinViewCodeInvalid(fragmentBinding, dpTop, dpBot, "Code Incorrect");
                                 } else {
                                     Log.wtf(TAG, "Exception: " + ((VerifyError) verifyStatus).getException().getMessage());
                                     handler.post(this::hideCircle);
@@ -158,14 +162,29 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
         }
     }
 
+    private void onPinViewCodeInvalid(FragmentVerifyPinviewBinding fragmentBinding, int dpTop, int dpBot, String text) {
+        fragmentBinding.textViewWrongPin.setText(text);
+        fragmentBinding.textViewWrongPin.setPadding(
+                0,
+                dpTop,
+                0,
+                dpBot);
+        fragmentBinding.pinView.setLineColor(getResources().getColor(R.color.darkerRed));
+    }
+
     private void showLottieResult(VerifyStatus verifyStatus) {
         if (verifyStatus instanceof VerifySuccess) {
             View nextView = binding.viewSwitcher.getNextView();
             FragmentVerifySuccessBinding fragmentBinding = FragmentVerifySuccessBinding.bind(nextView);
 
             binding.viewSwitcher.showNext();
-            fragmentBinding.lottie.playAnimation();
             binding.timer.setVisibility(View.GONE);
+
+            fragmentBinding.lottie.playAnimation();
+            fragmentBinding.backToLogInButton.setOnClickListener(v -> {
+//                dismiss();
+//                ((TabListener)requireActivity()).changeTab(index_0);
+            });
         } else {
             // TODO: 10.10.2023 not happy path
         }

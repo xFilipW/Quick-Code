@@ -6,27 +6,27 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-<!--    <ScrollView-->
-<!--        android:id="@+id/scrollView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:fillViewport="true"-->
-<!--        android:overScrollMode="never"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/toolbar">-->
+    <!--    <ScrollView-->
+    <!--        android:id="@+id/scrollView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:fillViewport="true"-->
+    <!--        android:overScrollMode="never"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/toolbar">-->
 
-        <ViewSwitcher
-            android:id="@+id/view_switcher"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+    <ViewSwitcher
+        android:id="@+id/view_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <include layout="@layout/fragment_verify_pinview" />
+        <include layout="@layout/fragment_verify_pinview" />
 
-            <include layout="@layout/fragment_verify_success" />
-        </ViewSwitcher>
-<!--    </ScrollView>-->
+        <include layout="@layout/fragment_verify_success" />
+    </ViewSwitcher>
+    <!--    </ScrollView>-->
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -42,11 +42,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
+        android:includeFontPadding="false"
         android:text="@string/verify_email_toolbar_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:textColor="@color/white"
         android:textSize="24sp"
-        android:includeFontPadding="false"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -59,8 +59,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:fontFamily="@font/poppins"
-        android:text="@string/verify_email_timer"
         android:includeFontPadding="false"
+        android:text="@string/verify_email_timer"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"

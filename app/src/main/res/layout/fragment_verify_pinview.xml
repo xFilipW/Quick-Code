@@ -74,7 +74,6 @@
                 android:cursorVisible="true"
                 android:elevation="8dp"
                 android:inputType="text"
-                android:paddingBottom="34dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:cursorWidth="2dp"
@@ -94,14 +93,15 @@
                 android:id="@+id/textViewWrongPin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:gravity="center"
+                android:includeFontPadding="false"
                 android:textColor="@color/darkerRed"
                 android:textSize="16sp"
-                android:includeFontPadding="false"
-                android:fontFamily="@font/poppins"
-                app:layout_constraintBottom_toTopOf="@+id/verifyEmailButton"
-                app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-                app:layout_constraintStart_toStartOf="@+id/linearLayout"
-                app:layout_constraintTop_toTopOf="@+id/pinView" />
+                app:layout_constraintBottom_toTopOf="@id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pinView" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -110,7 +110,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="@+id/pinView"
                 app:layout_constraintStart_toStartOf="@+id/pinView"
-                app:layout_constraintTop_toBottomOf="@+id/pinView">
+                app:layout_constraintTop_toBottomOf="@+id/textViewWrongPin">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -140,7 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginHorizontal="32dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="28dp"
                 android:background="@drawable/button_ripple_normal"
                 android:text="@string/verify_email_button_verify"
                 android:textColor="@color/white"
