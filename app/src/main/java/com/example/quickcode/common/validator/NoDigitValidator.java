@@ -1,22 +1,22 @@
 package com.example.quickcode.common.validator;
 
-import com.example.quickcode.R;
 import com.example.quickcode.common.deferred.DeferredText;
 
 public class NoDigitValidator implements Validator {
 
     private final String text;
+    private final DeferredText reason;
     private final String numbers = "(.*[0-9].*)";
 
-    public NoDigitValidator(String text) {
+    public NoDigitValidator(String text, DeferredText reason) {
         this.text = text;
+        this.reason = reason;
     }
 
     @Override
     public ValidatorResult validate() {
         if (text.matches(numbers)) {
-            return new ValidatorResult.Error(new DeferredText.Resource(R.string.sign_up_page_label_error_digits_are_not_allowed),
-                    ErrorType.DIGITS_ARE_NOT_ALLOWED);
+            return new ValidatorResult.Error(reason);
         } else {
             return new ValidatorResult.Success();
         }

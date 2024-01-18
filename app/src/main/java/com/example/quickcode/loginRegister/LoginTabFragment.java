@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.quickcode.R;
 import com.example.quickcode.common.cleaningEditTexts.CleanUpFragment;
 import com.example.quickcode.common.cleaningEditTexts.PasswordTransformationChecker;
+import com.example.quickcode.common.deferred.DeferredText;
 import com.example.quickcode.common.simples.SimpleTextWatcher;
 import com.example.quickcode.common.utils.AnimateUtils;
 import com.example.quickcode.common.validator.IsEmptyValidator;
@@ -124,12 +125,22 @@ public class LoginTabFragment extends Fragment implements CleanUpFragment {
 
         boolean success = true;
 
-        ValidatorResult validateEmailAndPhoneNumber = validateText(binding.textInputLayoutLoginEmail, List.of(new IsEmptyValidator(getEmailOrPhoneNumber)));
+        List<Validator> emailAndPhoneValidators = List.of(
+                new IsEmptyValidator(getEmailOrPhoneNumber,
+                        new DeferredText.Resource(R.string.sign_up_page_label_error_field_required)
+                )
+        );
+        ValidatorResult validateEmailAndPhoneNumber = validateText(binding.textInputLayoutLoginEmail, emailAndPhoneValidators);
         if (validateEmailAndPhoneNumber instanceof ValidatorResult.Error) {
             success = false;
         }
 
-        ValidatorResult validatePassword = validateText(binding.textInputLayoutLoginPassword, List.of(new IsEmptyValidator(getPassword)));
+        List<Validator> passwordValidators = List.of(
+                new IsEmptyValidator(getPassword,
+                        new DeferredText.Resource(R.string.sign_up_page_label_error_field_required)
+                )
+        );
+        ValidatorResult validatePassword = validateText(binding.textInputLayoutLoginPassword, passwordValidators);
         if (validatePassword instanceof ValidatorResult.Error) {
             success = false;
         }

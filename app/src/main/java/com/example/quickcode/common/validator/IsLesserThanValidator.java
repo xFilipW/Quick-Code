@@ -2,20 +2,21 @@ package com.example.quickcode.common.validator;
 
 import com.example.quickcode.common.deferred.DeferredText;
 
-public class ContainsUpperCase implements Validator {
+public class IsLesserThanValidator implements Validator {
 
-    private final String password;
+    private final String text;
+    private final int lesserThan;
     private final DeferredText reason;
-    private final String upperCase = "(.*[A-Z].*)";
 
-    public ContainsUpperCase(String password, DeferredText reason) {
-        this.password = password;
+    public IsLesserThanValidator(String text, int lesserThan, DeferredText reason) {
+        this.text = text;
+        this.lesserThan = lesserThan;
         this.reason = reason;
     }
 
     @Override
     public ValidatorResult validate() {
-        if (!password.matches(upperCase)) {
+        if (text.length() < lesserThan) {
             return new ValidatorResult.Error(reason);
         } else {
             return new ValidatorResult.Success();

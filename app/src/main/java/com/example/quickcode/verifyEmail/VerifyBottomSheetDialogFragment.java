@@ -12,16 +12,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.chaos.view.PinView;
 import com.example.quickcode.R;
+import com.example.quickcode.common.deferred.DeferredText;
 import com.example.quickcode.common.utils.AnimateUtils;
 import com.example.quickcode.common.utils.MetricUtils;
 import com.example.quickcode.common.utils.ResizeUtils;
 import com.example.quickcode.common.utils.TimeUtils;
+import com.example.quickcode.common.validator.ContainsSpaceValidator;
+import com.example.quickcode.common.validator.IsEmptyValidator;
+import com.example.quickcode.common.validator.IsLesserThanValidator;
+import com.example.quickcode.common.validator.Validator;
+import com.example.quickcode.common.validator.ValidatorHelper;
+import com.example.quickcode.common.validator.ValidatorResult;
 import com.example.quickcode.consts.Consts;
 import com.example.quickcode.databinding.ActivityVerifyEmailBinding;
 import com.example.quickcode.databinding.FragmentVerifyPinviewBinding;
@@ -37,6 +46,7 @@ import com.example.quickcode.rest.verify.VerifySuccess;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -52,6 +62,7 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
     private long futureTime = Integer.MIN_VALUE;
     private boolean countdownEnabled = true;
     private SignupSharedViewModel signupSharedViewModel;
+    private Validator[] pinViewValidators;
 
     @Nullable
     @Override
@@ -122,54 +133,76 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
         View currentView = binding.viewSwitcher.getCurrentView();
 
         if (currentView.getId() == R.id.switch_view_pin) {
-            FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
-            int dpTop = MetricUtils.toDp(fragmentBinding.getRoot().getContext(), 8);
-            int dpBot = MetricUtils.toDp(fragmentBinding.getRoot().getContext(), 12);
-            fragmentBinding.verifyEmailButton.setOnClickListener(v -> {
-
-                if (fragmentBinding.pinView.getText().toString().isEmpty()) {
-                    onPinViewCodeInvalid(fragmentBinding, dpTop, dpBot, "Required field");
-                    handler.post(this::hideCircle);
-                } else if (fragmentBinding.pinView.getText().length() < 4 || fragmentBinding.pinView.getText().toString().contains(" ")) {
-                    onPinViewCodeInvalid(fragmentBinding, dpTop, dpBot, "Fill in all fields");
-                    handler.post(this::hideCircle);
-                } else {
-                    fragmentBinding.textViewWrongPin.setText("");
-                    handler.post(this::showCircle);
-                    viewModel.verifyUser(
-                            viewModel.getUserId(requireContext()),
-                            String.valueOf(fragmentBinding.pinView.getText()),
-                            verifyStatus -> {
-                                if (verifyStatus instanceof VerifySuccess) {
-                                    handler.post(this::hideCircle);
-                                    showLottieResult(verifyStatus);
-                                } else if (verifyStatus instanceof VerifyFailure) {
-                                    Log.e(TAG, "Error: " + ((VerifyFailure) verifyStatus).getError());
-                                    handler.post(this::hideCircle);
-                                    onPinViewCodeInvalid(fragmentBinding, dpTop, dpBot, "Code Incorrect");
-                                } else {
-                                    Log.wtf(TAG, "Exception: " + ((VerifyError) verifyStatus).getException().getMessage());
-                                    handler.post(this::hideCircle);
-                                }
-                            }
-                    );
-                }
-
-
-            });
+            onClickButtonOnSwitchViewPin(currentView);
         } else {
             // TODO: 10.10.2023
         }
     }
 
-    private void onPinViewCodeInvalid(FragmentVerifyPinviewBinding fragmentBinding, int dpTop, int dpBot, String text) {
-        fragmentBinding.textViewWrongPin.setText(text);
-        fragmentBinding.textViewWrongPin.setPadding(
-                0,
-                dpTop,
-                0,
-                dpBot);
-        fragmentBinding.pinView.setLineColor(getResources().getColor(R.color.darkerRed));
+    private void onClickButtonOnSwitchViewPin(View currentView) {
+        FragmentVerifyPinviewBinding fragmentBinding = FragmentVerifyPinviewBinding.bind(currentView);
+
+        fragmentBinding.verifyEmailButton.setOnClickListener(view -> {
+            int dpTop = MetricUtils.toDp(requireContext(), 8);
+            int dpBot = MetricUtils.toDp(requireContext(), 12);
+
+            TextView textViewWrongPin = fragmentBinding.textViewWrongPin;
+            PinView pinView = fragmentBinding.pinView;
+
+            int errorTextColor = getResources().getColor(R.color.darkerRed);
+
+            String pinViewText = pinView.getText().toString();
+
+            DeferredText.Resource reasonFieldRequired = new DeferredText.Resource(R.string.verify_email_label_error_field_required);
+            DeferredText.Resource reasonFillInAllFields = new DeferredText.Resource(R.string.verify_email_label_error_fill_in_all_fields);
+
+            pinViewValidators = new Validator[]{
+                    new IsEmptyValidator(pinViewText, reasonFieldRequired),
+                    new IsLesserThanValidator(pinViewText, 4, reasonFillInAllFields),
+                    new ContainsSpaceValidator(pinViewText, reasonFillInAllFields),
+            };
+
+            ValidatorResult validate = ValidatorHelper.validate(Arrays.asList(pinViewValidators));
+
+            if (validate instanceof ValidatorResult.Success) {
+                onValidatorResultSuccess(pinView, textViewWrongPin, dpTop, dpBot, errorTextColor);
+            } else {
+                onValidatorResultError(pinView, textViewWrongPin, dpTop, dpBot, errorTextColor, (ValidatorResult.Error) validate);
+            }
+        });
+    }
+
+    private void onValidatorResultSuccess(PinView pinView, TextView textViewWrongPin, int dpTop, int dpBot, int errorTextColor) {
+        textViewWrongPin.setText("");
+        handler.post(this::showCircle);
+        viewModel.verifyUser(
+                viewModel.getUserId(requireContext()),
+                String.valueOf(pinView.getText()),
+                verifyStatus -> {
+                    if (verifyStatus instanceof VerifySuccess) {
+                        handler.post(this::hideCircle);
+                        showLottieResult(verifyStatus);
+                    } else if (verifyStatus instanceof VerifyFailure) {
+                        Log.e(TAG, "Error: " + ((VerifyFailure) verifyStatus).getError());
+                        handler.post(this::hideCircle);
+                        onPinViewCodeInvalid(pinView, textViewWrongPin, dpTop, dpBot, "Code Incorrect", errorTextColor);
+                    } else {
+                        Log.wtf(TAG, "Exception: " + ((VerifyError) verifyStatus).getException().getMessage());
+                        handler.post(this::hideCircle);
+                    }
+                });
+    }
+
+    private void onValidatorResultError(PinView pinView, TextView textViewWrongPin, int dpTop, int dpBot, int errorTextColor, ValidatorResult.Error validate) {
+        String reason = validate.getReason(requireContext());
+        onPinViewCodeInvalid(pinView, textViewWrongPin, dpTop, dpBot, reason, errorTextColor);
+        handler.post(this::hideCircle);
+    }
+
+    private void onPinViewCodeInvalid(PinView pinView, TextView textViewWrongPin, int dpTop, int dpBot, String text, int color) {
+        textViewWrongPin.setText(text);
+        textViewWrongPin.setPadding(0, dpTop, 0, dpBot);
+        pinView.setLineColor(color);
     }
 
     private void showLottieResult(VerifyStatus verifyStatus) {

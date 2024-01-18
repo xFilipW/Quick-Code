@@ -1,7 +1,5 @@
 package com.example.quickcode.loginRegister;
 
-import android.animation.AnimatorSet;
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -11,24 +9,16 @@ import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
-import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsAnimationCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.core.widget.TextViewCompat;
 import androidx.lifecycle.ViewModel;
 
 import com.example.quickcode.R;
 import com.example.quickcode.common.cleaningEditTexts.PasswordTransformationChecker;
+import com.example.quickcode.common.deferred.DeferredText;
 import com.example.quickcode.common.filters.NoEmptySpaceFilter;
 import com.example.quickcode.common.helpers.InputFilterHelper;
 import com.example.quickcode.common.simples.SimpleTextWatcher;
@@ -218,25 +208,25 @@ public class SignUpViewModel extends ViewModel {
 
         ValidatorResult containsSpecialCharValidator = validateEditTextValueAndSetStyle(colorSuccess,
                 colorFailure,
-                new ContainsSpecialChar(text),
+                new ContainsSpecialChar(text, new DeferredText.Resource(R.string.sign_up_page_label_error_password_must_contains_special_char)),
                 binding.checkSpecialChar);
         validatorResultArrayList.add(containsSpecialCharValidator);
 
         ValidatorResult containsLowerCaseValidator = validateEditTextValueAndSetStyle(colorSuccess,
                 colorFailure,
-                new ContainsLowerCase(text),
+                new ContainsLowerCase(text, new DeferredText.Resource(R.string.sign_up_page_label_error_password_must_contains_lower_case)),
                 binding.checkLowercase);
         validatorResultArrayList.add(containsLowerCaseValidator);
 
         ValidatorResult containsUpperCaseValidator = validateEditTextValueAndSetStyle(colorSuccess,
                 colorFailure,
-                new ContainsUpperCase(text),
+                new ContainsUpperCase(text, new DeferredText.Resource(R.string.sign_up_page_label_error_password_must_contains_upper_case)),
                 binding.checkUpperCase);
         validatorResultArrayList.add(containsUpperCaseValidator);
 
         ValidatorResult containsDigitValidator = validateEditTextValueAndSetStyle(colorSuccess,
                 colorFailure,
-                new ContainsDigit(text),
+                new ContainsDigit(text, new DeferredText.Resource(R.string.sign_up_page_label_error_password_must_contains_digit)),
                 binding.checkDigit);
         validatorResultArrayList.add(containsDigitValidator);
 

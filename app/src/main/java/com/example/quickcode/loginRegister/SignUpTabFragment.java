@@ -16,9 +16,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.quickcode.R;
 import com.example.quickcode.common.cleaningEditTexts.CleanUpFragment;
+import com.example.quickcode.common.deferred.DeferredText;
 import com.example.quickcode.common.helpers.DialogHelper;
 import com.example.quickcode.common.utils.AnimateUtils;
-import com.example.quickcode.common.utils.KeyboardListener;
 import com.example.quickcode.common.utils.KeyboardUtils;
 import com.example.quickcode.common.utils.NetworkUtils;
 import com.example.quickcode.common.utils.ResizeUtils;
@@ -79,12 +79,7 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
         viewModel.setFocusListeners(binding);
         viewModel.setTouchListeners(binding);
         KeyboardUtils.setImeListeners(binding.confirmPassword);
-        KeyboardUtils.setOnKeyboardShowed(binding, new KeyboardListener() {
-            @Override
-            public void onNotShowed() {
-                ResizeUtils.resizeView(0, binding.bottomSpacer);
-            }
-        });
+        KeyboardUtils.setOnKeyboardShowed(binding, () -> ResizeUtils.resizeView(0, binding.bottomSpacer));
 
         addTextWatchers();
     }
@@ -130,18 +125,18 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
         validatorResultLinkedHashMap.put(
                 binding.textInputLayoutFirstName,
                 signUpViewModel.validateAndGetResult(binding.textInputLayoutFirstName,
-                        List.of(new IsEmptyValidator(getFirstNameText),
-                                new FirstLetterCapitalizedValidator(getFirstNameText),
-                                new NoDigitValidator(getFirstNameText),
-                                new NoSpecialCharValidator(getFirstNameText))
+                        List.of(new IsEmptyValidator(getFirstNameText, new DeferredText.Resource(R.string.sign_up_page_label_error_field_required)),
+                                new FirstLetterCapitalizedValidator(getFirstNameText, new DeferredText.Resource(R.string.sign_up_page_label_error_first_letter_must_be_capitalized)),
+                                new NoDigitValidator(getFirstNameText, new DeferredText.Resource(R.string.sign_up_page_label_error_digits_are_not_allowed)),
+                                new NoSpecialCharValidator(getFirstNameText, new DeferredText.Resource(R.string.sign_up_page_label_error_special_chars_are_not_allowed)))
                 )
         );
 
         validatorResultLinkedHashMap.put(
                 binding.textInputLayoutEmail,
                 signUpViewModel.validateAndGetResult(binding.textInputLayoutEmail,
-                        List.of(new IsEmptyValidator(getEmailText),
-                                new CorrectEmailValidator(getEmailText))
+                        List.of(new IsEmptyValidator(getEmailText, new DeferredText.Resource(R.string.sign_up_page_label_error_field_required)),
+                                new CorrectEmailValidator(getEmailText, new DeferredText.Resource(R.string.sign_up_page_label_error_incorrect_email)))
                 )
         );
 
@@ -155,8 +150,8 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
         validatorResultLinkedHashMap.put(
                 binding.textInputLayoutConfirmPassword,
                 signUpViewModel.validateAndGetResult(binding.textInputLayoutConfirmPassword,
-                        List.of(new IsEmptyValidator(getConfirmPasswordText),
-                                new SameTextsValidator(getPasswordText, getConfirmPasswordText))
+                        List.of(new IsEmptyValidator(getConfirmPasswordText, new DeferredText.Resource(R.string.sign_up_page_label_error_field_required)),
+                                new SameTextsValidator(getPasswordText, getConfirmPasswordText, new DeferredText.Resource(R.string.sign_up_page_label_error_passwords_are_not_the_same)))
                 )
         );
 

@@ -74,4 +74,7 @@
     <string name="reset_password_heading_text">Enter new password!</string>
     <string name="reset_password_subheading_text">Your new password must be different\nfrom previously used password.</string>
     <string name="reset_password_button_confirm">Reset password</string>
+
+    <string name="verify_email_label_error_field_required">Required field</string>
+    <string name="verify_email_label_error_fill_in_all_fields">Fill in all fields</string>
 </resources>

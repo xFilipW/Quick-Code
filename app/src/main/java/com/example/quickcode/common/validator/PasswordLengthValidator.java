@@ -15,8 +15,7 @@ public class PasswordLengthValidator implements Validator {
     @Override
     public ValidatorResult validate() {
         if (text.length() < minLength) {
-            return new ValidatorResult.Error(new DeferredText.Const("Minimum " + minLength + " characters"),
-                    ErrorType.PASSWORD_LENGTH_IS_TOO_SHORT);
+            return new ValidatorResult.Error(new DeferredText.Const("Minimum " + minLength + " characters"));
         } else {
             return new ValidatorResult.Success();
         }
