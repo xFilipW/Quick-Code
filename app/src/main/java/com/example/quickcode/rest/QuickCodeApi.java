@@ -1,5 +1,6 @@
 package com.example.quickcode.rest;
 
+import com.example.quickcode.rest.login.LoginResponse;
 import com.example.quickcode.rest.register.RegisterResponse;
 import com.example.quickcode.rest.verify.VerifyResponse;
 
@@ -23,6 +24,13 @@ public interface QuickCodeApi {
     Call<VerifyResponse> verify(
             @Field("user_id") long user_id,
             @Field("token") String token
+    );
+
+    @FormUrlEncoded
+    @POST("login.php")
+    Call<LoginResponse> login(
+            @Field("email") String email,
+            @Field("password") String password
     );
 
 }

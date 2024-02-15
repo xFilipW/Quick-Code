@@ -1,7 +1,7 @@
 package com.example.quickcode.rest.verify;
 
 public class VerifySuccess implements VerifyStatus {
-    private VerifyResponse response;
+    private final VerifyResponse response;
 
     public VerifySuccess(VerifyResponse registerResponse) {
         this.response = registerResponse;

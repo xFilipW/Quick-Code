@@ -1,14 +1,11 @@
 package com.example.quickcode.loginRegister;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import androidx.annotation.ColorRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.TooltipCompat;
@@ -34,7 +31,7 @@ public class LoginActivity extends AppCompatActivity implements SwipeControlList
     public static final int INSETS_TOP_VALUE = 1;
     private ActivityLoginBinding binding;
     private SimpleOnTabSelectedListener tabSelectedListener;
-    private ArrayList<View> touchables;
+    private ArrayList<View> tactile;
     private boolean windowInsetsCompatConsumed = false;
 
     @Override
@@ -70,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements SwipeControlList
             }
         });
 
-        touchables = binding.tabLayout.getTouchables();
+        tactile = binding.tabLayout.getTouchables();
 
         tabSelectedListener = new SimpleOnTabSelectedListener() {
             @Override
@@ -148,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements SwipeControlList
     }
 
     private void setUntouchableTab(boolean enabled) {
-        for (View v : touchables) {
+        for (View v : tactile) {
             v.setEnabled(enabled);
         }
     }

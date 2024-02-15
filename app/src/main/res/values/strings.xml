@@ -33,6 +33,7 @@
     <string name="log_in_page_label_forgot_password">Forgot password?</string>
     <string name="log_in_page_button_text">log in</string>
     <string name="log_in_page_label_or_log_in_with">Or log in with</string>
+    <string name="log_in_page_label_error_field_required">Required field</string>
 
     <string name="sign_up_page_hint_first_name">First name</string>
     <string name="sign_up_page_hint_e_mail">E-mail</string>

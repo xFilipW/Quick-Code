@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutLoginEmail"
@@ -186,5 +187,26 @@
         app:layout_constraintStart_toEndOf="@+id/fabGoogle"
         app:layout_constraintTop_toBottomOf="@+id/layoutOrLogin"
         app:tint="@null" />
+
+    <FrameLayout
+        android:id="@+id/progress_register"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:translationZ="10dp"
+        tools:visibility="gone"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/progressAnimationView"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/animation_loading" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

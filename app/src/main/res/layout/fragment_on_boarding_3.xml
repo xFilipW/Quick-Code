@@ -19,26 +19,6 @@
         app:layout_constraintStart_toStartOf="@+id/imageOnBoarding1"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/skipButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:fontFamily="@font/poppins"
-        android:includeFontPadding="false"
-        android:text="@string/on_boarding_label_skip"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textQuickCode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toEndOf="@+id/textQuickCode"
-        app:layout_constraintTop_toTopOf="@+id/textQuickCode" />
-
     <ImageView
         android:id="@+id/imageOnBoarding1"
         android:layout_width="0dp"

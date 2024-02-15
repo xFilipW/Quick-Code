@@ -1,7 +1,7 @@
 package com.example.quickcode.rest.verify;
 
 public class VerifyError implements VerifyStatus {
-    private Exception execption;
+    private final Exception execption;
 
     public VerifyError(Exception e) {
         this.execption = e;

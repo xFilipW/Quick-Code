@@ -44,14 +44,14 @@ public class VerifyViewModel extends ViewModel {
 
     public static final int DISMISS_DELAY_MILLIS = 200;
 
+    private static void scrollToTopsViewBorder(FragmentVerifyPinviewBinding binding, ImageView targetView) {
+        binding.getRoot().post(() -> binding.scrollView.smoothScrollTo(0, targetView.getTop()));
+    }
+
     void setupToolbarBehaviour(ActivityVerifyEmailBinding pinBinding, Runnable runnable) {
         pinBinding.toolbar.setNavigationOnClickListener(
                 v -> v.postDelayed(runnable, DISMISS_DELAY_MILLIS)
         );
-    }
-
-    private static void scrollToTopsViewBorder(FragmentVerifyPinviewBinding binding, ImageView targetView) {
-        binding.getRoot().post(() -> binding.scrollView.smoothScrollTo(0, targetView.getTop()));
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -63,8 +63,7 @@ public class VerifyViewModel extends ViewModel {
 
             fragmentBinding.pinView.setOnFocusChangeListener((v, hasFocus) -> {
                 if (hasFocus) {
-                    //ResizeUtils.resizeView((int) (fragmentBinding.getRoot().getHeight() * .35f), fragmentBinding.test);
-                    ResizeUtils.resizeView((int) (fragmentBinding.getRoot().getHeight() * .35f), fragmentBinding.bottomSpacer);
+                    ResizeUtils.resizeView((int) (fragmentBinding.getRoot().getHeight() * .05f), fragmentBinding.bottomSpacer);
                     scrollToTopsViewBorder(fragmentBinding, fragmentBinding.imageView);
                 }
             });

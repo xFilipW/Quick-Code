@@ -47,7 +47,7 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
 
     private FragmentSignupTabBinding binding;
     private SignUpViewModel viewModel;
-    private SignupSharedViewModel signupSharedViewModel;
+    private SharedViewModel sharedViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -60,8 +60,8 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
-        signupSharedViewModel = new ViewModelProvider(requireActivity()).get(SignupSharedViewModel.class);
-        signupSharedViewModel.circle.observe(requireActivity(), isShown -> {
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        sharedViewModel.circle.observe(requireActivity(), isShown -> {
             if (isShown) {
                 showCircle();
             } else {
@@ -74,6 +74,10 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
 
         binding.signUpButton.setOnClickListener(v -> {
             validateAndSignUpUser(binding, viewModel);
+            binding.textInputLayoutFirstName.clearFocus();
+            binding.textInputLayoutEmail.clearFocus();
+            binding.textInputLayoutPassword.clearFocus();
+            binding.textInputLayoutConfirmPassword.clearFocus();
         });
 
         viewModel.setFocusListeners(binding);
@@ -165,7 +169,7 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
 
         KeyboardUtils.hideKeyboard(binding.signUpButton);
 
-        signupSharedViewModel.showCircle();
+        sharedViewModel.showCircle();
 
         registerUser(getFirstNameText, getEmailText, getPasswordText);
     }
@@ -183,10 +187,10 @@ public class SignUpTabFragment extends Fragment implements CleanUpFragment, Circ
                 showVerifyBottomSheetDialogFragment();
             } else if (registerStatus instanceof RegisterFailure) {
                 Log.e(TAG, "Error: " + ((RegisterFailure) registerStatus).getError());
-                signupSharedViewModel.hideCircle();
+                sharedViewModel.hideCircle();
             } else {
                 Log.wtf(TAG, "Exception: " + ((RegisterError) registerStatus).getException().getMessage());
-                signupSharedViewModel.hideCircle();
+                sharedViewModel.hideCircle();
             }
         });
     }

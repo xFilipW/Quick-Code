@@ -37,7 +37,7 @@ import com.example.quickcode.databinding.FragmentVerifyPinviewBinding;
 import com.example.quickcode.databinding.FragmentVerifySuccessBinding;
 import com.example.quickcode.loginRegister.CircleStatusListener;
 import com.example.quickcode.loginRegister.LoginActivity;
-import com.example.quickcode.loginRegister.SignupSharedViewModel;
+import com.example.quickcode.loginRegister.SharedViewModel;
 import com.example.quickcode.loginRegister.SwipeControlListener;
 import com.example.quickcode.rest.verify.VerifyError;
 import com.example.quickcode.rest.verify.VerifyFailure;
@@ -61,7 +61,7 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
     private Handler handler;
     private long futureTime = Integer.MIN_VALUE;
     private boolean countdownEnabled = true;
-    private SignupSharedViewModel signupSharedViewModel;
+    private SharedViewModel sharedViewModel;
     private Validator[] pinViewValidators;
 
     @Nullable
@@ -79,7 +79,7 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
         handler = new Handler(Looper.getMainLooper());
 
         viewModel = new ViewModelProvider(this).get(VerifyViewModel.class);
-        signupSharedViewModel = new ViewModelProvider(requireActivity()).get(SignupSharedViewModel.class);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
         updateGreetingsText(viewModel.getDisplayUsername(requireContext()));
 
@@ -279,7 +279,7 @@ public class VerifyBottomSheetDialogFragment extends BottomSheetDialogFragment i
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                signupSharedViewModel.hideCircle();
+                sharedViewModel.hideCircle();
             }
         }, 1000);
     }

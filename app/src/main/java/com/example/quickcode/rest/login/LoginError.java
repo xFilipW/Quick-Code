@@ -1,9 +1,10 @@
-package com.example.quickcode.rest.register;
+package com.example.quickcode.rest.login;
 
-public class RegisterError implements RegisterStatus {
+
+public class LoginError implements LoginStatus {
     private final Exception execption;
 
-    public RegisterError(Exception e) {
+    public LoginError(Exception e) {
         this.execption = e;
     }
 

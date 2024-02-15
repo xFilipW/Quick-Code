@@ -1,5 +1,6 @@
 package com.example.quickcode.rest;
 
+import com.example.quickcode.rest.login.LoginResponse;
 import com.example.quickcode.rest.register.RegisterResponse;
 import com.example.quickcode.rest.verify.VerifyResponse;
 
@@ -11,7 +12,7 @@ public class QuickCodeClient {
 
     private static QuickCodeClient INSTANCE;
     private final QuickCodeApi api;
-    private String info = "Initial info class";
+    private final String info = "Initial info class";
 
     private QuickCodeClient() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -36,6 +37,10 @@ public class QuickCodeClient {
 
     public Call<VerifyResponse> verify(long user_id, String token) {
         return api.verify(user_id, token);
+    }
+
+    public Call<LoginResponse> login(String email, String password) {
+        return api.login(email, password);
     }
 
 }
