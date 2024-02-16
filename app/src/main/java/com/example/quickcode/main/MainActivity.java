@@ -6,23 +6,23 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.quickcode.R;
-import com.example.quickcode.databinding.MainActivityBinding;
+import com.example.quickcode.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private com.example.quickcode.databinding.MainActivityBinding binding;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = MainActivityBinding.inflate(getLayoutInflater(), null, false);
+        binding = ActivityMainBinding.inflate(getLayoutInflater(), null, false);
         setContentView(binding.getRoot());
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(
-                    R.id.fragment,
-                    MainFragment.newInstance(), MainFragment.TAG).commit();
-        }
+//        if (savedInstanceState == null) {
+//            getSupportFragmentManager().beginTransaction().replace(
+//                    R.id.fragment,
+//                    MainFragment.newInstance(), MainFragment.TAG).commit();
+//        }
     }
 }

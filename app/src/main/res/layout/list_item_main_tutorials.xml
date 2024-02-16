@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:padding="10dp">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="320dp"
+        android:layout_height="120dp"
+        app:cardCornerRadius="12dp"
+        android:background="@color/lightBlue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/lightBlue">
+
+            <ImageView
+                android:id="@+id/item_img"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/grey"
+                android:src="@drawable/logo_quick_code" />
+
+            <TextView
+                android:id="@+id/storyTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Sample Story Title"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@+id/item_img" />
+
+            <TextView
+                android:id="@+id/storyContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:maxLength="23"
+                android:text="Sample Story Content Description"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/storyTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
