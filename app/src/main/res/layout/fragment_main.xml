@@ -55,28 +55,29 @@
         tools:listitem="@layout/list_item_main_languages" />
 
     <androidx.cardview.widget.CardView
-        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recycler_languages">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewTutorials"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/list_item_main_tutorials"/>
+            tools:listitem="@layout/list_item_main_tutorials" />
 
     </androidx.cardview.widget.CardView>
-    
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/lightPurple"
+        android:background="@color/navigationBarColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/main_bottom_nav_menu"/>
+        app:menu="@menu/main_bottom_nav_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
