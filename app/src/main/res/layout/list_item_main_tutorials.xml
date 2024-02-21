@@ -6,6 +6,7 @@
     android:padding="10dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/programmingTutorialsContainer"
         android:layout_width="320dp"
         android:layout_height="140dp"
         android:background="@color/lightBlue"
@@ -20,11 +21,11 @@
             android:background="@color/lightBlue">
 
             <ImageView
-                android:id="@+id/itemImg"
+                android:id="@+id/tutorialPreview"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:background="@color/grey"
-                android:src="@drawable/logo_quick_code" />
+                android:src="@drawable/ic_quick_code" />
 
             <TextView
                 android:id="@+id/programmingLanguageName"
@@ -33,7 +34,7 @@
                 android:text="Java"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@+id/itemImg" />
+                app:layout_constraintTop_toBottomOf="@+id/tutorialPreview" />
 
             <TextView
                 android:id="@+id/tutorialDescription"
