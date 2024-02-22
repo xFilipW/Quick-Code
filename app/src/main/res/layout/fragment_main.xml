@@ -5,12 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/jpg_main_background"
+        app:layout_constraintBottom_toBottomOf="@+id/cardListBumper"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Tutorials" />
+        app:title="Tutorials"
+        app:titleTextColor="@color/white" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card"
@@ -19,7 +27,6 @@
         android:layout_marginHorizontal="16dp"
         app:cardBackgroundColor="@color/lightBlue"
         app:cardCornerRadius="24dp"
-        app:contentPaddingLeft="24dp"
         app:contentPaddingRight="4dp"
         app:layout_constraintBottom_toTopOf="@+id/recycler_languages"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
@@ -28,17 +35,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="36dp"
             android:maxLines="1"
-            tools:text="Search tutorial here" />
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:hint="Search tutorial here" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="end|center_vertical"
             android:contentDescription="Search"
-            app:backgroundTint="@color/white"
+            android:scaleType="centerCrop"
+            app:fabCustomSize="40dp"
+            app:srcCompat="@drawable/ic_arrow_search"
+            app:tint="@color/white"
+            app:backgroundTint="@color/blue"
             app:elevation="0dp" />
 
     </androidx.cardview.widget.CardView>
@@ -54,11 +67,13 @@
         app:layout_constraintTop_toBottomOf="@+id/card"
         tools:listitem="@layout/list_item_main_languages" />
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/shape_top_rounded"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavBar"
         app:layout_constraintTop_toBottomOf="@+id/recycler_languages">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -69,9 +84,16 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/list_item_main_tutorials" />
 
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/cardListBumper"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_list_bumper_height"
+        app:layout_constraintTop_toTopOf="@+id/cardList"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/navigationBarColor"

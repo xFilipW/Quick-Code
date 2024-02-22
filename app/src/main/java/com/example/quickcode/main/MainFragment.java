@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -48,6 +51,16 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
+            Insets systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) binding.toolbar.getLayoutParams();
+            layoutParams.topMargin = systemBarsInsets.top;
+            binding.toolbar.setLayoutParams(layoutParams);
+
+            return insets;
+        });
+
         programmingLanguageDataList = Arrays.asList(
                 new ProgrammingLanguageData(R.drawable.ic_java, "Java"),
                 new ProgrammingLanguageData(R.drawable.ic_python, "Python"),
@@ -67,14 +80,14 @@ public class MainFragment extends Fragment {
         binding.recyclerLanguages.setAdapter(languagesAdapter);
 
         programmingTutorialDataList = Arrays.asList(
-                new ProgrammingTutorialData(R.drawable.ic_cpp, "Python", ""),
-                new ProgrammingTutorialData(R.drawable.ic_cpp, "C#", ""),
-                new ProgrammingTutorialData(R.drawable.ic_cpp, "C++", ""),
-                new ProgrammingTutorialData(R.drawable.ic_cpp, "Html", ""),
-                new ProgrammingTutorialData(R.drawable.ic_cpp, "Css", ""),
-                new ProgrammingTutorialData(R.drawable.ic_cpp, "Java script", ""),
-                new ProgrammingTutorialData(R.drawable.ic_cpp, "PHP", ""),
-                new ProgrammingTutorialData(R.drawable.ic_cpp, "MySql", "")
+                new ProgrammingTutorialData(R.drawable.ic_cpp, "Python", "How to make a simple calculator"),
+                new ProgrammingTutorialData(R.drawable.ic_cpp, "C#", "How to make a simple calculator"),
+                new ProgrammingTutorialData(R.drawable.ic_cpp, "C++", "How to make a simple calculator"),
+                new ProgrammingTutorialData(R.drawable.ic_cpp, "Html", "How to make a simple calculator"),
+                new ProgrammingTutorialData(R.drawable.ic_cpp, "Css", "How to make a simple calculator"),
+                new ProgrammingTutorialData(R.drawable.ic_cpp, "Java script", "How to make a simple calculator"),
+                new ProgrammingTutorialData(R.drawable.ic_cpp, "PHP", "How to make a simple calculator"),
+                new ProgrammingTutorialData(R.drawable.ic_cpp, "MySql", "How to make a simple calculator")
         );
 
         binding.recyclerViewTutorials.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));

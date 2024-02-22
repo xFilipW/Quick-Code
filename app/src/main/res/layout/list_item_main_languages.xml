@@ -33,6 +33,7 @@
         android:gravity="center"
         android:text="Name"
         android:textSize="18sp"
+        android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="@+id/programmingLanguageContainer"
         app:layout_constraintRight_toRightOf="@id/programmingLanguageContainer"
         app:layout_constraintTop_toBottomOf="@+id/programmingLanguageContainer" />

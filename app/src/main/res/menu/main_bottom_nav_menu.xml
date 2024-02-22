@@ -4,18 +4,18 @@
         android:id="@+id/a"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/baseline_home_24"
-        android:title="Home" />
+        android:icon="@drawable/ic_quizzes"
+        android:title="Quizzes" />
     <item
         android:id="@+id/b"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/baseline_shuffle_24"
-        android:title="Shuffle" />
+        android:icon="@drawable/ic_tutorials"
+        android:title="Tutorials" />
     <item
         android:id="@+id/c"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/baseline_share_24"
-        android:title="Share" />
+        android:icon="@drawable/ic_exercises"
+        android:title="Exercises" />
 </menu>
