@@ -13,10 +13,10 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name=".introductory.onBoarding.OnBoardingActivity"
+            android:name=".main.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.QuickCode.OnBoarding">
+            android:theme="@style/Theme.QuickCode">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,14 +34,14 @@
 
         </activity>
 
-        <activity
-            android:name=".main.MainActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.QuickCode"
-            android:windowSoftInputMode="adjustResize">
+<!--        <activity-->
+<!--            android:name=".main.MainActivity"-->
+<!--            android:exported="true"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:theme="@style/Theme.QuickCode"-->
+<!--            android:windowSoftInputMode="adjustResize">-->
 
-        </activity>
+<!--        </activity>-->
 
         <activity
             android:name="com.example.quickcode.resetPassword.ResetPasswordActivity"

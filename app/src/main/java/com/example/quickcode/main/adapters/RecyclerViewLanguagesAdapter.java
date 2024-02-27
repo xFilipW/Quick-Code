@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.quickcode.databinding.ListItemMainLanguagesBinding;
 import com.example.quickcode.main.data.ProgrammingLanguageData;
 import com.example.quickcode.main.viewHolders.ViewHolderLanguages;
@@ -32,9 +31,7 @@ public class RecyclerViewLanguagesAdapter extends RecyclerView.Adapter<ViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderLanguages holder, int position) {
-        Glide.with(holder.itemView)
-                .load(programmingLanguageData.get(position).getImage())
-                .into(holder.biding.programmingLanguageIcon);
+        holder.biding.programmingLanguageIcon.setImageResource(programmingLanguageData.get(position).getImage());
 
         String languageName = programmingLanguageData.get(position).getName();
         holder.biding.programmingLanguageName.setText(languageName);

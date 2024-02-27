@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.quickcode.databinding.ListItemMainTutorialsBinding;
 import com.example.quickcode.main.data.ProgrammingTutorialData;
 import com.example.quickcode.main.viewHolders.ViewHolderTutorials;
@@ -32,9 +31,7 @@ public class RecyclerViewTutorialsAdapter extends RecyclerView.Adapter<ViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderTutorials holder, int position) {
-        Glide.with(holder.itemView)
-                .load(programmingTutorialDataList.get(position).getImage())
-                .into(holder.biding.tutorialPreview);
+        holder.biding.tutorialPreview.setImageResource(programmingTutorialDataList.get(position).getImage());
 
         String languageName = programmingTutorialDataList.get(position).getName();
         holder.biding.programmingLanguageName.setText(languageName);

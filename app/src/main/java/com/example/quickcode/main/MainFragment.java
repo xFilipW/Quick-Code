@@ -20,6 +20,7 @@ import com.example.quickcode.main.adapters.RecyclerViewLanguagesAdapter;
 import com.example.quickcode.main.adapters.RecyclerViewTutorialsAdapter;
 import com.example.quickcode.main.data.ProgrammingLanguageData;
 import com.example.quickcode.main.data.ProgrammingTutorialData;
+import com.example.quickcode.main.viewHolders.ItemDividerDecoration;
 
 import java.util.Arrays;
 import java.util.List;
@@ -66,18 +67,19 @@ public class MainFragment extends Fragment {
                 new ProgrammingLanguageData(R.drawable.ic_python, "Python"),
                 new ProgrammingLanguageData(R.drawable.ic_cs, "C#"),
                 new ProgrammingLanguageData(R.drawable.ic_cpp, "C++"),
-                new ProgrammingLanguageData(R.drawable.ic_android, "Android Apps"),
+                new ProgrammingLanguageData(R.drawable.ic_android, "Android"),
                 new ProgrammingLanguageData(R.drawable.ic_html, "Html"),
                 new ProgrammingLanguageData(R.drawable.ic_css, "Css"),
-                new ProgrammingLanguageData(R.drawable.ic_js, "Java Script"),
-                new ProgrammingLanguageData(R.drawable.ic_php, "Php"),
+                new ProgrammingLanguageData(R.drawable.ic_js, "JavaScript"),
+                new ProgrammingLanguageData(R.drawable.ic_php, "PHP"),
                 new ProgrammingLanguageData(R.drawable.ic_mysql, "Mysql")
         );
 
-        binding.recyclerLanguages.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, true));
+        binding.recyclerLanguages.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         languagesAdapter = new RecyclerViewLanguagesAdapter();
         languagesAdapter.setLanguageData(programmingLanguageDataList);
         binding.recyclerLanguages.setAdapter(languagesAdapter);
+        binding.recyclerLanguages.addItemDecoration(new ItemDividerDecoration((int) getResources().getDimension(R.dimen.divider_width)));
 
         programmingTutorialDataList = Arrays.asList(
                 new ProgrammingTutorialData(R.drawable.ic_cpp, "Python", "How to make a simple calculator"),
@@ -85,12 +87,12 @@ public class MainFragment extends Fragment {
                 new ProgrammingTutorialData(R.drawable.ic_cpp, "C++", "How to make a simple calculator"),
                 new ProgrammingTutorialData(R.drawable.ic_cpp, "Html", "How to make a simple calculator"),
                 new ProgrammingTutorialData(R.drawable.ic_cpp, "Css", "How to make a simple calculator"),
-                new ProgrammingTutorialData(R.drawable.ic_cpp, "Java script", "How to make a simple calculator"),
+                new ProgrammingTutorialData(R.drawable.ic_cpp, "JavaScript", "How to make a simple calculator"),
                 new ProgrammingTutorialData(R.drawable.ic_cpp, "PHP", "How to make a simple calculator"),
                 new ProgrammingTutorialData(R.drawable.ic_cpp, "MySql", "How to make a simple calculator")
         );
 
-        binding.recyclerViewTutorials.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, true));
+        binding.recyclerViewTutorials.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         tutorialsAdapter = new RecyclerViewTutorialsAdapter();
         tutorialsAdapter.setTutorialData(programmingTutorialDataList);
         binding.recyclerViewTutorials.setAdapter(tutorialsAdapter);

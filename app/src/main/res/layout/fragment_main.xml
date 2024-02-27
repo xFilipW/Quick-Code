@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/jpg_main_background"
+        android:background="@drawable/vector_main_background"
         app:layout_constraintBottom_toBottomOf="@+id/cardListBumper"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,34 +25,46 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginHorizontal="16dp"
-        app:cardBackgroundColor="@color/lightBlue"
+        app:cardBackgroundColor="@color/darkBlue"
         app:cardCornerRadius="24dp"
         app:contentPaddingRight="4dp"
         app:layout_constraintBottom_toTopOf="@+id/recycler_languages"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="36dp"
-            android:maxLines="1"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:hint="Search tutorial here" />
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="end|center_vertical"
-            android:contentDescription="Search"
-            android:scaleType="centerCrop"
-            app:fabCustomSize="40dp"
-            app:srcCompat="@drawable/ic_arrow_search"
-            app:tint="@color/white"
-            app:backgroundTint="@color/blue"
-            app:elevation="0dp" />
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_search"
+                android:layout_marginHorizontal="12dp"
+                app:tint="@color/white" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="Search tutorial here"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end|bottom"
+                app:backgroundTint="@color/lightBlue"
+                app:fabCustomSize="48dp"
+                app:srcCompat="@drawable/ic_arrow_search"
+                app:tint="@color/white" />
+
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
@@ -62,8 +74,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:clipToPadding="true"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/card"
         tools:listitem="@layout/list_item_main_languages" />
 
@@ -90,7 +100,7 @@
         android:id="@+id/cardListBumper"
         android:layout_width="match_parent"
         android:layout_height="@dimen/card_list_bumper_height"
-        app:layout_constraintTop_toTopOf="@+id/cardList"/>
+        app:layout_constraintTop_toTopOf="@+id/cardList" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavBar"
