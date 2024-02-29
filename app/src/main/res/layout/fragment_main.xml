@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:title="Tutorials"
         app:titleTextColor="@color/white" />
 
@@ -24,7 +25,7 @@
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="21dp"
         app:cardBackgroundColor="@color/darkBlue"
         app:cardCornerRadius="24dp"
         app:contentPaddingRight="4dp"
@@ -40,15 +41,17 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/ic_search"
+                android:layout_gravity="start|center_vertical"
                 android:layout_marginHorizontal="12dp"
+                android:src="@drawable/ic_search"
                 app:tint="@color/white" />
 
             <EditText
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@null"
                 android:hint="Search tutorial here"
                 android:maxLines="1"
                 android:textColor="@color/white"
@@ -56,11 +59,11 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="end|bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
                 app:backgroundTint="@color/lightBlue"
-                app:fabCustomSize="48dp"
+                app:fabCustomSize="38dp"
                 app:srcCompat="@drawable/ic_arrow_search"
                 app:tint="@color/white" />
 
@@ -74,6 +77,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:clipToPadding="true"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/card"
         tools:listitem="@layout/list_item_main_languages" />
 
@@ -91,7 +96,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:paddingTop="21dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="-101dp"
             tools:listitem="@layout/list_item_main_tutorials" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
