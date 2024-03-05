@@ -3,5 +3,5 @@
     <corners
         android:topLeftRadius="@dimen/card_list_top_corners_radius"
         android:topRightRadius="@dimen/card_list_top_corners_radius" />
-    <solid android:color="@color/navigationBarColor" />
+    <solid android:color="@color/white" />
 </shape>
