@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.quickcode.R;
 import com.example.quickcode.databinding.FragmentMainBinding;
 import com.example.quickcode.main.adapters.RecyclerViewLanguagesAdapter;
@@ -96,6 +97,11 @@ public class MainFragment extends Fragment {
         tutorialsAdapter = new RecyclerViewTutorialsAdapter();
         tutorialsAdapter.setTutorialData(programmingTutorialDataList);
         binding.recyclerViewTutorials.setAdapter(tutorialsAdapter);
+
+        binding.bottomNavBar.add(new MeowBottomNavigation.Model(1, R.drawable.ic_quizzes));
+        binding.bottomNavBar.add(new MeowBottomNavigation.Model(2, R.drawable.ic_tutorials));
+        binding.bottomNavBar.add(new MeowBottomNavigation.Model(3, R.drawable.ic_exercises));
+        binding.bottomNavBar.show(2, true);
     }
 
 }
