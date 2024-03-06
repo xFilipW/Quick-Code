@@ -1,5 +1,6 @@
 package com.example.quickcode.main;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,11 +70,11 @@ public class MainFragment extends Fragment {
                 new ProgrammingLanguageData(R.drawable.ic_cs, "C#"),
                 new ProgrammingLanguageData(R.drawable.ic_cpp, "C++"),
                 new ProgrammingLanguageData(R.drawable.ic_android, "Android"),
-                new ProgrammingLanguageData(R.drawable.ic_html, "Html"),
-                new ProgrammingLanguageData(R.drawable.ic_css, "Css"),
-                new ProgrammingLanguageData(R.drawable.ic_js, "JavaScript"),
+                new ProgrammingLanguageData(R.drawable.ic_html, "HTML"),
+                new ProgrammingLanguageData(R.drawable.ic_css, "CSS"),
+                new ProgrammingLanguageData(R.drawable.ic_js, "JS"),
                 new ProgrammingLanguageData(R.drawable.ic_php, "PHP"),
-                new ProgrammingLanguageData(R.drawable.ic_mysql, "Mysql")
+                new ProgrammingLanguageData(R.drawable.ic_mysql, "MySql")
         );
 
         binding.recyclerLanguages.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -98,9 +99,9 @@ public class MainFragment extends Fragment {
         tutorialsAdapter.setTutorialData(programmingTutorialDataList);
         binding.recyclerViewTutorials.setAdapter(tutorialsAdapter);
 
-        binding.bottomNavBar.add(new MeowBottomNavigation.Model(1, R.drawable.ic_quizzes));
+        binding.bottomNavBar.add(new MeowBottomNavigation.Model(1, R.drawable.ic_quiz));
         binding.bottomNavBar.add(new MeowBottomNavigation.Model(2, R.drawable.ic_tutorials));
-        binding.bottomNavBar.add(new MeowBottomNavigation.Model(3, R.drawable.ic_exercises));
+        binding.bottomNavBar.add(new MeowBottomNavigation.Model(4, R.drawable.ic_saved));
         binding.bottomNavBar.show(2, true);
     }
 
