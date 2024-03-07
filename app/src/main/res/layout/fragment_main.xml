@@ -1,168 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/headerContainer"
         android:layout_width="match_parent"
-        android:layout_height="342dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <ImageView
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/headerContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/vector_main_background"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title=""
-            app:titleTextColor="@color/white">
+            android:layout_height="342dp"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_gravity="center_vertical|start"
-                android:layout_marginStart="21dp"
-                android:src="@drawable/ic_main_menu_drawer" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/poppins"
-                android:text="Tutorials"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="21dp"
-                android:src="@drawable/ic_avatar_man" />
-
-        </androidx.appcompat.widget.Toolbar>
-
-        <TextView
-            android:id="@+id/textWelcome1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="21dp"
-            android:layout_marginTop="16dp"
-            android:text="Hello, User!"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-        <TextView
-            android:id="@+id/textWelcome2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="21dp"
-            android:layout_marginBottom="16dp"
-            android:text="What do you wanna learn today?"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@id/card"
-            app:layout_constraintTop_toBottomOf="@+id/textWelcome1" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginHorizontal="21dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/recycler_languages"
-            app:layout_constraintTop_toBottomOf="@+id/textWelcome2">
-
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:background="@drawable/vector_main_background"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
+            <LinearLayout
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginStart="21dp"
+                    android:src="@drawable/ic_main_menu_left_drawer" />
+
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="16dp"
                     android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="Search tutorial here..."
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/grey"
-                    android:textColorHint="@color/grey" />
+                    android:fontFamily="@font/poppins"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="Tutorials"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
                     android:layout_gravity="center_vertical|end"
-                    android:layout_marginHorizontal="12dp"
-                    android:src="@drawable/ic_search"
-                    app:tint="@color/grey" />
+                    android:layout_marginEnd="21dp"
+                    android:src="@drawable/ic_avatar_man" />
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/textWelcome1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="21dp"
+                android:layout_marginTop="16dp"
+                android:text="Hello, User!"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_languages"
+            <TextView
+                android:id="@+id/textWelcome2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="21dp"
+                android:layout_marginBottom="16dp"
+                android:text="What do you wanna learn today?"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/card"
+                app:layout_constraintTop_toBottomOf="@+id/textWelcome1" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="21dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/recycler_languages"
+                app:layout_constraintTop_toBottomOf="@+id/textWelcome2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="Search tutorial here..."
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/grey"
+                        android:textColorHint="@color/grey" />
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_marginHorizontal="12dp"
+                        android:src="@drawable/ic_search"
+                        app:tint="@color/grey" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_languages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingStart="9dp"
+                android:paddingEnd="9dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/card"
+                tools:listitem="@layout/list_item_main_languages" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/cardListBumper"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@+id/card"
-            tools:listitem="@layout/list_item_main_languages" />
+            android:layout_height="@dimen/card_list_bumper_height"
+            app:layout_constraintBottom_toBottomOf="@+id/headerContainer" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cardList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/shape_top_rounded"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavBar"
-        app:layout_constraintTop_toTopOf="@+id/cardListBumper">
+        <ImageView
+            android:id="@+id/cardList"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_list_bumper_height"
+            android:src="@drawable/shape_top_rounded"
+            app:layout_constraintTop_toTopOf="@+id/cardListBumper" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewTutorials"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:orientation="vertical"
-            android:paddingTop="21dp"
+            android:paddingTop="2dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="-101dp"
+            app:layout_constraintBottom_toTopOf="@id/bottomNavBar"
+            app:layout_constraintTop_toBottomOf="@id/cardList"
             tools:listitem="@layout/list_item_main_tutorials" />
+
+        <com.etebarian.meowbottomnavigation.MeowBottomNavigation
+            android:id="@+id/bottomNavBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:mbn_selectedIconColor="@color/lightBlue" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:id="@+id/cardListBumper"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/card_list_bumper_height"
-        app:layout_constraintBottom_toBottomOf="@+id/headerContainer" />
+    <com.google.android.material.navigation.NavigationView
+    android:id="@+id/navigation"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    app:menu="@menu/main_right_nav_menu" />
 
-    <com.etebarian.meowbottomnavigation.MeowBottomNavigation
-        android:id="@+id/bottomNavBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:mbn_selectedIconColor="@color/lightBlue" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
