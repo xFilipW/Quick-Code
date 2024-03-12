@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/tutorials"
+            android:icon="@drawable/ic_tutorials"
+            android:title="Tutorials" />
+        <item
+            android:id="@+id/quizzes"
+            android:icon="@drawable/ic_quiz"
+            android:title="Quizzes" />
+        <item
+            android:id="@+id/saved"
+            android:icon="@drawable/ic_saved"
+            android:title="Saved" />
+    </group>
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/notifications"
+            android:icon="@drawable/ic_notifications"
+            android:title="Notifications" />
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Settings" />
+        <item
+            android:id="@+id/support"
+            android:icon="@drawable/ic_support"
+            android:title="Support" />
+    </group>
+    <group
+        android:id="@+id/group3"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Log out" />
+    </group>
+</menu>
