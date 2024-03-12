@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:fontFamily="@font/poppins"
+                    android:fontFamily="@font/inter"
                     android:gravity="center"
                     android:includeFontPadding="false"
                     android:text="Tutorials"
@@ -65,6 +65,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Hello, User!"
                 android:textColor="@color/white"
+                android:fontFamily="@font/inter"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -78,6 +79,7 @@
                 android:text="What do you wanna learn today?"
                 android:textColor="@color/white"
                 android:textSize="16sp"
+                android:fontFamily="@font/inter"
                 app:layout_constraintBottom_toTopOf="@id/card"
                 app:layout_constraintTop_toBottomOf="@+id/textWelcome1" />
 
@@ -105,6 +107,9 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:hint="Search tutorial here..."
+                        android:fontFamily="@font/inter"
+                        android:includeFontPadding="false"
+                        android:textSize="18sp"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="@color/grey"
@@ -172,10 +177,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
-    android:id="@+id/navigation"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:layout_gravity="start"
-    app:menu="@menu/main_right_nav_menu" />
+        android:id="@+id/navigation"
+        android:layout_width="320dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:itemBackground="@drawable/selector_gradient"
+        app:headerLayout="@layout/fragment_main_drawer_header"
+        app:menu="@menu/menu_main_right_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
