@@ -1,4 +1,4 @@
-package com.example.quickcode.main.data;
+package com.example.quickcode.main.models;
 
 public class ProgrammingTutorialData {
 

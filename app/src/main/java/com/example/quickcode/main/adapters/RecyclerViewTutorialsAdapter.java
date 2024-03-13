@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickcode.databinding.ListItemMainTutorialsBinding;
-import com.example.quickcode.main.data.ProgrammingTutorialData;
+import com.example.quickcode.main.models.ProgrammingTutorialData;
 import com.example.quickcode.main.viewHolders.ViewHolderTutorials;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class RecyclerViewTutorialsAdapter extends RecyclerView.Adapter<ViewHolde
 
     private List<ProgrammingTutorialData> programmingTutorialDataList = new ArrayList<>();
 
-    public void setTutorialData(List<ProgrammingTutorialData> programmingTutorialDataList) {
+    public void setData(List<ProgrammingTutorialData> programmingTutorialDataList) {
         this.programmingTutorialDataList = programmingTutorialDataList;
 
         notifyDataSetChanged();

@@ -9,6 +9,7 @@ import com.example.quickcode.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+    /** @noinspection FieldCanBeLocal*/
     private ActivityMainBinding binding;
 
     @Override

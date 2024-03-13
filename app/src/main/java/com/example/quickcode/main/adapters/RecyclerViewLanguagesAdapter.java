@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickcode.databinding.ListItemMainLanguagesBinding;
-import com.example.quickcode.main.data.ProgrammingLanguageData;
+import com.example.quickcode.main.models.ProgrammingLanguageData;
 import com.example.quickcode.main.viewHolders.ViewHolderLanguages;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class RecyclerViewLanguagesAdapter extends RecyclerView.Adapter<ViewHolde
 
     private List<ProgrammingLanguageData> programmingLanguageData = new ArrayList<>();
 
-    public void setLanguageData(List<ProgrammingLanguageData> programmingLanguageData) {
+    public void setData(List<ProgrammingLanguageData> programmingLanguageData) {
         this.programmingLanguageData = programmingLanguageData;
 
         notifyDataSetChanged();
