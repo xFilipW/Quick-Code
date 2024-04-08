@@ -28,6 +28,15 @@
         <item name="android:activityCloseExitAnimation">@anim/slide_out</item>
     </style>
 
+    <style name="customNavigationStyle">
+        <item name="android:listDivider">@drawable/divider</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MyApp.Button.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
     <style name="ThemeOverlay.AppTheme.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>

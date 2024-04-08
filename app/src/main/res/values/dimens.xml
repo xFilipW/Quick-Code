@@ -2,8 +2,10 @@
 <resources>
     <dimen name="scroll_vertical_margin">0dp</dimen>
     <dimen name="on_boarding_headline_text_size">38sp</dimen>
-    <dimen name="card_list_bumper_height_and_top_corner_radius">21dp</dimen>
-    <dimen name="card_list_bumper_height">@dimen/card_list_bumper_height_and_top_corner_radius</dimen>
-    <dimen name="card_list_top_corners_radius">@dimen/card_list_bumper_height_and_top_corner_radius</dimen>
+    <dimen name="default_card_radius">16dp</dimen>
+    <dimen name="card_list_bumper_height">@dimen/default_card_radius</dimen>
+    <dimen name="card_list_top_corners_radius">@dimen/default_card_radius</dimen>
     <dimen name="divider_width">0dp</dimen>
+
+    <dimen name="spacerMedium">16dp</dimen>
 </resources>

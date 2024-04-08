@@ -58,15 +58,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <View
-        android:layout_width="1dp"
-        android:layout_height="8dp"
-        android:background="@color/lightBlue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline_middle"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".75" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header_right"
         android:layout_width="0dp"
@@ -127,13 +118,6 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="header_left,header_right" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="24dp"
-        android:alpha="0.5"
-        android:background="@color/lightBlue2"
-        app:layout_constraintTop_toBottomOf="@+id/barrier_bottom" />
+    <include layout="@layout/custom_divider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,20 +15,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.quickcode.R;
-import com.example.quickcode.databinding.FragmentMainBinding;
-import com.example.quickcode.main.adapters.RecyclerViewLanguagesAdapter;
-import com.example.quickcode.main.adapters.RecyclerViewTutorialsAdapter;
-import com.example.quickcode.main.viewHolders.ItemDividerDecoration;
+import com.example.quickcode.databinding.FragmentMainQuizzesBinding;
+import com.example.quickcode.main.adapters.RecyclerViewQuizzesAdapter;
 
-public class MainFragment extends Fragment {
+public class QuizzesFragment extends Fragment {
 
-    public static final String TAG = "MainFragment";
+    public static final String TAG = "QuizzesFragment";
 
-    private FragmentMainBinding binding;
+    private FragmentMainQuizzesBinding binding;
 
-    public static MainFragment newInstance() {
+    public static QuizzesFragment newInstance() {
         Bundle args = new Bundle();
-        MainFragment fragment = new MainFragment();
+        QuizzesFragment fragment = new QuizzesFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -37,7 +35,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        binding = FragmentMainBinding.inflate(inflater, container, false);
+        binding = FragmentMainQuizzesBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -55,16 +53,10 @@ public class MainFragment extends Fragment {
             return insets;
         });
 
-        binding.recyclerLanguages.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        RecyclerViewLanguagesAdapter languagesAdapter = new RecyclerViewLanguagesAdapter();
-        languagesAdapter.setData(Repository.PROGRAMMING_LANGUAGE_DATA_LIST);
-        binding.recyclerLanguages.setAdapter(languagesAdapter);
-        binding.recyclerLanguages.addItemDecoration(new ItemDividerDecoration((int) getResources().getDimension(R.dimen.divider_width)));
-
         binding.recyclerViewTutorials.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        RecyclerViewQuizzesAdapter quizzesAdapter = new RecyclerViewQuizzesAdapter();
         binding.recyclerViewTutorials.addItemDecoration(new SpaceDividerDecorator(requireContext(), R.dimen.spacerMedium));
-        RecyclerViewTutorialsAdapter tutorialsAdapter = new RecyclerViewTutorialsAdapter();
-        tutorialsAdapter.setData(Repository.PROGRAMMING_TUTORIAL_DATA_LIST);
-        binding.recyclerViewTutorials.setAdapter(tutorialsAdapter);
+        quizzesAdapter.setData(Repository.PROGRAMMING_QUIZZES_DATA_LIST);
+        binding.recyclerViewTutorials.setAdapter(quizzesAdapter);
     }
 }

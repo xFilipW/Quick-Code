@@ -14,8 +14,10 @@
     <color name="blue">#44A3FF</color>
     <color name="darkBlue">#1034A6</color>
     <color name="darkerBlue">#00ABE8</color>
+    <color name="darkerBlue2">#1E74F3</color>
     <color name="lightBlue">#65CBEF</color>
     <color name="lightBlue2">#00B7FF</color>
+    <color name="lightBlueAlpha05">#801E74F3</color>
     <color name="brightestBlue">#E3F2FD</color>
 
     <color name="purple">#A371FB</color>

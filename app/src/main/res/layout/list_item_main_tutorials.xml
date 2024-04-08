@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="21dp"
-    android:paddingBottom="21dp">
+    android:paddingHorizontal="16dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/programmingTutorialsContainer"
@@ -19,7 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/lightBlue2">
+            android:background="@color/darkerBlue2">
 
             <ImageView
                 android:id="@+id/tutorialPreview"

@@ -2,6 +2,7 @@ package com.example.quickcode.main;
 
 import com.example.quickcode.R;
 import com.example.quickcode.main.models.ProgrammingLanguageData;
+import com.example.quickcode.main.models.ProgrammingQuizzesData;
 import com.example.quickcode.main.models.ProgrammingTutorialData;
 
 import java.util.Arrays;
@@ -32,6 +33,17 @@ public class Repository {
             new ProgrammingTutorialData(R.drawable.ic_cpp, "JavaScript", "How to make a simple calculator"),
             new ProgrammingTutorialData(R.drawable.ic_cpp, "PHP", "How to make a simple calculator"),
             new ProgrammingTutorialData(R.drawable.ic_cpp, "MySql", "How to make a simple calculator")
+    );
+
+    public final static List<ProgrammingQuizzesData> PROGRAMMING_QUIZZES_DATA_LIST = Arrays.asList(
+            new ProgrammingQuizzesData(R.drawable.ic_cpp, "Python", "31 Quizzes"),
+            new ProgrammingQuizzesData(R.drawable.ic_cpp, "C#", "31 Quizzes"),
+            new ProgrammingQuizzesData(R.drawable.ic_cpp, "C++", "31 Quizzes"),
+            new ProgrammingQuizzesData(R.drawable.ic_cpp, "Html", "31 Quizzes"),
+            new ProgrammingQuizzesData(R.drawable.ic_cpp, "Css", "31 Quizzes"),
+            new ProgrammingQuizzesData(R.drawable.ic_cpp, "JavaScript", "31 Quizzes"),
+            new ProgrammingQuizzesData(R.drawable.ic_cpp, "PHP", "31 Quizzes"),
+            new ProgrammingQuizzesData(R.drawable.ic_cpp, "MySql", "31 Quizzes")
     );
 
 }
