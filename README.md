@@ -2,6 +2,16 @@
 
 Quick Code is a mobile application for Android designed to help users learn programming. It includes tutorials for both beginners and advanced learners, interactive quizzes, and many other features to enhance the learning experience.
 
+## Demo
+
+<p>
+  (Sped-up video)
+</p>
+  
+<p>
+  <img src="./preview/Preview.gif" height="500">
+</p>
+
 ## Features
 - User authentication and registration system  
 - Email verification for added security  
